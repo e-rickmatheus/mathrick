@@ -2,263 +2,384 @@
 import Layout from '../layouts/Layout.astro';
 ---
 
-<Layout title="MATHRICK | Laboratório Criativo" description="MATHRICK: Laboratório Criativo — Inovação, desenvolvimento web, design e tecnologia.">
-  <!-- Header / Navigation -->
-  <header class="sticky top-0 z-50 backdrop-blur-md bg-[#09090b]/80 border-b border-zinc-800/80">
-    <div class="max-w-6xl mx-auto px-6 h-18 flex items-center justify-between">
-      <a href="#" class="flex items-center gap-3 group">
-        <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-emerald-500 via-teal-400 to-cyan-500 p-[1.5px] transition-transform group-hover:scale-105 duration-300">
-          <div class="w-full h-full bg-[#09090b] rounded-[10px] flex items-center justify-center font-['Space_Grotesk'] font-black text-emerald-400 text-sm">
-            M
-          </div>
+<Layout title="MATHRICK — Laboratório Criativo & Design de Alta Conversão" description="Design de produto, websites de alta conversão e engenharia criativa para marcas e produtos digitais que desejam liderar.">
+  <!-- Floating Glass Navbar -->
+  <header class="fixed top-4 left-0 right-0 z-50 px-4 pointer-events-none">
+    <div class="max-w-4xl mx-auto backdrop-blur-xl bg-[#09090f]/75 border border-white/10 rounded-full px-5 py-2.5 flex items-center justify-between pointer-events-auto shadow-2xl shadow-black/80">
+      <a href="#" class="flex items-center gap-2.5 group">
+        <div class="w-7 h-7 rounded-full bg-white/10 border border-white/20 flex items-center justify-center font-['Plus_Jakarta_Sans'] font-black text-white text-xs group-hover:scale-105 transition-transform">
+          M
         </div>
-        <div class="flex items-center gap-2">
-          <span class="font-['Space_Grotesk'] font-bold text-lg tracking-wider text-white">MATHRICK</span>
-          <span class="text-[10px] tracking-widest uppercase px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 font-semibold border border-emerald-500/20">LAB</span>
+        <div class="flex items-baseline gap-1.5">
+          <span class="font-['Plus_Jakarta_Sans'] font-bold text-sm tracking-tight text-white">MATHRICK</span>
+          <span class="text-[10px] text-zinc-400 font-medium hidden sm:inline">LAB</span>
         </div>
       </a>
 
-      <nav class="hidden md:flex items-center gap-8 text-sm font-medium text-zinc-400">
-        <a href="#pilares" class="hover:text-emerald-400 transition-colors">Pilares</a>
-        <a href="#experimentos" class="hover:text-emerald-400 transition-colors">Experimentos</a>
-        <a href="#manifesto" class="hover:text-emerald-400 transition-colors">Manifesto</a>
-        <a href="#contato" class="hover:text-emerald-400 transition-colors">Contato</a>
+      <nav class="hidden md:flex items-center gap-6 text-xs font-medium text-zinc-400">
+        <a href="#trabalhos" class="hover:text-white transition-colors">Trabalhos</a>
+        <a href="#servicos" class="hover:text-white transition-colors">Serviços</a>
+        <a href="#sobre" class="hover:text-white transition-colors">Sobre</a>
+        <a href="#contato" class="hover:text-white transition-colors">Contato</a>
       </nav>
 
-      <div class="flex items-center gap-4">
+      <div class="flex items-center gap-3">
+        <div class="hidden sm:flex items-center gap-2 text-[11px] text-zinc-400 px-3 py-1 rounded-full bg-white/[0.04] border border-white/[0.06]">
+          <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+          <span>Disponível para projetos</span>
+        </div>
         <a 
           href="#contato" 
-          class="inline-flex items-center justify-center px-4 py-2 rounded-lg text-xs font-semibold uppercase tracking-wider bg-zinc-100 text-zinc-950 hover:bg-emerald-400 transition-all duration-300 shadow-sm hover:shadow-emerald-500/20 hover:shadow-lg"
+          class="px-3.5 py-1.5 rounded-full text-xs font-medium bg-white text-black hover:bg-zinc-200 transition-all duration-200"
         >
-          Iniciar Conversa
+          Conversar
         </a>
       </div>
     </div>
   </header>
 
-  <main class="flex-grow">
+  <main class="flex-grow pt-28">
     <!-- Hero Section -->
-    <section class="relative pt-20 pb-24 md:pt-32 md:pb-36 overflow-hidden">
-      <!-- Glow Gradients -->
-      <div class="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[550px] h-[350px] bg-emerald-500/15 blur-[120px] rounded-full pointer-events-none"></div>
-      <div class="absolute top-1/3 left-1/3 -translate-x-1/2 w-[350px] h-[250px] bg-cyan-500/10 blur-[100px] rounded-full pointer-events-none"></div>
+    <section class="relative pt-12 pb-24 md:pt-20 md:pb-32 overflow-hidden">
+      <!-- Glow effect -->
+      <div class="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[650px] h-[350px] bg-white/[0.03] blur-[140px] rounded-full pointer-events-none"></div>
 
-      <div class="max-w-5xl mx-auto px-6 relative z-10 text-center">
-        <!-- Status Pill -->
-        <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-zinc-900 border border-zinc-800 text-xs text-zinc-300 mb-8 shadow-inner">
-          <span class="relative flex h-2 w-2">
-            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-            <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
-          </span>
-          <span class="font-medium">Laboratório Criativo • Inovação Digital</span>
+      <div class="max-w-4xl mx-auto px-6 relative z-10 text-center">
+        <!-- Badge -->
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/[0.05] border border-white/10 text-[11px] text-zinc-300 mb-8 font-medium tracking-wide uppercase">
+          <span>Estratégia</span>
+          <span class="text-zinc-600">•</span>
+          <span>Design de Produto</span>
+          <span class="text-zinc-600">•</span>
+          <span>Alta Conversão</span>
         </div>
 
-        <h1 class="font-['Space_Grotesk'] text-4xl sm:text-6xl md:text-7xl font-bold tracking-tight text-white mb-6 leading-[1.1]">
-          Onde a imaginação encontra a <span class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-teal-300 to-cyan-400">precisão do código.</span>
+        <!-- Headline -->
+        <h1 class="font-['Plus_Jakarta_Sans'] text-4xl sm:text-6xl md:text-7xl font-extrabold tracking-[-0.03em] text-white leading-[1.05] mb-8">
+          Construindo produtos digitais que movem marcas adiante.
         </h1>
 
-        <p class="text-base sm:text-lg md:text-xl text-zinc-400 max-w-2xl mx-auto mb-10 leading-relaxed">
-          MATHRICK é um estúdio e laboratório de criação focado em construir interfaces memoráveis, plataformas web de alto rendimento e experiências digitais originais.
+        <!-- Subtitle -->
+        <p class="text-base sm:text-lg md:text-xl text-zinc-400 max-w-2xl mx-auto font-normal leading-relaxed mb-10">
+          Laboratório de design, interfaces de alta performance e experiências imersivas. Transformamos ideias complexas em produtos digitais claros, utilizáveis e altamente memoráveis.
         </p>
 
-        <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+        <!-- CTAs -->
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-3">
           <a 
-            href="#experimentos" 
-            class="w-full sm:w-auto px-7 py-3.5 rounded-xl font-semibold text-sm bg-gradient-to-r from-emerald-500 to-teal-500 text-zinc-950 hover:from-emerald-400 hover:to-teal-400 transition-all duration-300 shadow-lg shadow-emerald-500/20"
+            href="#contato" 
+            class="w-full sm:w-auto px-7 py-3 rounded-full font-medium text-sm bg-white text-black hover:bg-zinc-200 transition-all duration-200 shadow-xl shadow-white/5"
           >
-            Explorar Laboratório
+            Iniciar um Projeto
           </a>
           <a 
-            href="#manifesto" 
-            class="w-full sm:w-auto px-7 py-3.5 rounded-xl font-semibold text-sm bg-zinc-900/90 text-zinc-300 hover:text-white border border-zinc-800 hover:border-zinc-700 transition-all duration-300"
+            href="#trabalhos" 
+            class="w-full sm:w-auto px-7 py-3 rounded-full font-medium text-sm bg-white/[0.05] text-zinc-200 hover:text-white border border-white/10 hover:border-white/20 transition-all duration-200"
           >
-            Conhecer Manifesto
+            Explorar Trabalhos
           </a>
-        </div>
-
-        <!-- Metrics / Highlights -->
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-20 pt-12 border-t border-zinc-800/80 max-w-4xl mx-auto">
-          <div class="p-4 rounded-xl bg-zinc-900/40 border border-zinc-800/50">
-            <div class="font-['Space_Grotesk'] text-2xl md:text-3xl font-bold text-white mb-1">100%</div>
-            <div class="text-xs text-zinc-400">Design Autoral</div>
-          </div>
-          <div class="p-4 rounded-xl bg-zinc-900/40 border border-zinc-800/50">
-            <div class="font-['Space_Grotesk'] text-2xl md:text-3xl font-bold text-emerald-400 mb-1">0.1s</div>
-            <div class="text-xs text-zinc-400">Performance Otimizada</div>
-          </div>
-          <div class="p-4 rounded-xl bg-zinc-900/40 border border-zinc-800/50">
-            <div class="font-['Space_Grotesk'] text-2xl md:text-3xl font-bold text-teal-400 mb-1">Moderno</div>
-            <div class="text-xs text-zinc-400">Stack Tecnológico</div>
-          </div>
-          <div class="p-4 rounded-xl bg-zinc-900/40 border border-zinc-800/50">
-            <div class="font-['Space_Grotesk'] text-2xl md:text-3xl font-bold text-cyan-400 mb-1">Sob Medida</div>
-            <div class="text-xs text-zinc-400">Soluções Criativas</div>
-          </div>
         </div>
       </div>
     </section>
 
-    <!-- Pilares Section -->
-    <section id="pilares" class="py-20 md:py-28 bg-zinc-950/60 border-y border-zinc-800/80">
-      <div class="max-w-6xl mx-auto px-6">
-        <div class="max-w-xl mb-14">
-          <span class="text-xs font-bold tracking-widest text-emerald-400 uppercase">Capacidades</span>
-          <h2 class="font-['Space_Grotesk'] text-3xl sm:text-4xl font-bold text-white mt-2">Áreas de Atuação do Lab</h2>
-          <p class="text-zinc-400 text-sm mt-3 leading-relaxed">
-            Combinamos processos ágeis, sensibilidade estética e as tecnologias mais modernas para transformar necessidades complexas em produtos intuitivos.
-          </p>
-        </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div class="p-8 rounded-2xl bg-zinc-900/50 border border-zinc-800 hover:border-emerald-500/40 transition-all duration-300 group">
-            <div class="w-12 h-12 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 mb-6 group-hover:scale-110 transition-transform">
-              <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
-              </svg>
-            </div>
-            <h3 class="font-['Space_Grotesk'] text-xl font-bold text-white mb-2">Desenvolvimento Web</h3>
-            <p class="text-sm text-zinc-400 leading-relaxed">
-              Sites institucionais, landing pages de alta conversão, portfólios interativos e web apps construídos com frameworks ultrarrápidos e seguros.
-            </p>
-          </div>
-
-          <div class="p-8 rounded-2xl bg-zinc-900/50 border border-zinc-800 hover:border-teal-500/40 transition-all duration-300 group">
-            <div class="w-12 h-12 rounded-xl bg-teal-500/10 border border-teal-500/20 flex items-center justify-center text-teal-400 mb-6 group-hover:scale-110 transition-transform">
-              <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" />
-              </svg>
-            </div>
-            <h3 class="font-['Space_Grotesk'] text-xl font-bold text-white mb-2">UI/UX & Design System</h3>
-            <p class="text-sm text-zinc-400 leading-relaxed">
-              Arquitetura de informação, interfaces elegantes e consistentes focadas na melhor experiência do usuário em qualquer tamanho de tela.
-            </p>
-          </div>
-
-          <div class="p-8 rounded-2xl bg-zinc-900/50 border border-zinc-800 hover:border-cyan-500/40 transition-all duration-300 group">
-            <div class="w-12 h-12 rounded-xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center text-cyan-400 mb-6 group-hover:scale-110 transition-transform">
-              <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
-              </svg>
-            </div>
-            <h3 class="font-['Space_Grotesk'] text-xl font-bold text-white mb-2">Prototipagem & Inovação</h3>
-            <p class="text-sm text-zinc-400 leading-relaxed">
-              Validação acelerada de hipóteses, micro-interações dinâmicas, inteligência artificial aplicada e experimentação de novas mídias.
-            </p>
-          </div>
+    <!-- Tech & Capabilities Ticker -->
+    <section class="border-y border-white/[0.08] bg-white/[0.01] py-5 overflow-hidden">
+      <div class="max-w-6xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-zinc-400">
+        <span class="text-[11px] uppercase tracking-widest text-zinc-400 font-semibold shrink-0">Stack & Capacidades:</span>
+        <div class="flex flex-wrap items-center justify-center gap-6 font-mono text-[11px] text-zinc-400">
+          <span class="hover:text-white transition-colors">Figma</span>
+          <span class="text-zinc-700">/</span>
+          <span class="hover:text-white transition-colors">Astro</span>
+          <span class="text-zinc-700">/</span>
+          <span class="hover:text-white transition-colors">Tailwind CSS</span>
+          <span class="text-zinc-700">/</span>
+          <span class="hover:text-white transition-colors">React & Next.js</span>
+          <span class="text-zinc-700">/</span>
+          <span class="hover:text-white transition-colors">UI/UX Systems</span>
+          <span class="text-zinc-700">/</span>
+          <span class="hover:text-white transition-colors">Alta Conversão</span>
+          <span class="text-zinc-700">/</span>
+          <span class="hover:text-white transition-colors">Vercel</span>
         </div>
       </div>
     </section>
 
-    <!-- Experimentos Section -->
-    <section id="experimentos" class="py-20 md:py-28">
-      <div class="max-w-6xl mx-auto px-6">
-        <div class="flex flex-col md:flex-row md:items-end justify-between mb-14 gap-4">
+    <!-- Selected Works / Trabalhos Selecionados -->
+    <section id="trabalhos" class="py-24 md:py-32">
+      <div class="max-w-5xl mx-auto px-6">
+        <div class="flex flex-col sm:flex-row sm:items-end justify-between mb-16 gap-6">
           <div>
-            <span class="text-xs font-bold tracking-widest text-emerald-400 uppercase">Showcase</span>
-            <h2 class="font-['Space_Grotesk'] text-3xl sm:text-4xl font-bold text-white mt-2">Laboratório de Ideias</h2>
+            <span class="text-[11px] font-semibold tracking-[0.2em] uppercase text-zinc-400">Portfólio & Casos</span>
+            <h2 class="font-['Plus_Jakarta_Sans'] text-3xl sm:text-4xl font-bold tracking-tight text-white mt-2">
+              Projetos Selecionados
+            </h2>
           </div>
-          <p class="text-zinc-400 text-sm max-w-md">
-            Espaço dedicado para protótipos, projetos em produção e experimentações artísticas e tecnológicas.
+          <p class="text-sm text-zinc-400 max-w-sm">
+            Criações de ponta a ponta focadas em escala, usabilidade apurada e identidade marcante.
           </p>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-          <!-- Card 1 -->
-          <div class="group relative rounded-2xl bg-zinc-900/40 border border-zinc-800 p-8 hover:border-zinc-700 transition-all duration-300 overflow-hidden">
-            <div class="absolute -right-12 -top-12 w-48 h-48 bg-emerald-500/10 rounded-full blur-3xl group-hover:bg-emerald-500/20 transition-all duration-500"></div>
-            <div class="flex items-center justify-between text-xs text-zinc-400 mb-6">
-              <span class="px-2.5 py-1 rounded-md bg-zinc-800 font-medium text-emerald-400">Em Desenvolvimento</span>
-              <span>2026</span>
+          <!-- Project 1 -->
+          <div class="group rounded-3xl bg-[#090912]/80 border border-white/10 p-7 hover:border-white/25 transition-all duration-300 flex flex-col justify-between">
+            <div>
+              <div class="w-full h-56 rounded-2xl bg-gradient-to-br from-zinc-900 to-zinc-950 border border-white/[0.08] mb-6 overflow-hidden relative flex items-center justify-center p-6 group-hover:border-white/20 transition-all">
+                <!-- Abstract UI mockup -->
+                <div class="w-full h-full rounded-xl bg-black/60 border border-white/10 p-4 flex flex-col justify-between shadow-2xl">
+                  <div class="flex items-center justify-between border-b border-white/10 pb-3">
+                    <div class="flex items-center gap-2">
+                      <div class="w-2.5 h-2.5 rounded-full bg-emerald-400/80"></div>
+                      <span class="text-[10px] font-mono text-zinc-400">MATHRICK CORE // V.1</span>
+                    </div>
+                    <span class="text-[9px] font-mono px-2 py-0.5 rounded bg-white/10 text-zinc-300">ESTÁVEL</span>
+                  </div>
+                  <div class="space-y-2">
+                    <div class="h-3 w-3/4 rounded bg-white/20"></div>
+                    <div class="h-2 w-1/2 rounded bg-white/10"></div>
+                  </div>
+                  <div class="grid grid-cols-3 gap-2 pt-2">
+                    <div class="h-10 rounded-lg bg-white/[0.04] border border-white/5"></div>
+                    <div class="h-10 rounded-lg bg-white/[0.04] border border-white/5"></div>
+                    <div class="h-10 rounded-lg bg-white/[0.04] border border-white/5"></div>
+                  </div>
+                </div>
+              </div>
+              <div class="flex items-center gap-2 text-xs font-mono text-zinc-400 mb-2">
+                <span>WEBSITE & ECOSSISTEMA</span>
+                <span>•</span>
+                <span>2026</span>
+              </div>
+              <h3 class="font-['Plus_Jakarta_Sans'] text-2xl font-bold text-white mb-3 group-hover:text-zinc-200 transition-colors">
+                Plataforma MATHRICK Core
+              </h3>
+              <p class="text-sm text-zinc-400 leading-relaxed mb-6">
+                Ecossistema digital desenvolvido para o laboratório, com velocidade de carregamento instantânea, zero dependências pesadas e arquitetura pronta para expansão.
+              </p>
             </div>
-            <h3 class="font-['Space_Grotesk'] text-2xl font-bold text-white mb-3 group-hover:text-emerald-300 transition-colors">
-              Plataforma MATHRICK Core
-            </h3>
-            <p class="text-zinc-400 text-sm leading-relaxed mb-6">
-              O ecossistema digital central que reúne os módulos de serviços criativos, blog técnico, experimentos interativos e contato direto.
-            </p>
-            <div class="flex flex-wrap gap-2 text-xs font-mono text-zinc-400">
-              <span class="px-2 py-1 rounded bg-zinc-800/80 border border-zinc-700/50">#Astro</span>
-              <span class="px-2 py-1 rounded bg-zinc-800/80 border border-zinc-700/50">#TailwindCSS</span>
-              <span class="px-2 py-1 rounded bg-zinc-800/80 border border-zinc-700/50">#Vercel</span>
+            <div class="flex flex-wrap gap-2 text-[11px] font-mono text-zinc-400 pt-4 border-t border-white/[0.06]">
+              <span class="px-2.5 py-1 rounded-full bg-white/[0.04] border border-white/[0.08]">Astro 5</span>
+              <span class="px-2.5 py-1 rounded-full bg-white/[0.04] border border-white/[0.08]">Tailwind v4</span>
+              <span class="px-2.5 py-1 rounded-full bg-white/[0.04] border border-white/[0.08]">Vercel Edge</span>
             </div>
           </div>
 
-          <!-- Card 2 -->
-          <div class="group relative rounded-2xl bg-zinc-900/40 border border-zinc-800 p-8 hover:border-zinc-700 transition-all duration-300 overflow-hidden">
-            <div class="absolute -right-12 -top-12 w-48 h-48 bg-teal-500/10 rounded-full blur-3xl group-hover:bg-teal-500/20 transition-all duration-500"></div>
-            <div class="flex items-center justify-between text-xs text-zinc-400 mb-6">
-              <span class="px-2.5 py-1 rounded-md bg-zinc-800 font-medium text-teal-400">Pesquisa & Lab</span>
-              <span>2026</span>
+          <!-- Project 2 -->
+          <div class="group rounded-3xl bg-[#090912]/80 border border-white/10 p-7 hover:border-white/25 transition-all duration-300 flex flex-col justify-between">
+            <div>
+              <div class="w-full h-56 rounded-2xl bg-gradient-to-br from-zinc-900 to-zinc-950 border border-white/[0.08] mb-6 overflow-hidden relative flex items-center justify-center p-6 group-hover:border-white/20 transition-all">
+                <!-- Abstract UI mockup -->
+                <div class="w-full h-full rounded-xl bg-black/60 border border-white/10 p-4 flex flex-col justify-between shadow-2xl">
+                  <div class="flex items-center justify-between border-b border-white/10 pb-3">
+                    <span class="text-[10px] font-mono text-zinc-400">CONVERSION LAB</span>
+                    <span class="text-[10px] font-mono text-emerald-400">+100% CONVERSÃO</span>
+                  </div>
+                  <div class="flex items-center justify-center py-4">
+                    <div class="w-24 h-12 rounded-xl bg-gradient-to-r from-white/10 to-white/5 border border-white/20 flex items-center justify-center text-xs font-semibold text-white">
+                      Action Funnel
+                    </div>
+                  </div>
+                  <div class="h-2 w-full rounded-full bg-white/10 overflow-hidden">
+                    <div class="h-full w-4/5 bg-emerald-400 rounded-full"></div>
+                  </div>
+                </div>
+              </div>
+              <div class="flex items-center gap-2 text-xs font-mono text-zinc-400 mb-2">
+                <span>LANDING PAGE & FUNIL</span>
+                <span>•</span>
+                <span>DESIGN SYSTEM</span>
+              </div>
+              <h3 class="font-['Plus_Jakarta_Sans'] text-2xl font-bold text-white mb-3 group-hover:text-zinc-200 transition-colors">
+                Landing Pages de Alta Conversão
+              </h3>
+              <p class="text-sm text-zinc-400 leading-relaxed mb-6">
+                Estruturas de apresentação desenhadas para produtos digitais e infoprodutos com foco obsessivo em tempo de carregamento, hierarquia visual e taxa de resposta.
+              </p>
             </div>
-            <h3 class="font-['Space_Grotesk'] text-2xl font-bold text-white mb-3 group-hover:text-teal-300 transition-colors">
-              Design Generativo & Micro-Interações
-            </h3>
-            <p class="text-zinc-400 text-sm leading-relaxed mb-6">
-              Coleção de componentes visuais reativos, shaders e experiências gráficas para web que elevam a retenção e o engajamento.
-            </p>
-            <div class="flex flex-wrap gap-2 text-xs font-mono text-zinc-400">
-              <span class="px-2 py-1 rounded bg-zinc-800/80 border border-zinc-700/50">#CreativeCoding</span>
-              <span class="px-2 py-1 rounded bg-zinc-800/80 border border-zinc-700/50">#Canvas</span>
-              <span class="px-2 py-1 rounded bg-zinc-800/80 border border-zinc-700/50">#UI_UX</span>
+            <div class="flex flex-wrap gap-2 text-[11px] font-mono text-zinc-400 pt-4 border-t border-white/[0.06]">
+              <span class="px-2.5 py-1 rounded-full bg-white/[0.04] border border-white/[0.08]">UI / UX</span>
+              <span class="px-2.5 py-1 rounded-full bg-white/[0.04] border border-white/[0.08]">Storytelling</span>
+              <span class="px-2.5 py-1 rounded-full bg-white/[0.04] border border-white/[0.08]">CRO</span>
             </div>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- Manifesto Section -->
-    <section id="manifesto" class="py-20 md:py-28 bg-zinc-950/40 border-t border-zinc-800/80">
-      <div class="max-w-4xl mx-auto px-6 text-center">
-        <span class="text-xs font-bold tracking-widest text-emerald-400 uppercase">Nosso Propósito</span>
-        <h2 class="font-['Space_Grotesk'] text-3xl sm:text-4xl font-bold text-white mt-3 mb-6">
-          Por que um Laboratório Criativo?
-        </h2>
-        <p class="text-base sm:text-lg text-zinc-300 leading-relaxed mb-6">
-          Acreditamos que a internet merece mais do que templates genéricos e fórmulas prontas. Cada marca, produto ou ideia tem uma identidade própria que deve ser traduzida em código autêntico, interfaces fluidas e uma presença digital marcante.
-        </p>
-        <p class="text-sm sm:text-base text-zinc-400 leading-relaxed max-w-2xl mx-auto">
-          No <strong class="text-white">MATHRICK-LAB</strong>, cada linha de código é pensada para harmonizar velocidade extrema, design arrojado e usabilidade sem atritos.
-        </p>
+    <!-- Services / Do Conceito ao Lançamento -->
+    <section id="servicos" class="py-24 bg-white/[0.015] border-y border-white/[0.08]">
+      <div class="max-w-5xl mx-auto px-6">
+        <div class="max-w-xl mb-16">
+          <span class="text-[11px] font-semibold tracking-[0.2em] uppercase text-zinc-400">Especialidades</span>
+          <h2 class="font-['Plus_Jakarta_Sans'] text-3xl sm:text-4xl font-bold tracking-tight text-white mt-2">
+            Do conceito ao lançamento.
+          </h2>
+          <p class="text-sm text-zinc-400 mt-3 leading-relaxed">
+            Soluções completas unindo estratégia, rigor tipográfico e desenvolvimento limpo para quem busca se destacar no mercado.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div class="p-8 rounded-3xl bg-[#090912]/60 border border-white/10 hover:border-white/20 transition-all">
+            <div class="text-xs font-mono text-zinc-400 mb-6 font-semibold">01 / WEBSITES</div>
+            <h3 class="font-['Plus_Jakarta_Sans'] text-xl font-bold text-white mb-3">
+              Websites & Landing Pages
+            </h3>
+            <p class="text-sm text-zinc-400 leading-relaxed">
+              Criação de páginas institucionais e páginas de vendas imersivas que contam histórias fortes e convertem visitantes em clientes fiéis.
+            </p>
+          </div>
+
+          <div class="p-8 rounded-3xl bg-[#090912]/60 border border-white/10 hover:border-white/20 transition-all">
+            <div class="text-xs font-mono text-zinc-400 mb-6 font-semibold">02 / INTERFACES</div>
+            <h3 class="font-['Plus_Jakarta_Sans'] text-xl font-bold text-white mb-3">
+              Design de Produto & UX/UI
+            </h3>
+            <p class="text-sm text-zinc-400 leading-relaxed">
+              Estruturação de design systems consistentes, prototipagem navegável de alta fidelidade e arquitetura de interfaces intuitivas.
+            </p>
+          </div>
+
+          <div class="p-8 rounded-3xl bg-[#090912]/60 border border-white/10 hover:border-white/20 transition-all">
+            <div class="text-xs font-mono text-zinc-400 mb-6 font-semibold">03 / ENGENHARIA</div>
+            <h3 class="font-['Plus_Jakarta_Sans'] text-xl font-bold text-white mb-3">
+              Engenharia Front-end & Lab
+            </h3>
+            <p class="text-sm text-zinc-400 leading-relaxed">
+              Implementação ágil com frameworks modernos, animações leves, compatibilidade multi-dispositivos e deploy automatizado na nuvem.
+            </p>
+          </div>
+        </div>
       </div>
     </section>
 
-    <!-- CTA Section -->
-    <section id="contato" class="py-20 md:py-28 relative overflow-hidden">
-      <div class="absolute inset-0 bg-gradient-to-b from-transparent via-emerald-950/10 to-transparent pointer-events-none"></div>
-      <div class="max-w-3xl mx-auto px-6 relative z-10 text-center">
-        <h2 class="font-['Space_Grotesk'] text-3xl sm:text-5xl font-bold text-white mb-6">
-          Vamos construir algo extraordinário juntos?
-        </h2>
-        <p class="text-zinc-400 text-sm sm:text-base mb-10 max-w-xl mx-auto">
-          Tem um novo projeto, ideia ou desafio para o laboratório? Entre em contato e vamos conversar sobre a sua visão.
-        </p>
-        <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
-          <a 
-            href="mailto:contato@mathrick.com" 
-            class="w-full sm:w-auto px-8 py-4 rounded-xl font-bold text-sm bg-white text-zinc-950 hover:bg-emerald-400 transition-all duration-300 shadow-xl"
+    <!-- About Section -->
+    <section id="sobre" class="py-24 md:py-32">
+      <div class="max-w-5xl mx-auto px-6">
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-12 items-start">
+          <div class="md:col-span-5">
+            <span class="text-[11px] font-semibold tracking-[0.2em] uppercase text-zinc-400">Sobre o MATHRICK</span>
+            <h2 class="font-['Plus_Jakarta_Sans'] text-3xl sm:text-4xl font-bold tracking-tight text-white mt-2 mb-6">
+              Design que gera clareza e resultados.
+            </h2>
+            <div class="p-5 rounded-2xl bg-white/[0.03] border border-white/10 space-y-3">
+              <div class="flex items-center justify-between text-xs">
+                <span class="text-zinc-400">Localização</span>
+                <span class="text-zinc-200 font-medium">Brasil / Remoto Global</span>
+              </div>
+              <div class="flex items-center justify-between text-xs">
+                <span class="text-zinc-400">Foco</span>
+                <span class="text-zinc-200 font-medium">Web, Apps & Identidade</span>
+              </div>
+              <div class="flex items-center justify-between text-xs">
+                <span class="text-zinc-400">Disponibilidade</span>
+                <span class="text-emerald-400 font-medium">Aceitando Projetos</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="md:col-span-7 space-y-6 text-zinc-400 text-sm sm:text-base leading-relaxed">
+            <p>
+              O <strong class="text-white font-medium">MATHRICK: Laboratório Criativo</strong> foi concebido para entregar o melhor do design digital com o rigor da engenharia moderna. Acreditamos que marcas relevantes não se conformam com soluções genéricas.
+            </p>
+            <p>
+              Com foco total na experiência do usuário, construímos cada detalhe com precisão milimétrica: desde a tipografia e o espaçamento harmônico até o tempo de resposta e as micro-interações que encantam o usuário final.
+            </p>
+            <p>
+              Seja para estruturar o novo produto da sua empresa, redesenhar sua presença digital ou criar uma landing page com alta performance comercial, estamos prontos para transformar sua visão em realidade.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact Section / Form Card -->
+    <section id="contato" class="py-24 bg-white/[0.015] border-t border-white/[0.08] relative">
+      <div class="max-w-4xl mx-auto px-6">
+        <div class="text-center max-w-xl mx-auto mb-14">
+          <span class="text-[11px] font-semibold tracking-[0.2em] uppercase text-zinc-400">Contato Direto</span>
+          <h2 class="font-['Plus_Jakarta_Sans'] text-3xl sm:text-5xl font-bold tracking-tight text-white mt-2 mb-4">
+            Vamos construir algo extraordinário?
+          </h2>
+          <p class="text-sm text-zinc-400">
+            Conte-nos um pouco sobre a sua ideia, desafio ou prazo. Responderemos rapidamente.
+          </p>
+        </div>
+
+        <div class="max-w-xl mx-auto rounded-3xl bg-[#090912]/90 border border-white/10 p-8 sm:p-10 shadow-2xl backdrop-blur-xl">
+          <form 
+            action="mailto:erickmrdm@gmail.com" 
+            method="GET" 
+            class="space-y-5"
           >
-            Fale com o MATHRICK
-          </a>
+            <div>
+              <label class="block text-xs font-medium text-zinc-300 mb-2">Seu Nome</label>
+              <input 
+                type="text" 
+                name="subject"
+                placeholder="Como prefere ser chamado?" 
+                class="w-full px-4 py-3 rounded-xl bg-white/[0.05] border border-white/10 text-white placeholder-zinc-400 text-sm focus:outline-none focus:border-white/40 transition-colors"
+                required
+              />
+            </div>
+
+            <div>
+              <label class="block text-xs font-medium text-zinc-300 mb-2">Seu E-mail ou WhatsApp</label>
+              <input 
+                type="text" 
+                placeholder="exemplo@email.com ou (11) 99999-9999" 
+                class="w-full px-4 py-3 rounded-xl bg-white/[0.05] border border-white/10 text-white placeholder-zinc-400 text-sm focus:outline-none focus:border-white/40 transition-colors"
+                required
+              />
+            </div>
+
+            <div>
+              <label class="block text-xs font-medium text-zinc-300 mb-2">Detalhes do Projeto</label>
+              <textarea 
+                name="body"
+                rows="4" 
+                placeholder="Qual é a sua ideia, objetivo ou prazo estimado?" 
+                class="w-full px-4 py-3 rounded-xl bg-white/[0.05] border border-white/10 text-white placeholder-zinc-400 text-sm focus:outline-none focus:border-white/40 transition-colors resize-none"
+                required
+              ></textarea>
+            </div>
+
+            <button 
+              type="submit" 
+              class="w-full py-3.5 rounded-xl font-medium text-sm bg-white text-black hover:bg-zinc-200 transition-all duration-200 shadow-lg cursor-pointer"
+            >
+              Enviar Mensagem
+            </button>
+          </form>
+
+          <div class="mt-8 pt-6 border-t border-white/[0.08] flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-zinc-400">
+            <span>Prefere conversar diretamente?</span>
+            <a 
+              href="mailto:erickmrdm@gmail.com" 
+              class="text-zinc-200 hover:text-white font-medium underline underline-offset-4"
+            >
+              erickmrdm@gmail.com
+            </a>
+          </div>
         </div>
       </div>
     </section>
   </main>
 
   <!-- Footer -->
-  <footer class="border-t border-zinc-800/80 bg-[#09090b] py-12">
-    <div class="max-w-6xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-6 text-xs text-zinc-500">
-      <div class="flex items-center gap-3">
-        <span class="font-['Space_Grotesk'] font-bold text-zinc-300 text-sm">MATHRICK-LAB</span>
-        <span>—</span>
+  <footer class="border-t border-white/[0.08] bg-[#000005] py-12">
+    <div class="max-w-5xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-6 text-xs text-zinc-400">
+      <div class="flex items-center gap-2 font-medium text-zinc-300">
+        <span>MATHRICK</span>
+        <span>•</span>
         <span>Laboratório Criativo</span>
       </div>
       <div>
         <span>&copy; {new Date().getFullYear()} MATHRICK. Todos os direitos reservados.</span>
       </div>
       <div class="flex items-center gap-6">
-        <a href="https://github.com" target="_blank" rel="noreferrer" class="hover:text-zinc-300 transition-colors">GitHub</a>
-        <a href="#pilares" class="hover:text-zinc-300 transition-colors">Pilares</a>
-        <a href="#contato" class="hover:text-zinc-300 transition-colors">Contato</a>
+        <a href="https://github.com/e-rickmatheus/mathrick" target="_blank" rel="noreferrer" class="hover:text-white transition-colors">GitHub</a>
+        <a href="#trabalhos" class="hover:text-white transition-colors">Trabalhos</a>
+        <a href="#contato" class="hover:text-white transition-colors">Contato</a>
       </div>
     </div>
   </footer>
