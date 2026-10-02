@@ -40,9 +40,9 @@
    👉 [https://github.com/new](https://github.com/new)
 3. Conecte o repositório remoto e envie o código (substitua `<SEU_USUARIO>` pelo seu usuário do GitHub):
    ```bash
-   git remote add origin https://github.com/<SEU_USUARIO>/MATHRICK-LAB.git
+   git remote add origin https://github.com/e-rickmatheus/mathrick.git
    git branch -M main
-   git push -u origin main
+   git push -u origin main --force
    ```
 
 ---
