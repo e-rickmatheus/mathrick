@@ -1,0 +1,998 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="select-none bg-[#080808] text-[#f4f4f5] min-h-screen scroll-smooth w-full font-sans">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Erick Matheus | Portfolio Premium</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600&family=Syne:wght@700;800&family=Playfair+Display:ital,wght@0,300;0,400;1,300;1,400&display=swap" rel="stylesheet">
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                        syne: ['Syne', 'sans-serif'],
+                        serif: ['"Playfair Display"', 'serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- GSAP for animations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <style>
+        /* TV Static / Animated Film Grain */
+        @keyframes noise-animation {
+            0% { background-position: 0px 0px; }
+            10% { background-position: -50px 100px; }
+            20% { background-position: 150px -50px; }
+            30% { background-position: -25px 25px; }
+            40% { background-position: 50px 50px; }
+            50% { background-position: -100px -100px; }
+            60% { background-position: 100px 50px; }
+            70% { background-position: -50px 150px; }
+            80% { background-position: 50px -100px; }
+            90% { background-position: -150px 25px; }
+            100% { background-position: 0px 0px; }
+        }
+
+        .noise-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.055;
+            pointer-events: none;
+            z-index: 9999;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+            animation: noise-animation 0.4s steps(6) infinite;
+        }
+        
+        /* Top Marquee Infinite Seamless Scroll (-50% translation) */
+        @keyframes marquee {
+            0% { transform: translate3d(0, 0, 0); }
+            100% { transform: translate3d(-50%, 0, 0); }
+        }
+        .marquee-inner {
+            display: flex;
+            width: max-content;
+            animation: marquee 20s linear infinite;
+        }
+
+        /* Custom cursor style */
+        .custom-cursor {
+            width: 6px;
+            height: 6px;
+            background-color: #fff;
+            border-radius: 50%;
+            position: fixed;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            z-index: 10000;
+        }
+        
+        /* Larger follower cursor to show bigger color inversion area */
+        .custom-cursor-follower {
+            width: 40px;
+            height: 40px;
+            background-color: #ffffff;
+            border-radius: 50%;
+            position: fixed;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            z-index: 9999;
+            mix-blend-mode: difference;
+            transition: width 0.3s, height 0.3s;
+        }
+        
+        .custom-cursor-follower.hovering {
+            width: 72px;
+            height: 72px;
+        }
+
+        /* Subtle animated underline effect */
+        .hover-underline {
+            position: relative;
+        }
+        .hover-underline::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            transform: scaleX(0);
+            height: 1px;
+            bottom: -2px;
+            left: 0;
+            background-color: currentColor;
+            transform-origin: bottom right;
+            transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        .hover-underline:hover::after {
+            transform: scaleX(1);
+            transform-origin: bottom left;
+        }
+
+        /* Text masking effect for elegant entry */
+        .reveal-y {
+            transform: translateY(105%);
+        }
+        
+        .fade-up {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        
+        /* Disable custom cursor dot on touch devices, but allow JS to handle follower */
+        @media (hover: none) and (pointer: coarse) {
+            .custom-cursor {
+                display: none !important;
+            }
+        }
+    </style>
+</head>
+<body class="bg-[#080808] text-[#f4f4f5] font-sans min-h-screen select-none relative overflow-x-hidden" style="opacity: 0;">
+    
+    <!-- Custom Cursor elements -->
+    <div class="custom-cursor" id="cursor"></div>
+    <div class="custom-cursor-follower" id="cursor-follower"></div>
+
+    <!-- Animated TV Static / Film Grain Overlay -->
+    <div class="noise-bg"></div>
+
+    <!-- Interactive Background Canvas -->
+    <canvas id="canvas-bg" class="absolute inset-0 w-full h-full -z-10 pointer-events-none opacity-0"></canvas>
+
+    <!-- Background Code Watermark (Concept: Behind design is good code) -->
+    <div id="bg-code-watermark" class="absolute inset-0 overflow-hidden pointer-events-none select-none -z-20 opacity-[0.035] font-mono text-[9px] md:text-[10px] p-8 md:p-16 leading-relaxed hidden sm:block">
+        <pre class="text-white">
+const cursor = document.getElementById('cursor');
+const follower = document.getElementById('cursor-follower');
+
+function animateCursor() {
+    followerX += (mouseX - followerX) * 0.09;
+    followerY += (mouseY - followerY) * 0.09;
+    follower.style.left = followerX + 'px';
+    follower.style.top = followerY + 'px';
+    requestAnimationFrame(animateCursor);
+}
+
+class CreativeLab {
+    constructor() {
+        this.design = "minimalist";
+        this.code = "clean";
+    }
+    
+    render() {
+        return `${this.design} + ${this.code}`;
+    }
+}
+
+const erickMatheus = new CreativeLab();
+console.log("Fusing design and code to create digital experiences.");
+        </pre>
+    </div>
+
+    <!-- X-Ray Code Layer (Revealed inside the cursor follower, sanitized of sensitive details) -->
+    <div id="code-xray" class="fixed inset-0 z-[9990] pointer-events-none select-none font-mono text-[9px] md:text-[10px] p-8 md:p-16 leading-relaxed bg-[#080808] text-[#10b981] opacity-0 transition-opacity duration-300" style="clip-path: circle(0px at 0px 0px);">
+        <div>// ERICK MATHEUS CREATIVE STUDIO // SOURCE CODE X-RAY</div>
+        <div>// --------------------------------------------------------</div>
+        <div>&lt;!DOCTYPE html&gt;</div>
+        <div>&lt;html lang="pt-BR"&gt;</div>
+        <div>&lt;head&gt;</div>
+        <div>  &lt;title&gt;Erick Matheus / Em Construção&lt;/title&gt;</div>
+        <div>  &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;</div>
+        <div>  &lt;script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"&gt;&lt;/script&gt;</div>
+        <div>  &lt;style&gt;</div>
+        <div>    .custom-cursor-follower {</div>
+        <div>      width: 40px; height: 40px;</div>
+        <div>      background-color: #ffffff;</div>
+        <div>      mix-blend-mode: difference;</div>
+        <div>      z-index: 9999;</div>
+        <div>    }</div>
+        <div>    .noise-bg {</div>
+        <div>      animation: noise-animation 0.4s steps(6) infinite;</div>
+        <div>    }</div>
+        <div>  &lt;/style&gt;</div>
+        <div>&lt;/head&gt;</div>
+        <div>&lt;body&gt;</div>
+        <div>  &lt;canvas id="canvas-bg"&gt;&lt;/canvas&gt;</div>
+        <div>  &lt;header&gt;</div>
+        <div>    &lt;div id="logo-trigger"&gt;E / M Erick Matheus&lt;/div&gt;</div>
+        <div>    &lt;div class="status-tag"&gt;Disponível para projetos&lt;/div&gt;</div>
+        <div>  &lt;/header&gt;</div>
+        <div>  &lt;main&gt;</div>
+        <div>    &lt;h1&gt;Ideias que ganham forma e movimento&lt;/h1&gt;</div>
+        <div>    &lt;p&gt;Onde design e código se fundem para criar experiências.&lt;/p&gt;</div>
+        <div>    &lt;button id="copy-email-btn"&gt;Copiar E-mail&lt;/button&gt;</div>
+        <div>    &lt;a href="https://wa.me/55319XXXXXXXX"&gt;Falar no WhatsApp&lt;/a&gt;</div>
+        <div>  &lt;/main&gt;</div>
+        <div>  &lt;script&gt;</div>
+        <div>    const emailAddress = 'contato@erickmatheus.com.br';</div>
+        <div>    const words = ["forma.", "movimento.", "vida.", "conceito.", "propósito.", "identidade.", "experiência."];</div>
+        <div>    let wordIndex = 0;</div>
+        <div>    function cycleWord() {</div>
+        <div>      gsap.to(wordEl, { y: -30, opacity: 0, duration: 0.45 });</div>
+        <div>    }</div>
+        <div>    logoTrigger.addEventListener('click', () => {</div>
+        <div>      logoClicks++;</div>
+        <div>      if (logoClicks === 5) triggerEasterEggAnimation();</div>
+        <div>    });</div>
+        <div>  &lt;/script&gt;</div>
+        <div>&lt;/body&gt;</div>
+        <div>&lt;/html&gt;</div>
+    </div>
+
+    <!-- Top Alert Marquee Ticker (Infinite loop with vertical centering & padding fixes) -->
+    <div id="marquee-ticker" class="w-full bg-[#140b00] border-b border-orange-950/40 py-3.5 overflow-hidden z-20">
+        <div class="marquee-inner flex gap-8 items-center whitespace-nowrap text-[10px] leading-normal tracking-[0.25em] text-orange-500/85 font-bold select-none">
+            <span class="flex-shrink-0 leading-normal">✦ ERICK MATHEUS ✦ DESIGN DE IMPACTO ✦ CÓDIGO DE ELITE ✦ SOLUÇÕES HIGH-TICKET ✦ ERICK MATHEUS ✦ DESIGN DE IMPACTO ✦ CÓDIGO DE ELITE ✦ SOLUÇÕES HIGH-TICKET ✦</span>
+            <span class="flex-shrink-0">✦ ERICK MATHEUS ✦ DESIGN DE IMPACTO ✦ CÓDIGO DE ELITE ✦ SOLUÇÕES HIGH-TICKET ✦ ERICK MATHEUS ✦ DESIGN DE IMPACTO ✦ CÓDIGO DE ELITE ✦ SOLUÇÕES HIGH-TICKET ✦</span>
+        </div>
+    </div>
+
+    <!-- Main Wrapper with Padding to offset the Ticker -->
+    <div id="app-wrapper" class="w-full min-h-screen flex flex-col p-6 sm:p-10 md:p-14">
+        
+        <!-- Header -->
+        <header class="w-full flex justify-between items-center z-10">
+            <!-- Logo (Easter Egg: click 5x to trigger hacker transition) -->
+            <div id="logo-trigger" class="cursor-hover group flex items-center gap-3 select-none">
+                <span class="font-syne text-lg md:text-xl tracking-widest font-extrabold bg-gradient-to-r from-white via-zinc-400 to-zinc-600 bg-clip-text text-transparent transition-all duration-300 group-hover:tracking-[0.2em]">E / M</span>
+                <span class="text-[9px] uppercase tracking-[0.25em] text-zinc-500 font-medium hidden sm:inline-block border-l border-zinc-800/80 pl-3">Erick Matheus</span>
+            </div>
+
+            <!-- Language Selector + Status Tag -->
+            <div class="flex items-center gap-4">
+                <!-- Language Selector -->
+                <div class="flex items-center gap-2 text-[9px] md:text-[10px] uppercase font-bold tracking-widest text-zinc-500">
+                    <button onclick="setLang('pt')" id="lang-pt" class="cursor-hover hover:text-white transition-colors duration-200 text-white">PT</button>
+                    <span class="text-zinc-800">/</span>
+                    <button onclick="setLang('en')" id="lang-en" class="cursor-hover hover:text-white transition-colors duration-200">EN</button>
+                    <span class="text-zinc-800">/</span>
+                    <button onclick="setLang('es')" id="lang-es" class="cursor-hover hover:text-white transition-colors duration-200">ES</button>
+                </div>
+
+                <!-- Status Tag -->
+                <div class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-950/15 border border-emerald-500/40 backdrop-blur-md shadow-[0_0_15px_rgba(16,185,129,0.15)] transition-all duration-300">
+                    <span class="relative flex h-2 w-2">
+                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-80"></span>
+                        <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-400"></span>
+                    </span>
+                    <span data-i18n="status" class="text-[9px] md:text-[10px] uppercase tracking-widest text-emerald-400 font-bold">Disponível para projetos</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="w-full max-w-4xl mx-auto flex flex-col justify-start items-start z-10 py-12">
+            
+            <!-- Selected Works Section -->
+            <section id="works" class="w-full fade-up flex flex-col gap-8">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
+                    <!-- Project 1: Fernando José de Oliveira -->
+                    <a href="https://www.fernandojosedeoliveira.com.br/" target="_blank" rel="noopener noreferrer" class="cursor-hover group relative block rounded-2xl border border-zinc-900/80 bg-zinc-950/40 p-6 md:p-8 hover:border-zinc-800 hover:bg-zinc-900/20 transition-all duration-500 overflow-hidden backdrop-blur-sm">
+                        <div class="absolute inset-0 bg-gradient-to-tr from-[#1B3A6B]/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
+                        <div class="flex flex-col h-full justify-between gap-8 relative z-10">
+                            <div class="flex flex-col gap-2">
+                                <span data-i18n="fjo-tag" class="text-[9px] uppercase tracking-widest text-[#2A5298] font-bold">Tradição & Prestígio Jurídico</span>
+                                <h3 class="font-syne text-xl md:text-2xl font-extrabold text-white group-hover:text-[#2A5298] transition-colors duration-300">Fernando José de Oliveira</h3>
+                                <p data-i18n="fjo-desc" class="text-zinc-400 text-xs md:text-sm font-light leading-relaxed mt-2">
+                                    Modernização digital e presença institutional de alto nível para uma tradicional sociedade de advogados com mais de 45 anos de atuação ininterrupta.
+                                </p>
+                            </div>
+                            <div data-i18n="fjo-btn" class="flex items-center gap-2 text-[10px] uppercase tracking-wider text-zinc-500 group-hover:text-[#2A5298] transition-colors duration-300 font-medium">
+                                Acessar Website <span class="text-xs font-sans group-hover:translate-x-1 transition-transform duration-300">→</span>
+                            </div>
+                        </div>
+                    </a>
+
+                    <!-- Project 2: Maria Andrade -->
+                    <a href="https://mariandrade.adv.br/" target="_blank" rel="noopener noreferrer" class="cursor-hover group relative block rounded-2xl border border-zinc-900/80 bg-zinc-950/40 p-6 md:p-8 hover:border-zinc-800 hover:bg-zinc-900/20 transition-all duration-500 overflow-hidden backdrop-blur-sm">
+                        <div class="absolute inset-0 bg-gradient-to-tr from-zinc-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
+                        <div class="flex flex-col h-full justify-between gap-8 relative z-10">
+                            <div class="flex flex-col gap-2">
+                                <span data-i18n="ma-tag" class="text-[9px] uppercase tracking-widest text-zinc-400 font-bold">Advocacia de Elite</span>
+                                <h3 class="font-syne text-xl md:text-2xl font-extrabold text-white group-hover:text-zinc-200 transition-colors duration-300">Maria Andrade</h3>
+                                <p data-i18n="ma-desc" class="text-zinc-400 text-xs md:text-sm font-light leading-relaxed mt-2">
+                                    Identidade e posicionamento digital refinados e focados em segurança jurídica, desenhados para atrair e fidelizar clientes corporativos e de alta renda.
+                                </p>
+                            </div>
+                            <div data-i18n="ma-btn" class="flex items-center gap-2 text-[10px] uppercase tracking-wider text-zinc-500 group-hover:text-zinc-200 transition-colors duration-300 font-medium">
+                                Acessar Website <span class="text-xs font-sans group-hover:translate-x-1 transition-transform duration-300">→</span>
+                            </div>
+                        </div>
+                    </a>
+
+                    <!-- Project 3: Cintia Camargo -->
+                    <a href="https://www.cintiacamargohadv.com.br/" target="_blank" rel="noopener noreferrer" class="cursor-hover group relative block rounded-2xl border border-zinc-900/80 bg-zinc-950/40 p-6 md:p-8 hover:border-zinc-800 hover:bg-zinc-900/20 transition-all duration-500 overflow-hidden backdrop-blur-sm">
+                        <div class="absolute inset-0 bg-gradient-to-tr from-yellow-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
+                        <div class="flex flex-col h-full justify-between gap-8 relative z-10">
+                            <div class="flex flex-col gap-2">
+                                <span data-i18n="cc-tag" class="text-[9px] uppercase tracking-widest text-yellow-500/80 font-bold">Direito do Trabalho & Compliance</span>
+                                <h3 class="font-syne text-xl md:text-2xl font-extrabold text-white group-hover:text-yellow-400 transition-colors duration-300">Cíntia Camargo</h3>
+                                <p data-i18n="cc-desc" class="text-zinc-400 text-xs md:text-sm font-light leading-relaxed mt-2">
+                                    Interface sofisticada com foco na prevenção de litígios, compliance trabalhista e assessoria corporativa estratégica para abrangência nacional.
+                                </p>
+                            </div>
+                            <div data-i18n="cc-btn" class="flex items-center gap-2 text-[10px] uppercase tracking-wider text-zinc-500 group-hover:text-yellow-400 transition-colors duration-300 font-medium">
+                                Acessar Website <span class="text-xs font-sans group-hover:translate-x-1 transition-transform duration-300">→</span>
+                            </div>
+                        </div>
+                    </a>
+
+                    <!-- Project 4: Trium Lab -->
+                    <a href="https://www.triumlab.com.br/" target="_blank" rel="noopener noreferrer" class="cursor-hover group relative block rounded-2xl border border-zinc-900/80 bg-zinc-950/40 p-6 md:p-8 hover:border-zinc-800 hover:bg-zinc-900/20 transition-all duration-500 overflow-hidden backdrop-blur-sm">
+                        <div class="absolute inset-0 bg-gradient-to-tr from-blue-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
+                        <div class="flex flex-col h-full justify-between gap-8 relative z-10">
+                            <div class="flex flex-col gap-2">
+                                <span data-i18n="tl-tag" class="text-[9px] uppercase tracking-widest text-blue-500/80 font-bold">Presença Digital Premium</span>
+                                <h3 class="font-syne text-xl md:text-2xl font-extrabold text-white group-hover:text-blue-400 transition-colors duration-300">Trium Lab</h3>
+                                <p data-i18n="tl-desc" class="text-zinc-400 text-xs md:text-sm font-light leading-relaxed mt-2">
+                                    Desenvolvimento de ecossistemas digitais unificados, combinando SEO técnico de ponta, tráfego e automações inteligentes focadas em alto padrão.
+                                </p>
+                            </div>
+                            <div data-i18n="tl-btn" class="flex items-center gap-2 text-[10px] uppercase tracking-wider text-zinc-500 group-hover:text-blue-400 transition-colors duration-300 font-medium">
+                                Acessar Website <span class="text-xs font-sans group-hover:translate-x-1 transition-transform duration-300">→</span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </section>
+
+            <!-- Back to Hub Button -->
+            <div class="w-full flex justify-center mt-12 mb-6">
+                <a href="https://www.erickmatheus.com.br" class="cursor-hover group relative inline-flex items-center gap-3 rounded-full border border-zinc-900 bg-zinc-950/40 px-8 py-3.5 hover:border-zinc-800 hover:bg-zinc-900/20 transition-all duration-300 backdrop-blur-sm">
+                    <span data-i18n="back-btn" class="text-[10px] uppercase tracking-[0.2em] text-zinc-400 group-hover:text-white transition-colors duration-300 font-semibold flex items-center gap-2">
+                        <span class="text-xs font-sans group-hover:-translate-x-1 transition-transform duration-300">←</span> Voltar para a página principal
+                    </span>
+                </a>
+            </div>
+
+        </main>
+
+        <!-- Footer -->
+        <footer class="w-full flex flex-col md:flex-row justify-between items-center gap-4 z-10 border-t border-zinc-900/60 pt-6">
+            <div data-i18n="copyright" class="text-[10px] uppercase tracking-widest text-zinc-600 order-2 md:order-1 text-center md:text-left">
+                © 2026 Erick Matheus. Todos os direitos reservados.
+            </div>
+
+            <div class="flex gap-6 order-1 md:order-2">
+                <a href="https://github.com/e-rickmatheus" target="_blank" class="cursor-hover hover-underline text-[10px] uppercase tracking-widest text-zinc-500 hover:text-white transition-colors duration-300">GitHub</a>
+                <a href="https://linkedin.com" target="_blank" class="cursor-hover hover-underline text-[10px] uppercase tracking-widest text-zinc-500 hover:text-white transition-colors duration-300">LinkedIn</a>
+            </div>
+        </footer>
+
+    </div>
+
+    <!-- JavaScript code -->
+    <script>
+        // --- DOM Elements ---
+        const cursor = document.getElementById('cursor');
+        const follower = document.getElementById('cursor-follower');
+        const canvas = document.getElementById('canvas-bg');
+        const xray = document.getElementById('code-xray');
+        const logoTrigger = document.getElementById('logo-trigger');
+        const tagline = document.getElementById('tagline-glitch');
+        const wordEl = document.getElementById('dynamic-word');
+        const copyBtn = document.getElementById('copy-email-btn');
+        const btnText = document.getElementById('btn-text');
+        const iconCopy = document.getElementById('icon-copy');
+        const iconCheck = document.getElementById('icon-check');
+
+        // Check if device supports touch
+        const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+        let isTouching = false;
+        let hasMovedMouse = false;
+
+        // --- 1. Custom Cursor & Touch Dynamics ---
+        let mouseX = window.innerWidth / 2;
+        let mouseY = window.innerHeight / 2;
+        let followerX = mouseX;
+        let followerY = mouseY;
+        let isEasterEggTriggered = false;
+
+        // Hide desktop cursor components initially until first movement
+        if (!isTouchDevice) {
+            gsap.set([cursor, follower], { opacity: 0 });
+        } else {
+            // Touch devices hide the follower circle and xray initially
+            gsap.set(follower, { opacity: 0, scale: 0 });
+        }
+
+        // Desktop Mouse Tracking
+        document.addEventListener('mousemove', (e) => {
+            if (isTouchDevice) return;
+            
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+            
+            if (!hasMovedMouse) {
+                hasMovedMouse = true;
+                gsap.to([cursor, follower], { opacity: 1, duration: 0.3 });
+            }
+            
+            // Instantly position the central dot
+            cursor.style.left = mouseX + 'px';
+            cursor.style.top = mouseY + 'px';
+        });
+
+        // Mobile Touch Tracking
+        document.addEventListener('touchstart', (e) => {
+            if (isEasterEggTriggered) return;
+            isTouching = true;
+            mouseX = e.touches[0].clientX;
+            mouseY = e.touches[0].clientY;
+            
+            // Snap follower instantly to touch coordinates on first touch
+            followerX = mouseX;
+            followerY = mouseY;
+            follower.style.left = followerX + 'px';
+            follower.style.top = followerY + 'px';
+            
+            gsap.to(follower, { opacity: 1, scale: 1, duration: 0.25 });
+        }, { passive: true });
+
+        document.addEventListener('touchmove', (e) => {
+            if (isEasterEggTriggered) return;
+            mouseX = e.touches[0].clientX;
+            mouseY = e.touches[0].clientY;
+        }, { passive: true });
+
+        document.addEventListener('touchend', () => {
+            isTouching = false;
+            gsap.to(follower, { opacity: 0, scale: 0, duration: 0.25 });
+        });
+
+        // Smooth interpolation loop for the lagging circle follower
+        function animateCursor() {
+            if (!isEasterEggTriggered) {
+                followerX += (mouseX - followerX) * 0.09;
+                followerY += (mouseY - followerY) * 0.09;
+
+                follower.style.left = followerX + 'px';
+                follower.style.top = followerY + 'px';
+                
+                // Update X-Ray mask to align with cursor follower center coordinates
+                if (isTouchDevice && !isTouching) {
+                    // Hide X-Ray circular mask when not touching on mobile
+                    xray.style.clipPath = `circle(0px at ${followerX}px ${followerY}px)`;
+                } else {
+                    const radius = follower.classList.contains('hovering') ? 72 : 40;
+                    xray.style.clipPath = `circle(${radius}px at ${followerX}px ${followerY}px)`;
+                }
+            }
+
+            requestAnimationFrame(animateCursor);
+        }
+        animateCursor();
+
+        // Bind hover classes to interactive elements
+        const bindHovers = () => {
+            const hoverElements = document.querySelectorAll('.cursor-hover, a, button, #logo-trigger');
+            hoverElements.forEach(el => {
+                el.addEventListener('mouseenter', () => {
+                    follower.classList.add('hovering');
+                });
+                el.addEventListener('mouseleave', () => {
+                    follower.classList.remove('hovering');
+                });
+            });
+        };
+        bindHovers();
+
+        // Control cursor visibility (Desktop only)
+        if (!isTouchDevice) {
+            document.addEventListener('mouseleave', () => {
+                cursor.style.opacity = 0;
+                follower.style.opacity = 0;
+            });
+            document.addEventListener('mouseenter', () => {
+                if (hasMovedMouse) {
+                    cursor.style.opacity = 1;
+                    follower.style.opacity = 1;
+                }
+            });
+        }
+
+        // --- 2. Dynamic X-Ray Fade-out on Text elements (Hide over layout, show only in empty space) ---
+        const bindNoXrayHovers = () => {
+            // Target all layout textual elements, buttons, and headers/footers
+            const noXrayElements = document.querySelectorAll('header, h1, p, button, a, footer, #marquee-ticker, #tagline-glitch');
+            noXrayElements.forEach(el => {
+                el.addEventListener('mouseenter', () => {
+                    if (!isEasterEggTriggered) {
+                        gsap.to(xray, { opacity: 0, duration: 0.35, ease: 'power2.out' });
+                    }
+                });
+                el.addEventListener('mouseleave', () => {
+                    if (!isEasterEggTriggered) {
+                        gsap.to(xray, { opacity: 1, duration: 0.35, ease: 'power2.inOut' });
+                    }
+                });
+                
+                // Add touch support: hide X-Ray when finger is touching content elements
+                el.addEventListener('touchstart', (e) => {
+                    if (!isEasterEggTriggered) {
+                        gsap.to(xray, { opacity: 0, duration: 0.2 });
+                    }
+                }, { passive: true });
+                el.addEventListener('touchend', () => {
+                    if (!isEasterEggTriggered) {
+                        gsap.to(xray, { opacity: 1, duration: 0.25 });
+                    }
+                });
+            });
+        };
+        bindNoXrayHovers();
+
+        // --- 3. Interactive Light Mesh Canvas Background ---
+        const ctx = canvas.getContext('2d');
+
+        let width = canvas.width = window.innerWidth;
+        let height = canvas.height = window.innerHeight;
+
+        // Custom config for organic ambient blobs
+        const blobs = [
+            {
+                baseX: width * 0.3,
+                baseY: height * 0.35,
+                x: width * 0.3,
+                y: height * 0.35,
+                radius: Math.min(width, height) * 0.45,
+                color: 'rgba(59, 7, 100, 0.22)', // Deep Violet
+                angle: 0,
+                speed: 0.003,
+                range: 60,
+                mouseFactor: 0.08
+            },
+            {
+                baseX: width * 0.75,
+                baseY: height * 0.65,
+                x: width * 0.75,
+                y: height * 0.65,
+                radius: Math.min(width, height) * 0.5,
+                color: 'rgba(15, 23, 42, 0.45)', // Deep Space Slate
+                angle: Math.PI / 3,
+                speed: 0.002,
+                range: 80,
+                mouseFactor: 0.06
+            },
+            {
+                baseX: width * 0.5,
+                baseY: height * 0.5,
+                x: width * 0.5,
+                y: height * 0.5,
+                radius: Math.min(width, height) * 0.38,
+                color: 'rgba(76, 5, 25, 0.15)', // Subtle Burgundy
+                angle: Math.PI * 2 / 3,
+                speed: 0.004,
+                range: 45,
+                mouseFactor: 0.1
+            }
+        ];
+
+        // Draw and update canvas animation loop
+        function drawBlobs() {
+            ctx.fillStyle = '#080808';
+            ctx.fillRect(0, 0, width, height);
+
+            blobs.forEach((blob) => {
+                // Natural drift using sine waves
+                blob.angle += blob.speed;
+                const driftX = Math.cos(blob.angle) * blob.range;
+                const driftY = Math.sin(blob.angle) * blob.range;
+
+                // Target includes base position, slow drift and mouse parallax
+                const targetX = blob.baseX + driftX + (mouseX - width / 2) * blob.mouseFactor;
+                const targetY = blob.baseY + driftY + (mouseY - height / 2) * blob.mouseFactor;
+
+                // Eased translation
+                blob.x += (targetX - blob.x) * 0.03;
+                blob.y += (targetY - blob.y) * 0.03;
+
+                // Create radial glow gradient
+                const grad = ctx.createRadialGradient(blob.x, blob.y, 0, blob.x, blob.y, blob.radius);
+                grad.addColorStop(0, blob.color);
+                grad.addColorStop(1, 'rgba(8, 8, 8, 0)');
+
+                ctx.fillStyle = grad;
+                ctx.beginPath();
+                ctx.arc(blob.x, blob.y, blob.radius, 0, Math.PI * 2);
+                ctx.fill();
+            });
+
+            requestAnimationFrame(drawBlobs);
+        }
+        drawBlobs();
+
+        // Smooth window resize handling
+        window.addEventListener('resize', () => {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+            
+            blobs[0].baseX = width * 0.3;
+            blobs[0].baseY = height * 0.35;
+            blobs[0].radius = Math.min(width, height) * 0.45;
+
+            blobs[1].baseX = width * 0.75;
+            blobs[1].baseY = height * 0.65;
+            blobs[1].radius = Math.min(width, height) * 0.5;
+
+            blobs[2].baseX = width * 0.5;
+            blobs[2].baseY = height * 0.5;
+            blobs[2].radius = Math.min(width, height) * 0.38;
+        });
+
+        // --- 4. Clipboard Functionality ---
+        const emailAddress = 'erickmrdm@gmail.com'; // Your official email
+
+        if (copyBtn) {
+            copyBtn.addEventListener('click', () => {
+                navigator.clipboard.writeText(emailAddress).then(() => {
+                    // Animate elements to success feedback state
+                    gsap.to(btnText, { opacity: 0, y: -5, duration: 0.15, onComplete: () => {
+                        btnText.innerText = 'Copiado!';
+                        btnText.style.color = '#10b981'; // Emerald/green feedback
+                        gsap.to(btnText, { opacity: 1, y: 0, duration: 0.15 });
+                    }});
+
+                    gsap.to(iconCopy, { opacity: 0, scale: 0.5, duration: 0.15 });
+                    gsap.to(iconCheck, { opacity: 1, scale: 1, duration: 0.2, delay: 0.05 });
+
+                    // Revert button back to default after 2.5 seconds
+                    setTimeout(() => {
+                        gsap.to(btnText, { opacity: 0, y: 5, duration: 0.15, onComplete: () => {
+                            btnText.innerText = 'Copiar E-mail';
+                            btnText.style.color = '';
+                            gsap.to(btnText, { opacity: 1, y: 0, duration: 0.15 });
+                        }});
+
+                        gsap.to(iconCheck, { opacity: 0, scale: 0.5, duration: 0.15 });
+                        gsap.to(iconCopy, { opacity: 1, scale: 1, duration: 0.2, delay: 0.05 });
+                    }, 2500);
+                }).catch(err => {
+                    console.error('Failed to copy: ', err);
+                });
+            });
+        }
+
+        // --- 5. Dynamic Word Cycling (GSAP) ---
+        // Combination of Design Concepts and Funny Developer/Coding Snippets
+        const words = [
+            { text: "forma.", isCode: false },
+            { text: "movimento.", isCode: false },
+            { text: "código.", isCode: false },
+            { text: "console.log('vida')", isCode: true },
+            { text: "vida.", isCode: false },
+            { text: "cleanCode();", isCode: true },
+            { text: "conceito.", isCode: false },
+            { text: "npm run dev", isCode: true },
+            { text: "estrutura.", isCode: false },
+            { text: "propósito.", isCode: false },
+            { text: "<div>", isCode: true },
+            { text: "experiência.", isCode: false }
+        ];
+        let wordIndex = 0;
+
+        function cycleWord() {
+            if (!wordEl) return;
+            const nextIndex = (wordIndex + 1) % words.length;
+            
+            // Slide current word up and fade out
+            gsap.to(wordEl, {
+                y: -30,
+                opacity: 0,
+                duration: 0.45,
+                ease: "power2.in",
+                onComplete: () => {
+                    const currentWordObj = words[nextIndex];
+                    wordEl.innerText = currentWordObj.text;
+                    
+                    // Dynamically swap font family, color, style, and size depending on type
+                    if (currentWordObj.isCode) {
+                        wordEl.className = "block reveal-y text-emerald-400 font-mono font-normal not-italic leading-none text-2xl sm:text-3xl md:text-5xl tracking-normal";
+                    } else {
+                        wordEl.className = "block reveal-y text-zinc-500 italic font-serif font-light leading-none tracking-tight";
+                    }
+
+                    // Reset position below the viewport mask
+                    gsap.set(wordEl, { y: 30 });
+                    // Slide next word up and fade in
+                    gsap.to(wordEl, {
+                        y: 0,
+                        opacity: 1,
+                        duration: 0.55,
+                        ease: "power4.out"
+                    });
+                    wordIndex = nextIndex;
+                }
+            });
+        }
+        // Shift words every 3 seconds if element exists
+        if (wordEl) {
+            setInterval(cycleWord, 3000);
+        }
+
+        // --- 6. Tagline Glitch/Matrix Typing Effect ---
+        const originalTaglineText = "EM CONSTRUÇÃO";
+        const binaryChars = "01";
+
+        function glitchTagline() {
+            if (!tagline) return;
+            let iterations = 0;
+            
+            // Switch to Matrix green color and glow
+            tagline.style.color = '#25d366';
+            tagline.style.textShadow = '0 0 8px rgba(37, 211, 102, 0.5)';
+            
+            const interval = setInterval(() => {
+                tagline.innerText = originalTaglineText
+                    .split("")
+                    .map((char, index) => {
+                        if (char === " ") return " ";
+                        // Decrypt index-by-index
+                        if (index < iterations) {
+                            return originalTaglineText[index];
+                        }
+                        // Glitch with random binary
+                        return binaryChars[Math.floor(Math.random() * binaryChars.length)];
+                    })
+                    .join("");
+
+                if (iterations >= originalTaglineText.length) {
+                    clearInterval(interval);
+                    // Fade color and text shadow back to zinc-500 after a small delay
+                    setTimeout(() => {
+                        gsap.to(tagline, {
+                            color: '#71717a', // zinc-500
+                            textShadow: 'none',
+                            duration: 0.8
+                        });
+                    }, 1200);
+                }
+
+                iterations += 1/3;
+            }, 30);
+        }
+
+        // Run tagline decryption glitch after load, then every 7 seconds
+        if (tagline) {
+            setTimeout(() => {
+                glitchTagline();
+                setInterval(glitchTagline, 7000);
+            }, 3500);
+        }
+
+        // --- 7. Easter Egg Trigger & Hacker Animation ---
+        let logoClicks = 0;
+        let logoClicksTimeout;
+
+        logoTrigger.addEventListener('click', () => {
+            if (isEasterEggTriggered) return;
+            
+            logoClicks++;
+            clearTimeout(logoClicksTimeout);
+            
+            // Reset clicks if user stops clicking for 1.2 seconds
+            logoClicksTimeout = setTimeout(() => {
+                logoClicks = 0;
+            }, 1200);
+
+            if (logoClicks === 5) {
+                isEasterEggTriggered = true;
+                triggerEasterEggAnimation();
+            }
+        });
+
+        function triggerEasterEggAnimation() {
+            // Hide the central dot
+            gsap.to(cursor, { scale: 0, duration: 0.3 });
+            
+            // Fade out the old elements (Layout, Marquee Ticker, Canvas Backdrop, Code Watermark, and X-Ray overlay)
+            gsap.to(['#app-wrapper', '#marquee-ticker', '#canvas-bg', '#bg-code-watermark', '#code-xray'], {
+                opacity: 0,
+                duration: 0.6,
+                ease: 'power2.out'
+            });
+
+            // Expand the inverted circle to cover the entire viewport
+            gsap.to(follower, {
+                width: '350vmax',
+                height: '350vmax',
+                duration: 2.0,
+                ease: 'power3.inOut'
+            });
+
+            // Create Grid Binary Overlay
+            const overlay = document.createElement('div');
+            overlay.style.position = 'fixed';
+            overlay.style.top = '0';
+            overlay.style.left = '0';
+            overlay.style.width = '100vw';
+            overlay.style.height = '100vh';
+            overlay.style.pointerEvents = 'none';
+            overlay.style.zIndex = '9990';
+            overlay.style.overflow = 'hidden';
+            overlay.style.display = 'grid';
+            overlay.style.gridTemplateColumns = 'repeat(auto-fill, minmax(24px, 1fr))';
+            overlay.style.fontFamily = 'monospace';
+            overlay.style.fontSize = '12px';
+            overlay.style.lineHeight = '1.2';
+            overlay.style.color = '#ffffff';
+            overlay.style.mixBlendMode = 'difference';
+            overlay.style.opacity = '0';
+            document.body.appendChild(overlay);
+
+            // Populate the grid
+            const cols = Math.ceil(window.innerWidth / 24);
+            const rows = Math.ceil(window.innerHeight / 28);
+            const totalChars = cols * rows;
+
+            for (let i = 0; i < totalChars; i++) {
+                const span = document.createElement('span');
+                span.innerText = Math.random() > 0.5 ? '1' : '0';
+                span.style.textAlign = 'center';
+                span.style.opacity = Math.random() * 0.75 + 0.15;
+                overlay.appendChild(span);
+            }
+
+            // Stagger fade-in of the binary overlay
+            gsap.to(overlay, {
+                opacity: 1,
+                duration: 0.5,
+                delay: 0.3
+            });
+
+            // Glitch/update numbers in real-time
+            const glitchInterval = setInterval(() => {
+                const spans = overlay.querySelectorAll('span');
+                for (let i = 0; i < 50; i++) {
+                    const idx = Math.floor(Math.random() * spans.length);
+                    if (spans[idx]) {
+                        spans[idx].innerText = Math.random() > 0.5 ? '1' : '0';
+                        spans[idx].style.opacity = Math.random() * 0.85 + 0.15;
+                    }
+                }
+            }, 30);
+
+            // Redirect after 2.4 seconds
+            setTimeout(() => {
+                clearInterval(glitchInterval);
+                window.location.href = 'https://apps.erickmatheus.com.br';
+            }, 2400);
+        }
+
+        // --- 8. High-End Entrance Animations ---
+        function startEntrance() {
+            // Fade-in page body first to prevent layout flash
+            gsap.to('body', { opacity: 1, duration: 0.4 });
+            
+            // Set initial parameters for stagger animation
+            gsap.set('header', { opacity: 0, y: -20 });
+            gsap.set('footer', { opacity: 0, y: 20 });
+            
+            const tl = gsap.timeline({ defaults: { ease: 'power4.out', duration: 1.3 } });
+
+            tl.to('#canvas-bg', { opacity: 0.5, duration: 2.2 })
+              .to('#code-xray', { opacity: 1, duration: 0.8 }, '-=1.0')
+              .to('header', { opacity: 1, y: 0, duration: 1 }, '-=1.8')
+              .to('.reveal-y', { y: '0%', stagger: 0.12 }, '-=1.5')
+              .to('.fade-up', { opacity: 1, y: 0, stagger: 0.1 }, '-=1.2')
+              .to('footer', { opacity: 1, y: 0, duration: 1 }, '-=1.0');
+        }
+
+        // Safe check for DOMContentLoaded to prevent race condition
+        if (document.readyState === 'loading') {
+            window.addEventListener('DOMContentLoaded', startEntrance);
+        } else {
+            startEntrance();
+        }
+
+        // --- 9. Reset on Browser Cache Restores (bfcache fix) ---
+        window.addEventListener('pageshow', (event) => {
+            if (event.persisted) {
+                // If loaded from back-forward cache, reload completely to clear all transition states
+                window.location.reload();
+            }
+        });
+
+        // --- 10. Multi-language Translation ---
+        const translations = {
+            pt: {
+                status: "Disponível para projetos",
+                "fjo-tag": "Tradição & Prestígio Jurídico",
+                "fjo-desc": "Modernização digital e presença institutional de alto nível para uma tradicional sociedade de advogados com mais de 45 anos de atuação ininterrupta.",
+                "fjo-btn": "Acessar Website →",
+                "ma-tag": "Advocacia de Elite",
+                "ma-desc": "Identidade e posicionamento digital refinados e focados em segurança jurídica, desenhados para atrair e fidelizar clientes corporativos e de alta renda.",
+                "ma-btn": "Acessar Website →",
+                "cc-tag": "Direito do Trabalho & Compliance",
+                "cc-desc": "Interface sofisticada com foco na prevenção de litígios, compliance trabalhista e assessoria corporativa estratégica para abrangência nacional.",
+                "cc-btn": "Acessar Website →",
+                "tl-tag": "Presença Digital Premium",
+                "tl-desc": "Desenvolvimento de ecossistemas digitais unificados, combinando SEO técnico de ponta, tráfego e automações inteligentes focadas em alto padrão.",
+                "tl-btn": "Acessar Website →",
+                "back-btn": "Voltar para a página principal",
+                copyright: "© 2026 Erick Matheus. Todos os direitos reservados."
+            },
+            en: {
+                status: "Available for projects",
+                "fjo-tag": "Tradition & Legal Prestige",
+                "fjo-desc": "Digital modernization and high-level institutional presence for a traditional law firm with over 45 years of continuous practice.",
+                "fjo-btn": "Visit Website →",
+                "ma-tag": "Elite Law Practice",
+                "ma-desc": "Refined digital identity and positioning focused on legal security, designed to attract and retain corporate and high-net-worth clients.",
+                "ma-btn": "Visit Website →",
+                "cc-tag": "Labor Law & Compliance",
+                "cc-desc": "Sophisticated interface focused on dispute prevention, labor compliance, and strategic corporate advice with nationwide coverage.",
+                "cc-btn": "Visit Website →",
+                "tl-tag": "Premium Digital Presence",
+                "tl-desc": "Development of unified digital ecosystems, combining cutting-edge technical SEO, traffic, and intelligent automations focused on high standards.",
+                "tl-btn": "Visit Website →",
+                "back-btn": "Back to main page",
+                copyright: "© 2026 Erick Matheus. All rights reserved."
+            },
+            es: {
+                status: "Disponible para proyectos",
+                "fjo-tag": "Tradición & Prestigio Jurídico",
+                "fjo-desc": "Modernización digital y presencia institucional de alto nivel para una tradicional sociedad de abogados con más de 45 años de trayectoria ininterrumpida.",
+                "fjo-btn": "Visitar Sitio Web →",
+                "ma-tag": "Abogacía de Élite",
+                "ma-desc": "Identidad y posicionamiento digital refinados y enfocados en seguridad jurídica, diseñados para atrair e fidelizar clientes corporativos y de altos ingresos.",
+                "ma-btn": "Visitar Sitio Web →",
+                "cc-tag": "Derecho Laboral & Compliance",
+                "cc-desc": "Interfaz sofisticada enfocada en la prevención de litigios, compliance laboral y asesoramiento corporativo estratégico de alcance nacional.",
+                "cc-btn": "Visitar Sitio Web →",
+                "tl-tag": "Presencia Digital Premium",
+                "tl-desc": "Desarrollo de ecosistemas digitales unificados, combinando SEO técnico de vanguardia, tráfico y automatizaciones inteligentes enfocado en altos estándares.",
+                "tl-btn": "Visitar Sitio Web →",
+                "back-btn": "Volver a la página principal",
+                copyright: "© 2026 Erick Matheus. Todos los derechos reservados."
+            }
+        };
+
+        function setLang(lang) {
+            // Update selected button style
+            ['pt', 'en', 'es'].forEach(l => {
+                const btn = document.getElementById(`lang-${l}`);
+                if (btn) {
+                    if (l === lang) {
+                        btn.classList.add('text-white');
+                        btn.classList.remove('text-zinc-500');
+                    } else {
+                        btn.classList.remove('text-white');
+                        btn.classList.add('text-zinc-500');
+                    }
+                }
+            });
+
+            // Translate elements
+            const elements = document.querySelectorAll('[data-i18n]');
+            elements.forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (translations[lang] && translations[lang][key]) {
+                    if (key.endsWith('-btn') && !key.startsWith('back')) {
+                        el.innerHTML = `${translations[lang][key].replace(' →', '')} <span class="text-xs font-sans group-hover:translate-x-1 transition-transform duration-300">→</span>`;
+                    } else if (key === 'back-btn') {
+                        el.innerHTML = `<span class="text-xs font-sans group-hover:-translate-x-1 transition-transform duration-300">←</span> ${translations[lang][key]}`;
+                    } else {
+                        el.innerText = translations[lang][key];
+                    }
+                }
+            });
+
+            // Save choice
+            localStorage.setItem('pref-lang', lang);
+        }
+
+        // Initialize language (defaulting to 'pt' if none is stored)
+        const savedLang = localStorage.getItem('pref-lang') || 'pt';
+        setLang(savedLang);
+    </script>
+</body>
+</html>
