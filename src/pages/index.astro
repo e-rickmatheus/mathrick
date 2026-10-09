@@ -405,36 +405,121 @@ const toolList = [
       </div>
     </section>
 
-    <!-- Contact Section / Direto WhatsApp & E-mail -->
-    <section id="contato" class="py-24 border-t border-white/[0.08] relative">
-      <div class="max-w-4xl mx-auto px-6">
-        <div class="text-center max-w-xl mx-auto mb-14">
+    <!-- Contact Section / Formulário & Conexão Direta -->
+    <section id="contato" class="py-24 border-t border-white/[0.08] relative overflow-hidden">
+      <!-- Glow effect -->
+      <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[350px] bg-white/[0.02] blur-[140px] rounded-full pointer-events-none"></div>
+
+      <div class="max-w-4xl mx-auto px-6 relative z-10">
+        <div class="text-center max-w-xl mx-auto mb-12">
           <span class="text-[11px] font-semibold tracking-[0.2em] uppercase text-zinc-400">Vamos Trabalhar Juntos</span>
           <h2 class="font-['Plus_Jakarta_Sans'] text-3xl sm:text-5xl font-bold tracking-tight text-white mt-2 mb-4">
             Tem um projeto em mente?
           </h2>
           <p class="text-sm text-zinc-400">
-            Seja para criar um novo produto digital, modernizar a presença do seu negócio ou desenvolver uma landing page de alta conversão, estou à disposição.
+            Preencha os campos abaixo com os objetivos da sua ideia ou inicie uma conversa diretamente comigo.
           </p>
         </div>
 
-        <div class="max-w-xl mx-auto rounded-3xl bg-[#090912]/90 border border-white/10 p-8 sm:p-10 shadow-2xl backdrop-blur-xl text-center">
-          <p class="text-sm text-zinc-300 mb-8 leading-relaxed">
-            O canal mais rápido para falar comigo e obter um diagnóstico ou orçamento é o WhatsApp:
-          </p>
+        <div class="max-w-2xl mx-auto rounded-3xl bg-[#090912]/90 border border-white/10 p-6 sm:p-10 shadow-2xl backdrop-blur-xl">
+          <!-- Formulário Interativo -->
+          <form id="project-form" class="space-y-5">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label for="form-name" class="block text-xs font-medium text-zinc-300 mb-1.5">
+                  Seu nome ou empresa <span class="text-emerald-400">*</span>
+                </label>
+                <input 
+                  type="text" 
+                  id="form-name" 
+                  name="name" 
+                  required
+                  placeholder="Ex: Erick Matheus"
+                  class="w-full px-4 py-3 rounded-xl bg-white/[0.04] border border-white/10 text-white placeholder-zinc-500 text-sm focus:outline-none focus:border-white/30 focus:ring-1 focus:ring-white/30 transition-all"
+                />
+              </div>
 
+              <div>
+                <label for="form-contact" class="block text-xs font-medium text-zinc-300 mb-1.5">
+                  E-mail ou WhatsApp <span class="text-emerald-400">*</span>
+                </label>
+                <input 
+                  type="text" 
+                  id="form-contact" 
+                  name="contact" 
+                  required
+                  placeholder="Ex: seuemail@empresa.com"
+                  class="w-full px-4 py-3 rounded-xl bg-white/[0.04] border border-white/10 text-white placeholder-zinc-500 text-sm focus:outline-none focus:border-white/30 focus:ring-1 focus:ring-white/30 transition-all"
+                />
+              </div>
+            </div>
+
+            <div>
+              <label for="form-type" class="block text-xs font-medium text-zinc-300 mb-1.5">
+                Tipo de Projeto
+              </label>
+              <select 
+                id="form-type" 
+                name="type"
+                class="w-full px-4 py-3 rounded-xl bg-[#0c0d17] border border-white/10 text-white text-sm focus:outline-none focus:border-white/30 focus:ring-1 focus:ring-white/30 transition-all"
+              >
+                <option value="Website / Landing Page de Alta Conversão">Website / Landing Page de Alta Conversão</option>
+                <option value="Sistema Web / Plataforma / Web App">Sistema Web / Plataforma / Web App</option>
+                <option value="UI/UX Design & Identidade Digital">UI/UX Design & Identidade Digital</option>
+                <option value="Rifas, Vaquinhas ou Arrecadação">Rifas, Vaquinhas ou Arrecadação</option>
+                <option value="Outro / Projeto Personalizado">Outro / Projeto Personalizado</option>
+              </select>
+            </div>
+
+            <div>
+              <label for="form-message" class="block text-xs font-medium text-zinc-300 mb-1.5">
+                Sobre o projeto <span class="text-zinc-500 font-normal">(objetivos, expectativas, prazo)</span>
+              </label>
+              <textarea 
+                id="form-message" 
+                name="message" 
+                rows="4" 
+                required
+                placeholder="Conte um pouco sobre o que você deseja criar ou desenvolver..."
+                class="w-full px-4 py-3 rounded-xl bg-white/[0.04] border border-white/10 text-white placeholder-zinc-500 text-sm focus:outline-none focus:border-white/30 focus:ring-1 focus:ring-white/30 transition-all resize-none"
+              ></textarea>
+            </div>
+
+            <button 
+              type="submit" 
+              class="w-full py-4 rounded-xl font-semibold text-sm bg-white text-black hover:bg-zinc-200 transition-all duration-200 shadow-xl flex items-center justify-center gap-2 cursor-pointer group"
+            >
+              <span>Enviar Proposta de Projeto</span>
+              <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+              </svg>
+            </button>
+          </form>
+
+          <!-- Divisor -->
+          <div class="relative my-8">
+            <div class="absolute inset-0 flex items-center">
+              <div class="w-full border-t border-white/[0.08]"></div>
+            </div>
+            <div class="relative flex justify-center text-[11px] uppercase tracking-wider font-mono text-zinc-500">
+              <span class="bg-[#090912] px-3">ou conversa rápida</span>
+            </div>
+          </div>
+
+          <!-- Botão WhatsApp Direto (Sem exibir número) -->
           <a 
-            href="https://wa.me/5531992955010" 
+            href="https://wa.me/5531992955010?text=Ol%C3%A1%20Erick%2C%20tenho%20um%20projeto%20em%20mente%20e%20gostaria%20de%20conversar%21" 
             target="_blank" 
             rel="noreferrer"
-            class="w-full py-4 rounded-xl font-semibold text-sm bg-white text-black hover:bg-zinc-200 transition-all duration-200 shadow-xl flex items-center justify-center gap-2 mb-6"
+            class="w-full py-3.5 rounded-xl font-medium text-xs sm:text-sm bg-white/[0.05] text-zinc-200 hover:text-white hover:bg-white/[0.09] border border-white/10 hover:border-white/20 transition-all duration-200 flex items-center justify-center gap-2.5 mb-6"
           >
-            <span>Conversar no WhatsApp: (31) 99295-5010</span>
-            <span class="text-emerald-600">●</span>
+            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+            <span>Conversar diretamente no WhatsApp</span>
+            <span>↗</span>
           </a>
 
           <div class="pt-6 border-t border-white/[0.08] flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-zinc-400">
-            <span>Ou envie por e-mail:</span>
+            <span>Prefere e-mail corporativo?</span>
             <a 
               href="mailto:erickmrdm@gmail.com" 
               class="text-zinc-200 hover:text-white font-medium underline underline-offset-4"
@@ -445,6 +530,28 @@ const toolList = [
         </div>
       </div>
     </section>
+
+    <script>
+      const projectForm = document.getElementById('project-form');
+      if (projectForm) {
+        projectForm.addEventListener('submit', (e) => {
+          e.preventDefault();
+          const nameInput = document.getElementById('form-name') as HTMLInputElement | null;
+          const contactInput = document.getElementById('form-contact') as HTMLInputElement | null;
+          const typeSelect = document.getElementById('form-type') as HTMLSelectElement | null;
+          const messageInput = document.getElementById('form-message') as HTMLTextAreaElement | null;
+
+          const name = nameInput ? nameInput.value : '';
+          const contact = contactInput ? contactInput.value : '';
+          const type = typeSelect ? typeSelect.value : '';
+          const message = messageInput ? messageInput.value : '';
+
+          const text = `Olá Erick!\n\n*Novo Projeto:*\n• *Nome/Empresa:* ${name}\n• *Contato:* ${contact}\n• *Tipo de Projeto:* ${type}\n• *Detalhes:* ${message}`;
+          const whatsappUrl = `https://wa.me/5531992955010?text=${encodeURIComponent(text)}`;
+          window.open(whatsappUrl, '_blank');
+        });
+      }
+    </script>
   </main>
 
   <!-- Footer -->
