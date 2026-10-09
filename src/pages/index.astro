@@ -1,7 +1,19 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import Lanyard from '../components/Lanyard.jsx';
 
 const clients = [
+  {
+    title: "Maria Júlia",
+    category: "SISTEMAS WEB & ARRECADAÇÃO",
+    url: "https://mariajulia.med.br/",
+    description: "Ecossistema web completo com sistema de rifas online (/rifa), página de doações e vaquinha digital (/vaquinha), integração automatizada em tempo real com planilhas e conexão com WhatsApp.",
+    tags: ["Sistema de Rifas", "Página de Vaquinha", "Google Sheets", "WhatsApp Funnel", "Automação"],
+    sublinks: [
+      { label: "Ver Rifa (/rifa)", url: "https://mariajulia.med.br/rifa" },
+      { label: "Ver Vaquinha (/vaquinha)", url: "https://mariajulia.med.br/vaquinha" }
+    ]
+  },
   {
     title: "Trium Lab",
     category: "LAB & INOVAÇÃO TECNOLÓGICA",
@@ -33,20 +45,23 @@ const clients = [
 ];
 
 const toolList = [
-  { name: "Framer", icon: "https://framerusercontent.com/images/xwl17PxHJRn6p0K1BT1H9bybU0.png" },
-  { name: "Spline 3D", icon: "https://framerusercontent.com/images/L5ocdoJfvy7TN8Nyd9cGZQfvfwk.png" },
-  { name: "Raycast", icon: "https://framerusercontent.com/images/KO69hv7r2jYXTKBqqgcCDG2dfo.png" },
-  { name: "Rive", icon: "https://framerusercontent.com/images/eylbWj1PWXKPmZx6x6jALudh4wo.png" },
-  { name: "Miro", icon: "https://framerusercontent.com/images/nmgrjNbyBoxmQm35UaPpVyuevA.png" },
-  { name: "Midjourney", icon: "https://framerusercontent.com/images/6RNSS2ttPe5b4HselL19P9xBKz0.png" },
-  { name: "FontBase", icon: "https://framerusercontent.com/images/ZUushxfNwU23dpbrQ1OJc8j3Q6E.png" },
-  { name: "Photoshop", icon: "https://framerusercontent.com/images/PyG03WoqTU7VLjyAZocjwT4978.png" },
-  { name: "ChatGPT / OpenAI", icon: "https://framerusercontent.com/images/81QbwkZUkBBLuynULJfxQoqF4.png" },
-  { name: "Subframe", icon: "https://framerusercontent.com/images/Y9cfcwxthHfkNhD8wKamxbEbVas.png" },
-  { name: "Notion", icon: "https://framerusercontent.com/images/kO0iYa1SEEieWFyHJPLdtZgxcGM.png" },
-  { name: "Spotify", icon: "https://framerusercontent.com/images/a3I2GEHMVu4yrmQjGvXBdt7oljo.png" },
-  { name: "Figma", icon: "https://framerusercontent.com/images/AYULtCDmkx94kaZCmUEFnbyqGF4.png" },
-  { name: "Creative Suite", icon: "https://framerusercontent.com/images/xHFzTXZpFixGZhwYjUAY9JIvJWQ.png" }
+  { name: "Figma", icon: "https://framerusercontent.com/images/xwl17PxHJRn6p0K1BT1H9bybU0.png" },
+  { name: "Claude", icon: "https://framerusercontent.com/images/L5ocdoJfvy7TN8Nyd9cGZQfvfwk.png" },
+  { name: "Framer", icon: "https://framerusercontent.com/images/KO69hv7r2jYXTKBqqgcCDG2dfo.png" },
+  { name: "Relume", icon: "https://framerusercontent.com/images/eylbWj1PWXKPmZx6x6jALudh4wo.png" },
+  { name: "LottieFiles", icon: "https://framerusercontent.com/images/nmgrjNbyBoxmQm35UaPpVyuevA.png" },
+  { name: "Rive", icon: "https://framerusercontent.com/images/6RNSS2ttPe5b4HselL19P9xBKz0.png" },
+  { name: "Miro", icon: "https://framerusercontent.com/images/ZUushxfNwU23dpbrQ1OJc8j3Q6E.png" },
+  { name: "Magnific AI", icon: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 590 410'%3E%3Cpath fill='%23f43f5e' d='M353.68,0l-58.95,140.68L235.81,0h-117.9L.01,407.99c-1.58,0,147.36,0,147.36,0l147.36-182.9,147.36,182.9s148.94,0,147.36,0L471.58,0h-117.9Z'/%3E%3C/svg%3E", contain: true },
+  { name: "Creative Cloud", icon: "https://upload.wikimedia.org/wikipedia/commons/4/4c/Adobe_Creative_Cloud_rainbow_icon.svg", contain: true },
+  { name: "ChatGPT", icon: "https://framerusercontent.com/images/kO0iYa1SEEieWFyHJPLdtZgxcGM.png" },
+  { name: "Spline 3D", icon: "https://framerusercontent.com/images/a3I2GEHMVu4yrmQjGvXBdt7oljo.png" },
+  { name: "Notion", icon: "https://framerusercontent.com/images/AYULtCDmkx94kaZCmUEFnbyqGF4.png" },
+  { name: "Cursor", icon: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23ffffff' d='M11.503.131 1.891 5.678a.84.84 0 0 0-.42.726v11.188c0 .3.162.575.42.724l9.609 5.55a1 1 0 0 0 .998 0l9.61-5.55a.84.84 0 0 0 .42-.724V6.404a.84.84 0 0 0-.42-.726L12.497.131a1.01 1.01 0 0 0-.996 0M2.657 6.338h18.55c.263 0 .43.287.297.515L12.23 22.918c-.062.107-.229.064-.229-.06V12.335a.59.59 0 0 0-.295-.51l-9.11-5.257c-.109-.063-.064-.23.061-.23'/%3E%3C/svg%3E", contain: true },
+  { name: "VS Code", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vscode/vscode-original.svg", contain: true },
+  { name: "Google Cloud", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/googlecloud/googlecloud-original.svg", contain: true },
+  { name: "Firebase", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/firebase/firebase-plain.svg", contain: true },
+  { name: "GitHub", icon: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23ffffff' d='M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z'/%3E%3C/svg%3E", contain: true }
 ];
 ---
 
@@ -105,13 +120,15 @@ const toolList = [
         </div>
 
         <!-- Headline -->
-        <h1 class="font-['Plus_Jakarta_Sans'] text-4xl sm:text-6xl md:text-7xl font-extrabold tracking-[-0.03em] text-white leading-[1.05] mb-8">
-          Ideias que ganham forma através de design e código.
+        <h1 class="font-['Plus_Jakarta_Sans'] text-4xl sm:text-6xl md:text-7xl font-extrabold tracking-[-0.03em] text-white leading-[1.08] mb-8">
+          Ideias que ganham forma <br class="hidden sm:inline" />
+          através de <br class="hidden sm:inline" />
+          <span class="text-transparent bg-clip-text bg-gradient-to-r from-white via-zinc-200 to-zinc-400">design e código.</span>
         </h1>
 
         <!-- Subtitle -->
         <p class="text-base sm:text-lg md:text-xl text-zinc-400 max-w-2xl mx-auto font-normal leading-relaxed mb-10">
-          Sou Erick Matheus. Crio websites, aplicações e sistemas de alto impacto onde usabilidade apurada, velocidade extrema e estratégia visual se unem para transformar visitantes em clientes.
+          Sou Erick Matheus, designer e desenvolvedor. Ajudo marcas e projetos a construírem websites e produtos digitais com foco em simplicidade, boa experiência e código limpo.
         </p>
 
         <!-- CTAs -->
@@ -189,15 +206,28 @@ const toolList = [
                     <span class="px-2.5 py-1 rounded-full bg-white/[0.04] border border-white/[0.08]">{tag}</span>
                   ))}
                 </div>
-                <a 
-                  href={item.url} 
-                  target="_blank" 
-                  rel="noreferrer" 
-                  class="inline-flex items-center gap-1.5 text-xs font-medium text-white hover:text-emerald-400 transition-colors"
-                >
-                  <span>Abrir website do cliente</span>
-                  <span>↗</span>
-                </a>
+                <div class="flex flex-wrap items-center gap-2.5">
+                  <a 
+                    href={item.url} 
+                    target="_blank" 
+                    rel="noreferrer" 
+                    class="inline-flex items-center gap-1.5 text-xs font-medium text-white hover:text-emerald-400 transition-colors"
+                  >
+                    <span>Abrir website do cliente</span>
+                    <span>↗</span>
+                  </a>
+                  {item.sublinks && item.sublinks.map((sub) => (
+                    <a
+                      href={sub.url}
+                      target="_blank"
+                      rel="noreferrer"
+                      class="inline-flex items-center gap-1 text-[11px] font-mono text-zinc-300 hover:text-white px-2.5 py-0.5 rounded-full bg-white/[0.06] border border-white/10 hover:border-emerald-400/40 hover:bg-emerald-500/10 transition-all"
+                    >
+                      <span>{sub.label}</span>
+                      <span>↗</span>
+                    </a>
+                  ))}
+                </div>
               </div>
             </div>
           ))}
@@ -241,32 +271,44 @@ const toolList = [
               </div>
               <div>
                 <span class="block text-zinc-500 text-[10px] uppercase tracking-wider">Disponibilidade</span>
-                <span class="text-emerald-400 font-medium">Novos Projetos Abertos</span>
+                <span class="text-emerald-400 font-medium">Aberto a Novos Projetos</span>
               </div>
             </div>
           </div>
 
-          <!-- Photo Card (Estilo Kácio - Retrato B&W) -->
-          <div class="md:col-span-5 rounded-3xl bg-[#090912]/90 border border-white/10 p-4 overflow-hidden flex flex-col justify-center items-center relative min-h-[380px]">
-            <div class="w-full h-full rounded-2xl bg-gradient-to-t from-black via-zinc-900 to-zinc-950 border border-white/10 flex flex-col items-center justify-center p-8 text-center relative overflow-hidden">
-              <!-- Glow corner -->
-              <div class="absolute -top-12 -right-12 w-40 h-40 bg-white/5 rounded-full blur-2xl"></div>
-
-              <div class="w-28 h-28 rounded-full bg-zinc-800 border-2 border-white/20 flex items-center justify-center text-3xl font-bold text-white mb-4 shadow-2xl">
-                EM
+          <!-- Interactive 3D Lanyard Card -->
+          <div class="md:col-span-5 rounded-3xl bg-[#090912]/90 border border-white/10 p-3 overflow-hidden flex flex-col justify-center items-center relative min-h-[520px] sm:min-h-[580px]">
+            <div class="w-full h-[520px] sm:h-[580px] relative rounded-2xl overflow-hidden bg-[#05050b] border border-white/5 flex flex-col items-center justify-center">
+              <div class="w-full h-full">
+                <Lanyard
+                  client:only="react"
+                  frontImage="/card-front.png"
+                  backImage="/card-back.png"
+                  strapImage="/band.png"
+                  imageFit="cover"
+                  cardColor="#ffffff"
+                  orientation="portrait"
+                  finish="metallic"
+                  cornerRadius={0.2}
+                  size={0.6}
+                  anchor="center"
+                  strapLength={0.5}
+                  strapColor="#111111"
+                  strapWidth={0.65}
+                  metal="silver"
+                  gravity={1}
+                  damping={0.5}
+                  elasticity={0.5}
+                  breeze={0.5}
+                  interactive
+                  intro
+                />
               </div>
-              <h3 class="font-['Plus_Jakarta_Sans'] font-bold text-xl text-white">Erick Matheus</h3>
-              <p class="text-xs text-zinc-400 mt-1 font-mono">Product Designer & Developer</p>
-              
-              <div class="mt-6 pt-6 border-t border-white/10 w-full flex items-center justify-center gap-4 text-xs">
-                <a href="https://github.com/e-rickmatheus" target="_blank" rel="noreferrer" class="text-zinc-400 hover:text-white transition-colors">GitHub ↗</a>
-                <span class="text-zinc-700">•</span>
-                <a href="https://www.linkedin.com/in/erickmatheusbr" target="_blank" rel="noreferrer" class="text-zinc-400 hover:text-white transition-colors">LinkedIn ↗</a>
+              <div class="absolute bottom-3 inset-x-0 text-center pointer-events-none z-10">
+                <span class="text-[10px] font-mono tracking-wider uppercase text-zinc-400 bg-black/70 px-3.5 py-1.5 rounded-full border border-white/10 backdrop-blur-md">
+                  ✦ Interativo: arraste o crachá
+                </span>
               </div>
-
-              <p class="text-[10px] text-zinc-500 mt-4 italic">
-                (Pronto para a sua foto em alta resolução)
-              </p>
             </div>
           </div>
         </div>
@@ -287,23 +329,51 @@ const toolList = [
         </div>
 
         <!-- Tool Icons Row / Marquee Style -->
-        <div class="rounded-3xl bg-[#090912]/80 border border-white/10 p-6 sm:p-8 overflow-hidden">
-          <div class="flex items-center justify-center flex-wrap gap-4 sm:gap-6">
-            {toolList.map((tool) => (
-              <div class="group flex flex-col items-center gap-2 p-2 rounded-2xl hover:bg-white/[0.04] transition-all cursor-pointer">
-                <div class="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-zinc-900 border border-white/10 p-2 flex items-center justify-center group-hover:scale-110 group-hover:border-white/30 transition-all duration-300 shadow-lg">
-                  <img 
-                    src={tool.icon} 
-                    alt={tool.name} 
-                    class="w-full h-full object-cover rounded-xl"
-                    loading="lazy"
-                  />
+        <div class="rounded-3xl bg-[#090912]/80 border border-white/10 py-6 px-2 overflow-hidden marquee-mask relative">
+          <div class="animate-marquee-scroll flex items-center gap-6 sm:gap-8">
+            <!-- Bloco 1 -->
+            <div class="flex items-center gap-6 sm:gap-8 flex-shrink-0">
+              {toolList.map((tool) => (
+                <div class="group relative flex flex-col items-center flex-shrink-0 cursor-pointer pt-2 pb-5">
+                  <div class="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl sm:rounded-3xl bg-zinc-900/90 border border-white/10 p-2.5 sm:p-3 flex items-center justify-center group-hover:scale-110 group-hover:border-white/30 group-hover:bg-zinc-800 transition-all duration-300 shadow-xl">
+                    <img 
+                      src={tool.icon} 
+                      alt={tool.name} 
+                      class={`w-full h-full rounded-xl sm:rounded-2xl ${tool.contain ? 'object-contain p-1.5' : 'object-cover'}`}
+                      loading="lazy"
+                    />
+                  </div>
+                  <!-- Nome visível apenas no hover -->
+                  <div class="absolute bottom-0 opacity-0 group-hover:opacity-100 translate-y-1 group-hover:translate-y-0 transition-all duration-200 pointer-events-none z-20 whitespace-nowrap">
+                    <span class="px-2.5 py-1 rounded-md bg-zinc-950/95 border border-white/15 text-[11px] font-mono text-white shadow-2xl backdrop-blur-md">
+                      {tool.name}
+                    </span>
+                  </div>
                 </div>
-                <span class="text-[10px] font-mono text-zinc-400 group-hover:text-white transition-colors text-center">
-                  {tool.name}
-                </span>
-              </div>
-            ))}
+              ))}
+            </div>
+
+            <!-- Bloco 2 (duplicado para loop contínuo sem emendas) -->
+            <div class="flex items-center gap-6 sm:gap-8 flex-shrink-0" aria-hidden="true">
+              {toolList.map((tool) => (
+                <div class="group relative flex flex-col items-center flex-shrink-0 cursor-pointer pt-2 pb-5">
+                  <div class="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl sm:rounded-3xl bg-zinc-900/90 border border-white/10 p-2.5 sm:p-3 flex items-center justify-center group-hover:scale-110 group-hover:border-white/30 group-hover:bg-zinc-800 transition-all duration-300 shadow-xl">
+                    <img 
+                      src={tool.icon} 
+                      alt={tool.name} 
+                      class={`w-full h-full rounded-xl sm:rounded-2xl ${tool.contain ? 'object-contain p-1.5' : 'object-cover'}`}
+                      loading="lazy"
+                    />
+                  </div>
+                  <!-- Nome visível apenas no hover -->
+                  <div class="absolute bottom-0 opacity-0 group-hover:opacity-100 translate-y-1 group-hover:translate-y-0 transition-all duration-200 pointer-events-none z-20 whitespace-nowrap">
+                    <span class="px-2.5 py-1 rounded-md bg-zinc-950/95 border border-white/15 text-[11px] font-mono text-white shadow-2xl backdrop-blur-md">
+                      {tool.name}
+                    </span>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </div>
@@ -370,3 +440,29 @@ const toolList = [
     </div>
   </footer>
 </Layout>
+
+<style>
+  @keyframes marquee {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-50%);
+    }
+  }
+
+  .animate-marquee-scroll {
+    display: flex;
+    width: max-content;
+    animation: marquee 35s linear infinite;
+  }
+
+  .animate-marquee-scroll:hover {
+    animation-play-state: paused;
+  }
+
+  .marquee-mask {
+    mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+    -webkit-mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+  }
+</style>
