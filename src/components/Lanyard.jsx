@@ -818,16 +818,20 @@ const Lanyard = ({
     const frontMaterial = new THREE.MeshPhysicalMaterial({
       map: frontTexture,
       normalMap: grain,
-      normalScale: new THREE.Vector2(0.06, 0.06)
+      normalScale: new THREE.Vector2(0.06, 0.06),
+      side: THREE.DoubleSide
     });
     const backMaterial = new THREE.MeshPhysicalMaterial({
       map: backTexture,
       normalMap: grain,
-      normalScale: new THREE.Vector2(0.06, 0.06)
+      normalScale: new THREE.Vector2(0.06, 0.06),
+      side: THREE.DoubleSide
     });
     frontMaterial.onBeforeCompile = injectFoil;
     backMaterial.onBeforeCompile = injectFoil;
-    const edgeMaterial = new THREE.MeshPhysicalMaterial();
+    const edgeMaterial = new THREE.MeshPhysicalMaterial({
+      side: THREE.DoubleSide
+    });
     const metalMaterial = new THREE.MeshStandardMaterial({ metalness: 1 });
     const bandMaterial = new THREE.MeshPhysicalMaterial({
       map: strapTexture,
@@ -925,7 +929,7 @@ const Lanyard = ({
       camera.updateMatrixWorld();
       foilUniforms.foilKey.value.set(-2.5, 4, 6).normalize().transformDirection(camera.matrixWorldInverse);
       foilUniforms.foilFill.value.set(3, -1, 4).normalize().transformDirection(camera.matrixWorldInverse);
-      const anchorPos = (s.anchor === 'right') ? (view.width < 768 ? 0.78 : 0.73) : (ANCHORS[s.anchor] ?? 0.5);
+      const anchorPos = (s.anchor === 'right') ? (view.width < 768 ? 0.82 : 0.73) : (ANCHORS[s.anchor] ?? 0.5);
       const anchorX = (anchorPos - 0.5) * viewWidth;
       const anchorY = viewHeight / 2 + 0.2;
       const cardTop = viewHeight / 2 - viewHeight * mix(0.12, 0.42, clamp(s.strapLength, 0, 1));
@@ -1167,7 +1171,8 @@ const Lanyard = ({
 
     const pickCard = () => {
       cardGroup.updateMatrixWorld();
-      const hits = raycaster.intersectObjects([bodyMesh, frontMesh, backMesh], false);
+      clampGroup.updateMatrixWorld();
+      const hits = raycaster.intersectObjects([frontMesh, backMesh, bodyMesh, ring, clampMesh, eyelet], false);
       return hits[0] || null;
     };
 
