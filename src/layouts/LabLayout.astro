@@ -1,0 +1,154 @@
+---
+import "../styles/lab.css";
+import LabNav from "../components/lab/LabNav.astro";
+import LabFooter from "../components/lab/LabFooter.astro";
+
+interface Props {
+  title: string;
+  description: string;
+  current?: "home" | "projetos";
+  path?: string;
+}
+const { title, description, current = "home", path = "/" } = Astro.props;
+const canonical = new URL(path, Astro.site ?? "https://www.mathrick.com.br").toString();
+---
+
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:site_name" content="MATHRICK LAB" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="theme-color" content="#f2f1ee" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#121316" media="(prefers-color-scheme: dark)" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="alternate icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <meta name="generator" content={Astro.generator} />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&family=Geist+Mono:wght@400..700&family=Inter:wght@300..800&family=Instrument+Serif:ital@0;1&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-FNSYXPY09S"></script>
+    <script is:inline>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+      gtag("config", "G-FNSYXPY09S");
+    </script>
+
+    <!-- Tema + movimento antes da pintura (evita flash) -->
+    <script is:inline>
+      (function () {
+        var d = document.documentElement;
+        try {
+          var t = localStorage.getItem("mathrick-theme");
+          if (t === "light" || t === "dark") d.setAttribute("data-theme", t);
+        } catch (e) {}
+        try {
+          if (!matchMedia("(prefers-reduced-motion: reduce)").matches) {
+            d.setAttribute("data-motion", "");
+            d.setAttribute("data-intro", "");
+          }
+        } catch (e) {}
+        addEventListener("pageshow", function (e) {
+          if (e.persisted) location.reload();
+        });
+      })();
+    </script>
+  </head>
+  <body>
+    <a
+      href="#main"
+      class="sr-only bg-invert-bg px-4 py-2 text-invert-fg focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-[100]"
+      >Pular para o conteúdo</a
+    >
+    <LabNav current={current} />
+    <main id="main">
+      <slot />
+    </main>
+    <LabFooter />
+
+    <script>
+      // ---- Tema ----
+      const root = document.documentElement;
+      const isDark = () =>
+        root.getAttribute("data-theme") === "dark" ||
+        (!root.hasAttribute("data-theme") && matchMedia("(prefers-color-scheme: dark)").matches);
+
+      document.querySelectorAll<HTMLButtonElement>("[data-theme-toggle]").forEach((btn) =>
+        btn.addEventListener("click", () => {
+          const next = isDark() ? "light" : "dark";
+          root.setAttribute("data-theme", next);
+          try {
+            localStorage.setItem("mathrick-theme", next);
+          } catch {}
+          window.dispatchEvent(new Event("themechange"));
+        }),
+      );
+
+      // ---- Menu mobile ----
+      const menuBtn = document.querySelector<HTMLButtonElement>("[data-menu-toggle]");
+      const menu = document.getElementById("mobile-nav");
+      menuBtn?.addEventListener("click", () => {
+        const open = menuBtn.getAttribute("aria-expanded") === "true";
+        menuBtn.setAttribute("aria-expanded", String(!open));
+        if (menu) menu.hidden = open;
+      });
+      menu?.querySelectorAll("a").forEach((a) =>
+        a.addEventListener("click", () => {
+          menuBtn?.setAttribute("aria-expanded", "false");
+          menu.hidden = true;
+        }),
+      );
+
+      // ---- Reveal on scroll (com stagger por irmãos) ----
+      const targets = document.querySelectorAll<HTMLElement>("[data-reveal], [data-draw-rule], [data-draw-tick]");
+      const counters = new Map<Element, number>();
+      targets.forEach((el) => {
+        if (!el.hasAttribute("data-reveal") || !el.parentElement) return;
+        const n = counters.get(el.parentElement) ?? 0;
+        el.style.setProperty("--d", `${Math.min(n, 6) * 80}ms`);
+        counters.set(el.parentElement, n + 1);
+      });
+      const io = new IntersectionObserver(
+        (entries) =>
+          entries.forEach((e) => {
+            if (e.isIntersecting) {
+              (e.target as HTMLElement).setAttribute("data-in", "");
+              io.unobserve(e.target);
+            }
+          }),
+        { threshold: 0.12, rootMargin: "0px 0px -6% 0px" },
+      );
+      targets.forEach((el) => io.observe(el));
+
+      // ---- Copiar link ----
+      document.querySelectorAll<HTMLButtonElement>("[data-copy-link]").forEach((btn) =>
+        btn.addEventListener("click", async () => {
+          const label = btn.querySelector("[data-copy-label]");
+          try {
+            await navigator.clipboard.writeText(location.href);
+            if (label) label.textContent = "Copiado!";
+            setTimeout(() => label && (label.textContent = "Copiar link"), 1800);
+          } catch {}
+        }),
+      );
+    </script>
+  </body>
+</html>

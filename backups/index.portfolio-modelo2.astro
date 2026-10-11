@@ -1,0 +1,617 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Lanyard from '../components/Lanyard.jsx';
+
+const clients = [
+  {
+    title: "Mathrick Lab",
+    category: "LABORATÓRIO CRIATIVO & SAAS",
+    url: "https://mathrick.com.br",
+    description: "Laboratório Criativo no qual sou o Owner. Onde nascem ferramentas, SaaS, protótipos de alta performance, produtos digitais e websites com autoria e código refinado.",
+    tags: ["Owner", "Laboratório Criativo", "SaaS & Web Apps", "Creative Coding", "Design System"]
+  },
+  {
+    title: "Maria Júlia",
+    category: "SISTEMAS WEB & ARRECADAÇÃO",
+    url: "https://mariajulia.med.br/",
+    description: "Ecossistema web completo com sistema de rifas online (/rifa), página de doações e vaquinha digital (/vaquinha), integração automatizada em tempo real com planilhas e conexão com WhatsApp.",
+    tags: ["Sistema de Rifas", "Página de Vaquinha", "Google Sheets", "WhatsApp Funnel", "Automação"],
+    sublinks: [
+      { label: "Ver Rifa (/rifa)", url: "https://mariajulia.med.br/rifa" },
+      { label: "Ver Vaquinha (/vaquinha)", url: "https://mariajulia.med.br/vaquinha" }
+    ]
+  },
+  {
+    title: "Xpress Branding",
+    category: "BRANDING & IDENTIDADE VISUAL",
+    url: "https://www.notsoxpress.com.br/",
+    description: "Plataforma institucional e posicionamento digital para estúdio de branding com foco em alta experiência. Para a página em construção, desenvolvi um mini-game interativo jogável no navegador, inspirado na mecânica clássica do Dino do Chrome.",
+    tags: ["Branding", "Creative Coding", "Mini-Game Interativo", "Web Design"]
+  },
+  {
+    title: "Trium Lab",
+    category: "LAB & INOVAÇÃO TECNOLÓGICA",
+    url: "https://www.triumlab.com.br/",
+    description: "Plataforma institucional e laboratório digital focada em pesquisa, desenvolvimento e soluções de alto impacto.",
+    tags: ["UI / UX", "Web Performance", "Branding"]
+  },
+  {
+    title: "Mari Andrade Advocacia",
+    category: "DIREITO & ALTA CONVERSÃO",
+    url: "https://mariandrade.adv.br/",
+    description: "Presença digital estratégica para escritório de advocacia com foco em autoridade de marca, experiência do cliente e captação qualificada.",
+    tags: ["Landing Page", "Identidade Visual", "CRO"]
+  },
+  {
+    title: "Fernando José de Oliveira",
+    category: "ECOSSISTEMA CORPORATIVO",
+    url: "https://www.fernandojosedeoliveira.com.br/",
+    description: "Estrutura web moderna e sólida construída para transmitir solidez jurídica, navegação intuitiva e alta confiabilidade institucional.",
+    tags: ["Institucional", "Clean Code", "Design System"]
+  },
+  {
+    title: "Cíntia Camargo Advocacia",
+    category: "EXPERIÊNCIA DIGITAL & CAPTAÇÃO",
+    url: "https://www.cintiacamargohadv.com.br/",
+    description: "Plataforma jurídica responsiva com fluxo ágil de atendimento, integração direta de canais e arquitetura de informação otimizada.",
+    tags: ["Mobile First", "WhatsApp Funnel", "SEO"]
+  }
+];
+
+const toolList = [
+  { name: "Figma", icon: "https://framerusercontent.com/images/xwl17PxHJRn6p0K1BT1H9bybU0.png" },
+  { name: "Claude", icon: "https://framerusercontent.com/images/L5ocdoJfvy7TN8Nyd9cGZQfvfwk.png" },
+  { name: "Framer", icon: "https://framerusercontent.com/images/KO69hv7r2jYXTKBqqgcCDG2dfo.png" },
+  { name: "Relume", icon: "https://framerusercontent.com/images/eylbWj1PWXKPmZx6x6jALudh4wo.png" },
+  { name: "LottieFiles", icon: "https://framerusercontent.com/images/nmgrjNbyBoxmQm35UaPpVyuevA.png" },
+  { name: "Rive", icon: "https://framerusercontent.com/images/6RNSS2ttPe5b4HselL19P9xBKz0.png" },
+  { name: "Miro", icon: "https://framerusercontent.com/images/ZUushxfNwU23dpbrQ1OJc8j3Q6E.png" },
+  { name: "Magnific AI", icon: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 590 410'%3E%3Cpath fill='%23f43f5e' d='M353.68,0l-58.95,140.68L235.81,0h-117.9L.01,407.99c-1.58,0,147.36,0,147.36,0l147.36-182.9,147.36,182.9s148.94,0,147.36,0L471.58,0h-117.9Z'/%3E%3C/svg%3E", contain: true },
+  { name: "Creative Cloud", icon: "https://upload.wikimedia.org/wikipedia/commons/4/4c/Adobe_Creative_Cloud_rainbow_icon.svg", contain: true },
+  { name: "ChatGPT", icon: "https://framerusercontent.com/images/kO0iYa1SEEieWFyHJPLdtZgxcGM.png" },
+  { name: "Spline 3D", icon: "https://framerusercontent.com/images/a3I2GEHMVu4yrmQjGvXBdt7oljo.png" },
+  { name: "Notion", icon: "https://framerusercontent.com/images/AYULtCDmkx94kaZCmUEFnbyqGF4.png" },
+  { name: "Cursor", icon: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23ffffff' d='M11.503.131 1.891 5.678a.84.84 0 0 0-.42.726v11.188c0 .3.162.575.42.724l9.609 5.55a1 1 0 0 0 .998 0l9.61-5.55a.84.84 0 0 0 .42-.724V6.404a.84.84 0 0 0-.42-.726L12.497.131a1.01 1.01 0 0 0-.996 0M2.657 6.338h18.55c.263 0 .43.287.297.515L12.23 22.918c-.062.107-.229.064-.229-.06V12.335a.59.59 0 0 0-.295-.51l-9.11-5.257c-.109-.063-.064-.23.061-.23'/%3E%3C/svg%3E", contain: true },
+  { name: "VS Code", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vscode/vscode-original.svg", contain: true },
+  { name: "Google Cloud", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/googlecloud/googlecloud-original.svg", contain: true },
+  { name: "Firebase", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/firebase/firebase-plain.svg", contain: true },
+  { name: "GitHub", icon: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23ffffff' d='M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z'/%3E%3C/svg%3E", contain: true }
+];
+---
+
+<Layout title="Erick Matheus | Product Designer & Creative Developer" description="Portfólio de Erick Matheus e MATHRICK. Criando websites, produtos digitais e experiências de alta conversão onde design e código se fundem.">
+  <!-- Floating Glass Navbar -->
+  <header class="fixed top-4 left-0 right-0 z-50 px-4 pointer-events-none">
+    <div class="max-w-4xl mx-auto backdrop-blur-xl bg-[#09090f]/80 border border-white/10 rounded-full px-5 py-2.5 flex items-center justify-between pointer-events-auto shadow-2xl shadow-black/80">
+      <a href="#" class="flex items-center gap-2.5 group">
+        <div class="w-7 h-7 rounded-lg bg-white/10 border border-white/20 flex items-center justify-center p-1 group-hover:scale-105 transition-transform">
+          <svg viewBox="0 0 64 64" class="w-full h-full" fill="none">
+            <rect x="8" y="12" width="29" height="10" rx="1.5" fill="#FFFFFF"/>
+            <rect x="8" y="27" width="19" height="10" rx="1.5" fill="#FFFFFF"/>
+            <rect x="8" y="42" width="19" height="10" rx="1.5" fill="#FFFFFF"/>
+            <rect x="30.5" y="27" width="6.5" height="25" rx="1.5" fill="#A1A1AA"/>
+            <rect x="40.5" y="12" width="6.5" height="40" rx="1.5" fill="#A1A1AA"/>
+            <rect x="50.5" y="12" width="6.5" height="40" rx="1.5" fill="#A1A1AA"/>
+          </svg>
+        </div>
+        <div class="flex items-baseline gap-1.5">
+          <span class="font-['Plus_Jakarta_Sans'] font-bold text-sm tracking-tight text-white">Erick Matheus</span>
+          <span class="text-[10px] text-zinc-400 font-medium hidden sm:inline">MATHRICK</span>
+        </div>
+      </a>
+
+      <nav class="hidden md:flex items-center gap-6 text-xs font-medium text-zinc-400">
+        <a href="#trabalhos" class="hover:text-white transition-colors">Trabalhos</a>
+        <a href="#sobre" class="hover:text-white transition-colors">Sobre mim</a>
+        <a href="#ferramentas" class="hover:text-white transition-colors">Ferramentas</a>
+        <a href="#contato" class="hover:text-white transition-colors">Contato</a>
+      </nav>
+
+      <div class="flex items-center gap-3">
+        <div class="hidden sm:flex items-center gap-2 text-[11px] text-zinc-400 px-3 py-1 rounded-full bg-white/[0.04] border border-white/[0.06]">
+          <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+          <span>Disponível para projetos</span>
+        </div>
+        <a 
+          href="https://wa.me/5531992955010" 
+          target="_blank"
+          rel="noreferrer"
+          class="px-3.5 py-1.5 rounded-full text-xs font-medium bg-white text-black hover:bg-zinc-200 transition-all duration-200"
+        >
+          WhatsApp
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main class="flex-grow pt-28">
+    <!-- Hero Section -->
+    <section class="relative w-full min-h-[600px] sm:min-h-[640px] md:min-h-[680px] flex items-center overflow-hidden">
+      <!-- Glow effect -->
+      <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[850px] h-[500px] bg-white/[0.03] blur-[150px] rounded-full pointer-events-none"></div>
+
+      <!-- Full-Width Lanyard (Sem quadrado delimitador - tela inteira para balanço livre com anchor="right") -->
+      <div class="absolute inset-0 w-full h-full pointer-events-none z-0">
+        <div class="w-full h-full pointer-events-auto">
+          <Lanyard
+            client:only="react"
+            frontImage="/card-front.png"
+            backImage="/card-back.png"
+            imageFit="cover"
+            cardColor="#ffffff"
+            orientation="portrait"
+            finish="metallic"
+            cornerRadius={0.2}
+            size={0.6}
+            anchor="right"
+            strapLength={0.5}
+            strapColor="#111111"
+            strapWidth={0.65}
+            metal="silver"
+            gravity={1}
+            damping={0.5}
+            elasticity={0.5}
+            breeze={0.5}
+            interactive
+            intro
+          />
+        </div>
+      </div>
+
+      <!-- Hero Copy Content (Alinhado à esquerda, amplo espaço para o crachá à direita) -->
+      <div class="max-w-6xl mx-auto px-6 w-full relative z-10 py-16 md:py-24 pointer-events-none">
+        <div class="max-w-[58%] sm:max-w-[62%] md:max-w-xl text-left pointer-events-auto">
+          <!-- Badge -->
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/[0.05] border border-white/10 text-[11px] text-zinc-300 mb-8 font-medium tracking-wide uppercase">
+            <span>Design de Produto</span>
+            <span class="text-zinc-600">•</span>
+            <span>Creative Coding</span>
+          </div>
+
+          <!-- Headline -->
+          <h1 class="font-['Plus_Jakarta_Sans'] text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-[-0.03em] text-white leading-[1.08] mb-8">
+            Ideias que ganham forma <br class="hidden sm:inline" />
+            através de <br class="hidden sm:inline" />
+            <span class="text-transparent bg-clip-text bg-gradient-to-r from-white via-zinc-200 to-zinc-400">design e código.</span>
+          </h1>
+
+          <!-- Subtitle -->
+          <p class="text-sm sm:text-base md:text-lg text-zinc-400 max-w-[280px] sm:max-w-md md:max-w-xl font-normal leading-relaxed mb-10">
+            Sou Erick Matheus, designer e desenvolvedor.<br />
+            Ajudo pessoas, marcas e projetos a construírem<br />
+            websites e produtos digitais com foco em simplicidade,<br />
+            boa experiência e código limpo.
+          </p>
+
+          <!-- CTAs -->
+          <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+            <a 
+              href="https://wa.me/5531992955010" 
+              target="_blank" 
+              rel="noreferrer" 
+              class="px-7 py-3 rounded-full font-medium text-sm bg-white text-black hover:bg-zinc-200 transition-all duration-200 shadow-xl shadow-white/5 flex items-center justify-center gap-2"
+            >
+              <span>Falar no WhatsApp</span>
+              <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+              </svg>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Selected Works / Clientes Reais -->
+    <section id="trabalhos" class="py-20 md:py-28 border-t border-white/[0.08]">
+      <div class="max-w-5xl mx-auto px-6">
+        <div class="flex flex-col sm:flex-row sm:items-end justify-between mb-16 gap-6">
+          <div>
+            <span class="text-[11px] font-semibold tracking-[0.2em] uppercase text-zinc-400">Projetos & Portfólio</span>
+            <h2 class="font-['Plus_Jakarta_Sans'] text-3xl sm:text-4xl font-bold tracking-tight text-white mt-2">
+              Trabalhos Selecionados
+            </h2>
+          </div>
+          <p class="text-sm text-zinc-400 max-w-sm">
+            Projetos reais entregues para empresas e escritórios que precisavam de autoridade e resultados online.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+          {clients.map((item) => (
+            <div class="group rounded-3xl bg-[#090912]/80 border border-white/10 p-7 hover:border-white/25 transition-all duration-300 flex flex-col justify-between">
+              <div>
+                <div class="w-full h-48 rounded-2xl bg-gradient-to-br from-zinc-900 to-zinc-950 border border-white/[0.08] mb-6 overflow-hidden relative flex items-center justify-center p-6 group-hover:border-white/20 transition-all">
+                  <div class="w-full h-full rounded-xl bg-black/60 border border-white/10 p-4 flex flex-col justify-between shadow-2xl">
+                    <div class="flex items-center justify-between border-b border-white/10 pb-2">
+                      <span class="text-[10px] font-mono text-zinc-400">{item.title}</span>
+                      <span class="text-[9px] font-mono px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400 font-semibold border border-emerald-500/20">NO AR</span>
+                    </div>
+                    <div class="text-center py-2">
+                      <span class="font-['Plus_Jakarta_Sans'] font-bold text-white text-lg">{item.title}</span>
+                      <p class="text-[11px] text-zinc-500 mt-1 font-mono">{item.category}</p>
+                    </div>
+                    <div class="text-right">
+                      <span class="text-[10px] font-mono text-zinc-400 group-hover:text-white transition-colors">Visitar ↗</span>
+                    </div>
+                  </div>
+                </div>
+                
+                <div class="flex items-center gap-2 text-xs font-mono text-zinc-400 mb-2">
+                  <span>{item.category}</span>
+                </div>
+                <h3 class="font-['Plus_Jakarta_Sans'] text-2xl font-bold text-white mb-3 group-hover:text-zinc-200 transition-colors">
+                  {item.title}
+                </h3>
+                <p class="text-sm text-zinc-400 leading-relaxed mb-6">
+                  {item.description}
+                </p>
+              </div>
+
+              <div>
+                <div class="flex flex-wrap gap-2 text-[11px] font-mono text-zinc-400 pt-4 border-t border-white/[0.06] mb-4">
+                  {item.tags.map((tag) => (
+                    <span class="px-2.5 py-1 rounded-full bg-white/[0.04] border border-white/[0.08]">{tag}</span>
+                  ))}
+                </div>
+                <div class="flex flex-wrap items-center gap-2.5">
+                  <a 
+                    href={item.url} 
+                    target="_blank" 
+                    rel="noreferrer" 
+                    class="inline-flex items-center gap-1.5 text-xs font-medium text-white hover:text-emerald-400 transition-colors"
+                  >
+                    <span>{item.url.replace('https://', '').replace('http://', '').replace(/\/$/, '')}</span>
+                    <span>↗</span>
+                  </a>
+                  {item.sublinks && item.sublinks.map((sub) => (
+                    <a
+                      href={sub.url}
+                      target="_blank"
+                      rel="noreferrer"
+                      class="inline-flex items-center gap-1 text-[11px] font-mono text-zinc-300 hover:text-white px-2.5 py-0.5 rounded-full bg-white/[0.06] border border-white/10 hover:border-emerald-400/40 hover:bg-emerald-500/10 transition-all"
+                    >
+                      <span>{sub.label}</span>
+                      <span>↗</span>
+                    </a>
+                  ))}
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- Sobre Mim Section (Inspirado no Kácio Felipe) -->
+    <section id="sobre" class="py-24 md:py-32 bg-white/[0.015] border-t border-white/[0.08]">
+      <div class="max-w-5xl mx-auto px-6">
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-8 items-stretch">
+          <!-- Bio Card -->
+          <div class="md:col-span-7 rounded-3xl bg-[#090912]/90 border border-white/10 p-8 sm:p-10 flex flex-col justify-between">
+            <div>
+              <span class="text-[11px] font-semibold tracking-[0.2em] uppercase text-zinc-400">Biografia & Visão</span>
+              <h2 class="font-['Plus_Jakarta_Sans'] text-3xl sm:text-4xl font-bold tracking-tight text-white mt-2 mb-6">
+                Sobre mim:
+              </h2>
+              
+              <div class="space-y-4 text-sm sm:text-base text-zinc-300 leading-relaxed font-normal">
+                <p>
+                  Sou <strong class="text-white font-medium">Erick Matheus</strong>, Product Designer e Creative Developer apaixonado por transformar ideias abstratas e desafios complexos em experiências digitais fluidas e atraentes.
+                </p>
+                <p>
+                  Atuo na interseção entre <strong>design estratégico</strong> e <strong>código moderno</strong>, desenvolvendo identidades digitais completas, websites com foco em conversão e interfaces intuitivas para pessoas, marcas, escritórios e startups.
+                </p>
+                <p>
+                  Acredito que estética de alto nível e performance técnica devem caminhar juntas: cada projeto que assino é construído do zero, otimizado para carregamento instantâneo e desenhado para gerar valor real.
+                </p>
+              </div>
+            </div>
+
+            <div class="pt-8 mt-8 border-t border-white/[0.08] flex flex-wrap items-center gap-6 text-xs text-zinc-400">
+              <div>
+                <span class="block text-zinc-500 text-[10px] uppercase tracking-wider">Localização</span>
+                <span class="text-zinc-200 font-medium">Belo Horizonte, MG • Remoto</span>
+              </div>
+              <div>
+                <span class="block text-zinc-500 text-[10px] uppercase tracking-wider">Especialidade</span>
+                <span class="text-zinc-200 font-medium">Websites, UI/UX & Sistemas</span>
+              </div>
+              <div>
+                <span class="block text-zinc-500 text-[10px] uppercase tracking-wider">Disponibilidade</span>
+                <span class="text-emerald-400 font-medium">Aberto a Novos Projetos</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Photo Card (Estilo Kácio - Retrato B&W) -->
+          <div class="md:col-span-5 rounded-3xl bg-[#090912]/90 border border-white/10 p-4 overflow-hidden flex flex-col justify-center items-center relative min-h-[380px]">
+            <div class="w-full h-full rounded-2xl bg-gradient-to-t from-black via-zinc-900 to-zinc-950 border border-white/10 flex flex-col items-center justify-center p-8 text-center relative overflow-hidden">
+              <!-- Glow corner -->
+              <div class="absolute -top-12 -right-12 w-40 h-40 bg-white/5 rounded-full blur-2xl"></div>
+
+              <div class="w-28 h-28 rounded-3xl bg-zinc-900 border-2 border-white/20 flex items-center justify-center p-5 mb-4 shadow-2xl">
+                <svg viewBox="0 0 64 64" class="w-full h-full" fill="none">
+                  <rect x="8" y="12" width="29" height="10" rx="1.5" fill="#FFFFFF"/>
+                  <rect x="8" y="27" width="19" height="10" rx="1.5" fill="#FFFFFF"/>
+                  <rect x="8" y="42" width="19" height="10" rx="1.5" fill="#FFFFFF"/>
+                  <rect x="30.5" y="27" width="6.5" height="25" rx="1.5" fill="#A1A1AA"/>
+                  <rect x="40.5" y="12" width="6.5" height="40" rx="1.5" fill="#A1A1AA"/>
+                  <rect x="50.5" y="12" width="6.5" height="40" rx="1.5" fill="#A1A1AA"/>
+                </svg>
+              </div>
+              <h3 class="font-['Plus_Jakarta_Sans'] font-bold text-xl text-white">Erick Matheus</h3>
+              <p class="text-xs text-zinc-400 mt-1 font-mono">Product Designer & Developer</p>
+              
+              <div class="mt-6 pt-6 border-t border-white/10 w-full flex items-center justify-center gap-4 text-xs">
+                <a href="https://github.com/e-rickmatheus" target="_blank" rel="noreferrer" class="text-zinc-400 hover:text-white transition-colors">GitHub ↗</a>
+                <span class="text-zinc-700">•</span>
+                <a href="https://www.linkedin.com/in/erickmatheusbr" target="_blank" rel="noreferrer" class="text-zinc-400 hover:text-white transition-colors">LinkedIn ↗</a>
+              </div>
+
+              <p class="text-[10px] text-zinc-500 mt-4 italic">
+                (Pronto para a sua foto em alta resolução)
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Pilhas de Ferramentas Section (Inspirado no Kácio Felipe) -->
+    <section id="ferramentas" class="py-20 border-t border-white/[0.08] bg-[#000005]">
+      <div class="max-w-5xl mx-auto px-6">
+        <div class="text-center mb-12">
+          <span class="text-[11px] font-semibold tracking-[0.2em] uppercase text-zinc-400">Workflow & Tecnologia</span>
+          <h2 class="font-['Plus_Jakarta_Sans'] text-2xl sm:text-3xl font-bold text-white mt-1">
+            Pilhas de Ferramentas:
+          </h2>
+          <p class="text-xs text-zinc-400 mt-2">
+            Softwares e tecnologias que utilizo diariamente para conceber, prototipar e programar produtos de alta performance.
+          </p>
+        </div>
+
+        <!-- Tool Icons Row / Marquee Style -->
+        <div class="rounded-3xl bg-[#090912]/80 border border-white/10 py-6 px-2 overflow-hidden marquee-mask relative">
+          <div class="animate-marquee-scroll flex items-center gap-6 sm:gap-8">
+            <!-- Bloco 1 -->
+            <div class="flex items-center gap-6 sm:gap-8 flex-shrink-0">
+              {toolList.map((tool) => (
+                <div class="group relative flex flex-col items-center flex-shrink-0 cursor-pointer pt-2 pb-5">
+                  <div class="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl sm:rounded-3xl bg-zinc-900/90 border border-white/10 p-2.5 sm:p-3 flex items-center justify-center group-hover:scale-110 group-hover:border-white/30 group-hover:bg-zinc-800 transition-all duration-300 shadow-xl">
+                    <img 
+                      src={tool.icon} 
+                      alt={tool.name} 
+                      class={`w-full h-full rounded-xl sm:rounded-2xl ${tool.contain ? 'object-contain p-1.5' : 'object-cover'}`}
+                      loading="lazy"
+                    />
+                  </div>
+                  <!-- Nome visível apenas no hover -->
+                  <div class="absolute bottom-0 opacity-0 group-hover:opacity-100 translate-y-1 group-hover:translate-y-0 transition-all duration-200 pointer-events-none z-20 whitespace-nowrap">
+                    <span class="px-2.5 py-1 rounded-md bg-zinc-950/95 border border-white/15 text-[11px] font-mono text-white shadow-2xl backdrop-blur-md">
+                      {tool.name}
+                    </span>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <!-- Bloco 2 (duplicado para loop contínuo sem emendas) -->
+            <div class="flex items-center gap-6 sm:gap-8 flex-shrink-0" aria-hidden="true">
+              {toolList.map((tool) => (
+                <div class="group relative flex flex-col items-center flex-shrink-0 cursor-pointer pt-2 pb-5">
+                  <div class="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl sm:rounded-3xl bg-zinc-900/90 border border-white/10 p-2.5 sm:p-3 flex items-center justify-center group-hover:scale-110 group-hover:border-white/30 group-hover:bg-zinc-800 transition-all duration-300 shadow-xl">
+                    <img 
+                      src={tool.icon} 
+                      alt={tool.name} 
+                      class={`w-full h-full rounded-xl sm:rounded-2xl ${tool.contain ? 'object-contain p-1.5' : 'object-cover'}`}
+                      loading="lazy"
+                    />
+                  </div>
+                  <!-- Nome visível apenas no hover -->
+                  <div class="absolute bottom-0 opacity-0 group-hover:opacity-100 translate-y-1 group-hover:translate-y-0 transition-all duration-200 pointer-events-none z-20 whitespace-nowrap">
+                    <span class="px-2.5 py-1 rounded-md bg-zinc-950/95 border border-white/15 text-[11px] font-mono text-white shadow-2xl backdrop-blur-md">
+                      {tool.name}
+                    </span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact Section / Formulário & Conexão Direta -->
+    <section id="contato" class="py-24 border-t border-white/[0.08] relative overflow-hidden">
+      <!-- Glow effect -->
+      <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[350px] bg-white/[0.02] blur-[140px] rounded-full pointer-events-none"></div>
+
+      <div class="max-w-4xl mx-auto px-6 relative z-10">
+        <div class="text-center max-w-xl mx-auto mb-12">
+          <span class="text-[11px] font-semibold tracking-[0.2em] uppercase text-zinc-400">Vamos Trabalhar Juntos</span>
+          <h2 class="font-['Plus_Jakarta_Sans'] text-3xl sm:text-5xl font-bold tracking-tight text-white mt-2 mb-4">
+            Tem um projeto em mente?
+          </h2>
+          <p class="text-sm text-zinc-400">
+            Preencha os campos abaixo com os objetivos da sua ideia ou inicie uma conversa diretamente comigo.
+          </p>
+        </div>
+
+        <div class="max-w-2xl mx-auto rounded-3xl bg-[#090912]/90 border border-white/10 p-6 sm:p-10 shadow-2xl backdrop-blur-xl">
+          <!-- Formulário Interativo -->
+          <form id="project-form" class="space-y-5">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label for="form-name" class="block text-xs font-medium text-zinc-300 mb-1.5">
+                  Seu nome ou empresa <span class="text-emerald-400">*</span>
+                </label>
+                <input 
+                  type="text" 
+                  id="form-name" 
+                  name="name" 
+                  required
+                  placeholder="Ex: Erick Matheus"
+                  class="w-full px-4 py-3 rounded-xl bg-white/[0.04] border border-white/10 text-white placeholder-zinc-500 text-sm focus:outline-none focus:border-white/30 focus:ring-1 focus:ring-white/30 transition-all"
+                />
+              </div>
+
+              <div>
+                <label for="form-contact" class="block text-xs font-medium text-zinc-300 mb-1.5">
+                  E-mail ou WhatsApp <span class="text-emerald-400">*</span>
+                </label>
+                <input 
+                  type="text" 
+                  id="form-contact" 
+                  name="contact" 
+                  required
+                  placeholder="Ex: seuemail@empresa.com"
+                  class="w-full px-4 py-3 rounded-xl bg-white/[0.04] border border-white/10 text-white placeholder-zinc-500 text-sm focus:outline-none focus:border-white/30 focus:ring-1 focus:ring-white/30 transition-all"
+                />
+              </div>
+            </div>
+
+            <div>
+              <label for="form-type" class="block text-xs font-medium text-zinc-300 mb-1.5">
+                Tipo de Projeto
+              </label>
+              <select 
+                id="form-type" 
+                name="type"
+                class="w-full px-4 py-3 rounded-xl bg-[#0c0d17] border border-white/10 text-white text-sm focus:outline-none focus:border-white/30 focus:ring-1 focus:ring-white/30 transition-all"
+              >
+                <option value="Website / Landing Page de Alta Conversão">Website / Landing Page de Alta Conversão</option>
+                <option value="Sistema Web / Plataforma / Web App">Sistema Web / Plataforma / Web App</option>
+                <option value="UI/UX Design & Identidade Digital">UI/UX Design & Identidade Digital</option>
+                <option value="Rifas, Vaquinhas ou Arrecadação">Rifas, Vaquinhas ou Arrecadação</option>
+                <option value="Outro / Projeto Personalizado">Outro / Projeto Personalizado</option>
+              </select>
+            </div>
+
+            <div>
+              <label for="form-message" class="block text-xs font-medium text-zinc-300 mb-1.5">
+                Sobre o projeto <span class="text-zinc-500 font-normal">(objetivos, expectativas, prazo)</span>
+              </label>
+              <textarea 
+                id="form-message" 
+                name="message" 
+                rows="4" 
+                required
+                placeholder="Conte um pouco sobre o que você deseja criar ou desenvolver..."
+                class="w-full px-4 py-3 rounded-xl bg-white/[0.04] border border-white/10 text-white placeholder-zinc-500 text-sm focus:outline-none focus:border-white/30 focus:ring-1 focus:ring-white/30 transition-all resize-none"
+              ></textarea>
+            </div>
+
+            <button 
+              type="submit" 
+              class="w-full py-4 rounded-xl font-semibold text-sm bg-white text-black hover:bg-zinc-200 transition-all duration-200 shadow-xl flex items-center justify-center gap-2 cursor-pointer group"
+            >
+              <span>Enviar Proposta de Projeto</span>
+              <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+              </svg>
+            </button>
+          </form>
+
+          <!-- Divisor -->
+          <div class="relative my-8">
+            <div class="absolute inset-0 flex items-center">
+              <div class="w-full border-t border-white/[0.08]"></div>
+            </div>
+            <div class="relative flex justify-center text-[11px] uppercase tracking-wider font-mono text-zinc-500">
+              <span class="bg-[#090912] px-3">ou conversa rápida</span>
+            </div>
+          </div>
+
+          <!-- Botão WhatsApp Direto (Sem exibir número) -->
+          <a 
+            href="https://wa.me/5531992955010?text=Ol%C3%A1%20Erick%2C%20tenho%20um%20projeto%20em%20mente%20e%20gostaria%20de%20conversar%21" 
+            target="_blank" 
+            rel="noreferrer"
+            class="w-full py-3.5 rounded-xl font-medium text-xs sm:text-sm bg-white/[0.05] text-zinc-200 hover:text-white hover:bg-white/[0.09] border border-white/10 hover:border-white/20 transition-all duration-200 flex items-center justify-center gap-2.5 mb-6"
+          >
+            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+            <span>Conversar diretamente no WhatsApp</span>
+            <span>↗</span>
+          </a>
+
+          <div class="pt-6 border-t border-white/[0.08] flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-zinc-400">
+            <span>Prefere e-mail corporativo?</span>
+            <a 
+              href="mailto:erickmrdm@gmail.com" 
+              class="text-zinc-200 hover:text-white font-medium underline underline-offset-4"
+            >
+              erickmrdm@gmail.com
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <script>
+      const projectForm = document.getElementById('project-form');
+      if (projectForm) {
+        projectForm.addEventListener('submit', (e) => {
+          e.preventDefault();
+          const nameInput = document.getElementById('form-name') as HTMLInputElement | null;
+          const contactInput = document.getElementById('form-contact') as HTMLInputElement | null;
+          const typeSelect = document.getElementById('form-type') as HTMLSelectElement | null;
+          const messageInput = document.getElementById('form-message') as HTMLTextAreaElement | null;
+
+          const name = nameInput ? nameInput.value : '';
+          const contact = contactInput ? contactInput.value : '';
+          const type = typeSelect ? typeSelect.value : '';
+          const message = messageInput ? messageInput.value : '';
+
+          const text = `Olá Erick!\n\n*Novo Projeto:*\n• *Nome/Empresa:* ${name}\n• *Contato:* ${contact}\n• *Tipo de Projeto:* ${type}\n• *Detalhes:* ${message}`;
+          const whatsappUrl = `https://wa.me/5531992955010?text=${encodeURIComponent(text)}`;
+          window.open(whatsappUrl, '_blank');
+        });
+      }
+    </script>
+  </main>
+
+  <!-- Footer -->
+  <footer class="border-t border-white/[0.08] bg-[#000005] py-12">
+    <div class="max-w-5xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-6 text-xs text-zinc-400">
+      <div class="flex items-center gap-2 font-medium text-zinc-300">
+        <span>Erick Matheus</span>
+        <span>•</span>
+        <span>MATHRICK</span>
+      </div>
+      <div>
+        <span>&copy; {new Date().getFullYear()} Erick Matheus. Todos os direitos reservados.</span>
+      </div>
+      <div class="flex items-center gap-6">
+        <a href="https://github.com/e-rickmatheus" target="_blank" rel="noreferrer" class="hover:text-white transition-colors">GitHub</a>
+        <a href="https://www.linkedin.com/in/erickmatheusbr" target="_blank" rel="noreferrer" class="hover:text-white transition-colors">LinkedIn</a>
+        <a href="https://wa.me/5531992955010" target="_blank" rel="noreferrer" class="hover:text-white transition-colors">WhatsApp</a>
+      </div>
+    </div>
+  </footer>
+</Layout>
+
+<style>
+  @keyframes marquee {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-50%);
+    }
+  }
+
+  .animate-marquee-scroll {
+    display: flex;
+    width: max-content;
+    animation: marquee 35s linear infinite;
+  }
+
+  .animate-marquee-scroll:hover {
+    animation-play-state: paused;
+  }
+
+  .marquee-mask {
+    mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+    -webkit-mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+  }
+</style>

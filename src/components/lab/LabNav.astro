@@ -1,0 +1,123 @@
+---
+import Btn from "./Btn.astro";
+import { site } from "../../data/lab";
+
+interface Props {
+  current?: "home" | "projetos";
+}
+const { current = "home" } = Astro.props;
+const b = site.base;
+
+const links = [
+  { key: "home", label: "Home", href: "/" },
+  { key: "servicos", label: "O Lab", href: "/#servicos" },
+  { key: "projetos", label: "Projetos", href: "/projetos" },
+  { key: "contato", label: "Contato", href: "/#contato" },
+];
+---
+
+<nav id="site-nav" class="sticky top-0 left-0 z-50 w-full border-b border-line bg-bg/95 backdrop-blur-sm">
+  <div class="flex h-12 items-stretch justify-between">
+    <div class="flex min-w-0 items-stretch">
+      <a href="/" aria-label="MATHRICK LAB" class="flex items-center gap-2.5 border-r border-line px-4 hover:opacity-70 sm:px-5">
+        <svg viewBox="0 0 64 64" class="themed-logo h-6 w-6" fill="none" aria-hidden="true">
+          <rect x="8" y="12" width="29" height="10" fill="currentColor"></rect>
+          <rect x="8" y="27" width="19" height="10" fill="currentColor"></rect>
+          <rect x="8" y="42" width="19" height="10" fill="currentColor"></rect>
+          <rect x="30.5" y="27" width="6.5" height="25" fill="var(--accent)"></rect>
+          <rect x="40.5" y="12" width="6.5" height="40" fill="var(--accent)"></rect>
+          <rect x="50.5" y="12" width="6.5" height="40" fill="var(--accent)"></rect>
+        </svg>
+        <span class="hud-label hidden text-ink-strong sm:inline">Mathrick<span class="text-faint"> / Lab</span></span>
+      </a>
+
+      <ul class="hidden min-w-0 items-stretch lg:flex">
+        {links.map((l) => {
+          const active = l.key === current;
+          return (
+            <li class="flex items-stretch">
+              <a
+                href={l.href}
+                aria-current={active ? "page" : undefined}
+                class:list={["group flex h-full items-center px-2.5 hud-label whitespace-nowrap hover:text-ink", active ? "text-ink" : "text-muted"]}
+              >
+                <span
+                  class:list={[
+                    "flex items-center gap-1.5 px-1.5 py-0.5 group-hover:bg-invert-bg group-hover:text-invert-fg",
+                    active && "bg-invert-bg text-invert-fg",
+                  ]}>{l.label}</span>
+              </a>
+            </li>
+          );
+        })}
+      </ul>
+    </div>
+
+    <div class="flex shrink-0 items-stretch">
+      <a
+        href={site.github}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="GitHub"
+        title="GitHub"
+        class="hidden w-12 items-center justify-center border-l border-line text-muted hover:bg-invert-bg hover:text-invert-fg md:flex"
+      >
+        <svg viewBox="0 0 24 24" fill="currentColor" class="h-4 w-4" aria-hidden="true"
+          ><path
+            d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"
+          ></path></svg
+        >
+      </a>
+
+      <button
+        type="button"
+        data-theme-toggle
+        aria-label="Alternar tema claro/escuro"
+        class="invert-block flex w-12 items-center justify-center border-l border-line text-muted hover:text-invert-fg"
+      >
+        <svg class="icon-moon h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"
+          ><path d="M20.985 12.486a9 9 0 1 1-9.473-9.472c.405-.022.617.46.402.803a6 6 0 0 0 8.268 8.268c.344-.215.825-.004.803.401"></path></svg
+        >
+        <svg class="icon-sun h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"
+          ><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"></path></svg
+        >
+      </button>
+
+      <a
+        href={site.whatsappMsg}
+        target="_blank"
+        rel="noopener noreferrer"
+        data-cta
+        class="hidden h-full items-center justify-center whitespace-nowrap border-l border-line bg-invert-bg px-5 font-mono text-[11px] font-bold tracking-[0.12em] text-invert-fg uppercase transition-opacity duration-150 hover:opacity-80 md:inline-flex"
+      >
+        Falar no WhatsApp
+      </a>
+
+      <button
+        type="button"
+        data-menu-toggle
+        aria-expanded="false"
+        aria-controls="mobile-nav"
+        class="flex w-12 items-center justify-center border-l border-line text-muted hover:bg-invert-bg hover:text-invert-fg lg:hidden"
+      >
+        <span class="sr-only">Abrir menu</span>
+        <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"
+          ><path d="M4 5h16M4 12h16M4 19h16"></path></svg
+        >
+      </button>
+    </div>
+  </div>
+
+  <div id="mobile-nav" hidden class="border-t border-line bg-bg lg:hidden">
+    <ul class="flex flex-col">
+      {links.map((l) => (
+        <li class="border-b border-line">
+          <a href={l.href} class="hud-label invert-block flex h-12 items-center px-6 text-ink">{l.label}</a>
+        </li>
+      ))}
+    </ul>
+    <div class="p-4">
+      <Btn href={site.whatsappMsg} external class="w-full">Falar no WhatsApp</Btn>
+    </div>
+  </div>
+</nav>

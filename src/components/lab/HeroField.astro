@@ -1,0 +1,112 @@
+<!--
+  Campo de marcas de registro (+) que reage ao ponteiro.
+  Substitui o fundo interativo do hero original; leve (canvas 2D),
+  pausa fora da tela e respeita prefers-reduced-motion.
+-->
+<canvas data-hero-field aria-hidden="true" class="absolute inset-0 h-full w-full"></canvas>
+
+<script>
+  const canvas = document.querySelector<HTMLCanvasElement>("[data-hero-field]");
+  const ctx = canvas?.getContext("2d");
+
+  if (canvas && ctx) {
+    const root = document.documentElement;
+    const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const STEP = 44;
+    const RADIUS = 190;
+
+    let w = 0, h = 0, dpr = 1;
+    let line = "#888", accent = "#2d81ff";
+    let px = -9999, py = -9999, tx = -9999, ty = -9999;
+    let visible = true;
+    let raf = 0;
+
+    const readColors = () => {
+      const cs = getComputedStyle(root);
+      line = cs.getPropertyValue("--line-strong").trim() || line;
+      accent = cs.getPropertyValue("--accent").trim() || accent;
+    };
+
+    const resize = () => {
+      dpr = Math.min(devicePixelRatio || 1, 2);
+      const r = canvas.getBoundingClientRect();
+      w = r.width;
+      h = r.height;
+      canvas.width = Math.round(w * dpr);
+      canvas.height = Math.round(h * dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      readColors();
+      draw(performance.now());
+    };
+
+    const cross = (x: number, y: number, s: number, rot: number) => {
+      ctx.save();
+      ctx.translate(x, y);
+      ctx.rotate(rot);
+      ctx.beginPath();
+      ctx.moveTo(-s, 0);
+      ctx.lineTo(s, 0);
+      ctx.moveTo(0, -s);
+      ctx.lineTo(0, s);
+      ctx.stroke();
+      ctx.restore();
+    };
+
+    const draw = (now: number) => {
+      ctx.clearRect(0, 0, w, h);
+      px += (tx - px) * 0.14;
+      py += (ty - py) * 0.14;
+      const t = now * 0.001;
+      ctx.lineWidth = 1;
+
+      const cols = Math.ceil(w / STEP) + 1;
+      const rows = Math.ceil(h / STEP) + 1;
+      const ox = (w - (cols - 1) * STEP) / 2;
+      const oy = (h - (rows - 1) * STEP) / 2;
+
+      for (let i = 0; i < cols; i++) {
+        for (let j = 0; j < rows; j++) {
+          const x = ox + i * STEP;
+          const y = oy + j * STEP;
+          const dx = x - px, dy = y - py;
+          const d = Math.sqrt(dx * dx + dy * dy);
+          const near = Math.max(0, 1 - d / RADIUS);
+          const wave = reduce ? 0 : (Math.sin(t * 1.1 + x * 0.012 + y * 0.016) + 1) * 0.5;
+
+          const s = 2.2 + wave * 1.6 + near * 7;
+          const rot = near * near * Math.PI * 0.5;
+
+          ctx.globalAlpha = 0.35 + wave * 0.25;
+          ctx.strokeStyle = line;
+          cross(x, y, s, rot);
+
+          if (near > 0.05) {
+            ctx.globalAlpha = Math.min(1, near * 1.2);
+            ctx.strokeStyle = accent;
+            cross(x, y, s, rot);
+          }
+        }
+      }
+      ctx.globalAlpha = 1;
+    };
+
+    const loop = (now: number) => {
+      if (visible) draw(now);
+      raf = requestAnimationFrame(loop);
+    };
+
+    addEventListener("pointermove", (e) => {
+      const r = canvas.getBoundingClientRect();
+      tx = e.clientX - r.left;
+      ty = e.clientY - r.top;
+      if (px < -9000) { px = tx; py = ty; }
+    }, { passive: true });
+    document.addEventListener("pointerleave", () => { tx = ty = -9999; });
+    addEventListener("themechange", readColors);
+    addEventListener("resize", resize);
+    new IntersectionObserver(([e]) => (visible = e.isIntersecting)).observe(canvas);
+
+    resize();
+    if (!reduce) raf = requestAnimationFrame(loop);
+  }
+</script>

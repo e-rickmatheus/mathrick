@@ -1,0 +1,175 @@
+---
+import LabLayout from "../layouts/LabLayout.astro";
+import Section from "../components/lab/Section.astro";
+import Btn from "../components/lab/Btn.astro";
+import Signature from "../components/lab/Signature.astro";
+import { site, projects, principles, stages } from "../data/lab";
+
+const b = site.base;
+const pageUrl = "https://www.mathrick.com.br/projetos";
+const shareText = encodeURIComponent("Projetos da MATHRICK LAB");
+const shares = [
+  { label: "X", href: `https://twitter.com/intent/tweet?url=${encodeURIComponent(pageUrl)}&text=${shareText}` },
+  { label: "LinkedIn", href: `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(pageUrl)}` },
+  { label: "WhatsApp", href: `https://wa.me/?text=${shareText}%20${encodeURIComponent(pageUrl)}` },
+];
+const num = (n: number) => String(n).padStart(2, "0");
+---
+
+<LabLayout
+  current="projetos"
+  path="/projetos"
+  title="Projetos — MATHRICK LAB"
+  description="Sites personalizados, web apps, ferramentas e experiências interativas assinados pela MATHRICK LAB."
+>
+  <!-- ================= 01 INTRO ================= -->
+  <Section id="projetos" index="01" label="Projetos" meta="Seis projetos · No ar · Assinados">
+    <div class="px-6 py-14 md:px-10 md:py-20">
+      <h1 data-reveal class="max-w-3xl font-display text-4xl leading-[1.02] font-medium tracking-[-0.035em] text-ink-strong sm:text-5xl md:text-6xl">
+        Seis projetos. Uma <span class="text-accent-ink">assinatura</span>.
+      </h1>
+      <p data-reveal class="mt-5 max-w-xl text-lg leading-relaxed text-muted">
+        Web apps, sites personalizados e experiências interativas. Cada projeto é desenhado e programado do zero e leva o selo da MATHRICK LAB.
+      </p>
+
+      <div data-reveal class="mt-8 flex flex-wrap items-start gap-3">
+        <Btn href={site.whatsappMsg} external>Propor uma ideia</Btn>
+        <Btn href={site.linkedin} external variant="outline">LinkedIn</Btn>
+        <Btn href={site.github} external variant="outline">GitHub</Btn>
+      </div>
+
+      <p data-reveal class="mt-4 max-w-xl leading-relaxed text-muted">
+        <span class="text-ink">Tudo começa como ideia.</span> Cada projeto abaixo passou pelo ciclo do lab: ideia, protótipo e produto. Veja o resultado e proponha o próximo.
+      </p>
+
+      <div data-reveal class="mt-6 flex w-fit flex-wrap gap-px border border-line bg-line">
+        <span class="hud-label flex h-9 items-center bg-bg px-3 text-faint">Compartilhar</span>
+        <button
+          type="button"
+          data-copy-link
+          class="inline-flex h-9 w-fit items-center justify-center gap-2 bg-bg px-3 font-mono text-[11px] font-bold tracking-[0.12em] text-muted uppercase transition-colors duration-150 hover:bg-invert-bg hover:text-invert-fg"
+        >
+          <svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="14" height="14" x="8" y="8" rx="2"></rect><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"></path></svg>
+          <span data-copy-label aria-live="polite">Copiar link</span>
+        </button>
+        {shares.map((s) => (
+          <a
+            href={s.href}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex h-9 w-fit items-center justify-center bg-bg px-3 font-mono text-[11px] font-bold tracking-[0.12em] text-muted uppercase transition-colors duration-150 hover:bg-invert-bg hover:text-invert-fg"
+          >{s.label}</a>
+        ))}
+      </div>
+    </div>
+
+    <!-- atalhos -->
+    <div class="grid grid-cols-2 gap-px border-t border-line bg-line sm:grid-cols-3 lg:grid-cols-6">
+      {projects.map((p, i) => (
+        <a href={`#${p.slug}`} class="invert-block flex items-center justify-between gap-2 bg-bg px-4 py-4 text-ink">
+          <span class="font-display text-sm font-medium tracking-[-0.01em]">{p.name[0]}</span>
+          <span class="hud-label opacity-50">{num(i + 1)}</span>
+        </a>
+      ))}
+    </div>
+  </Section>
+
+  <!-- ================= 02 LINE-UP ================= -->
+  <Section id="lineup" index="02" label="O line-up" meta="Escolha um para explorar">
+    <div class="px-6 pt-14 pb-10 md:px-10 md:pt-20">
+      <h2 data-reveal class="max-w-3xl font-display text-4xl leading-[1.02] font-medium tracking-[-0.035em] text-ink-strong sm:text-5xl md:text-6xl">
+        A bancada <span class="font-serif font-normal text-muted italic">em produção.</span>
+      </h2>
+    </div>
+
+    <ol class="border-t border-line">
+      {projects.map((p, i) => (
+        <li id={p.slug} class="border-b border-line last:border-b-0" style={`--app-ink:${p.hue}`}>
+          <article data-reveal class="row-link grid gap-6 px-6 py-10 md:grid-cols-[5rem_1.2fr_1fr] md:gap-10 md:px-10 md:py-12">
+            <p class="hud-label text-faint">{num(i + 1)}</p>
+
+            <div>
+              <p class="hud-label text-muted">{p.type} · {p.kind}</p>
+              <h3 class="mt-3 font-display text-5xl leading-[0.92] font-semibold tracking-[-0.045em] text-ink-strong sm:text-6xl md:text-7xl">
+                {p.name[0]}<br /><span style="color:var(--app-ink)">{p.name[1]}</span>
+              </h3>
+              <p class="mt-5 max-w-md text-lg leading-relaxed text-muted">{p.description}</p>
+            </div>
+
+            <div class="flex flex-col justify-between gap-6">
+              <div>
+                <p class="hud-label flex items-center gap-2 text-ink">
+                  <span class="size-1.5 animate-pulse rounded-full" style="background:var(--app-ink)"></span>{p.status}
+                </p>
+                <ul class="mt-4 flex flex-wrap gap-1.5">
+                  {p.tags.map((t) => (<li class="hud-label border border-line bg-bg px-3 py-2 text-muted">{t}</li>))}
+                </ul>
+              </div>
+              <div class="flex flex-col items-start gap-4">
+                <Signature />
+                <div class="flex flex-wrap gap-3">
+                  <Btn href={p.url} external>Abrir {p.title.split(" ")[0]} ↗</Btn>
+                  {p.sublinks?.map((s) => (<Btn href={s.url} external variant="outline">{s.label} ↗</Btn>))}
+                </div>
+              </div>
+            </div>
+          </article>
+        </li>
+      ))}
+    </ol>
+
+    <!-- em laboratório -->
+    <div class="border-t border-line px-6 py-14 md:px-10 md:py-20">
+      <p data-reveal class="hud-label text-faint">Em laboratório</p>
+      <h3 data-reveal class="mt-3 max-w-2xl font-display text-4xl leading-[1.02] font-medium tracking-[-0.035em] text-ink-strong sm:text-5xl">
+        A próxima ideia <span class="font-serif font-normal text-muted italic">pode ser a sua.</span>
+      </h3>
+      <p data-reveal class="mt-4 max-w-xl text-lg leading-relaxed text-muted">
+        Ferramentas de SaaS, utilitários pessoais, hubs, dashboards e apps mobile estão na bancada. Conte a sua ideia e veja se ela vira protótipo.
+      </p>
+      <ol data-reveal class="mt-6 flex w-fit flex-wrap gap-px border border-line bg-line">
+        {stages.map((s) => (<li class="hud-label bg-bg px-3 py-2 text-muted"><span class="text-faint">{s.key}</span> {s.name}</li>))}
+      </ol>
+      <div data-reveal class="mt-6"><Btn href={site.whatsappMsg} external variant="outline">Propor uma ideia</Btn></div>
+    </div>
+  </Section>
+
+  <!-- ================= 03 PRINCÍPIOS ================= -->
+  <Section id="principios" index="03" label="Princípios" meta="Em todo projeto do lab">
+    <div class="px-6 py-14 md:px-10 md:py-20">
+      <h2 data-reveal class="max-w-3xl font-display text-4xl leading-[1.02] font-medium tracking-[-0.035em] text-ink-strong sm:text-5xl md:text-6xl">
+        Feito do jeito <span class="font-serif font-normal text-muted italic">difícil.</span>
+      </h2>
+      <p data-reveal class="mt-5 max-w-xl text-lg leading-relaxed text-muted">
+        Toda ferramenta e todo site do lab seguem as mesmas regras, independente do tamanho.
+      </p>
+    </div>
+
+    <div class="grid gap-px border-t border-line bg-line sm:grid-cols-2 lg:grid-cols-3">
+      {principles.map((p, i) => (
+        <div data-reveal class="bg-bg p-6 md:p-8">
+          <p class="hud-label text-faint">{num(i + 1)}</p>
+          <h3 class="mt-6 font-display text-xl font-medium tracking-[-0.02em] text-ink-strong">{p.title}</h3>
+          <p class="mt-2 leading-relaxed text-muted">{p.text}</p>
+        </div>
+      ))}
+    </div>
+  </Section>
+
+  <!-- ================= 04 CTA ================= -->
+  <Section id="contato" index="04" label="Contato" meta="Bancada aberta">
+    <div class="px-6 py-20 text-center md:px-10 md:py-28">
+      <p data-reveal class="hud-label text-faint">Sob medida · Do zero · Assinado</p>
+      <h2 data-reveal class="mx-auto mt-6 max-w-4xl font-display text-5xl leading-[0.98] font-medium tracking-[-0.04em] text-ink-strong sm:text-6xl md:text-7xl">
+        Assine <span class="font-serif font-normal text-muted italic">a próxima.</span>
+      </h2>
+      <p data-reveal class="mx-auto mt-5 max-w-md text-lg leading-relaxed text-muted">
+        Da ideia ao deploy, você conversa direto com quem projeta e programa.
+      </p>
+      <div data-reveal class="mt-8 flex flex-wrap items-center justify-center gap-3">
+        <Btn href={site.whatsappMsg} external>Falar no WhatsApp</Btn>
+        <Btn href="/" variant="outline">Voltar à home</Btn>
+      </div>
+    </div>
+  </Section>
+</LabLayout>

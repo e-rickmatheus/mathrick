@@ -1,0 +1,20 @@
+---
+/** Selo de assinatura do laboratório. Use em cards de projeto, rodapé e onde mais couber. */
+interface Props {
+  class?: string;
+  label?: string;
+}
+const { class: extra, label = "Assinado · Mathrick Lab" } = Astro.props;
+---
+
+<span class:list={["hud-label inline-flex items-center gap-2 border border-line-strong px-2.5 py-1.5 text-[10px] text-muted", extra]}>
+  <svg viewBox="0 0 64 64" class="h-3.5 w-3.5" fill="none" aria-hidden="true">
+    <rect x="8" y="12" width="29" height="10" fill="currentColor"></rect>
+    <rect x="8" y="27" width="19" height="10" fill="currentColor"></rect>
+    <rect x="8" y="42" width="19" height="10" fill="currentColor"></rect>
+    <rect x="30.5" y="27" width="6.5" height="25" fill="var(--accent)"></rect>
+    <rect x="40.5" y="12" width="6.5" height="40" fill="var(--accent)"></rect>
+    <rect x="50.5" y="12" width="6.5" height="40" fill="var(--accent)"></rect>
+  </svg>
+  {label}
+</span>

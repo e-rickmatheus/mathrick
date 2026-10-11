@@ -1,0 +1,27 @@
+---
+interface Props {
+  href: string;
+  variant?: "primary" | "outline";
+  external?: boolean;
+  size?: "md" | "sm";
+  class?: string;
+}
+const { href, variant = "primary", external = false, size = "md", class: extra } = Astro.props;
+---
+
+<a
+  href={href}
+  target={external ? "_blank" : undefined}
+  rel={external ? "noopener noreferrer" : undefined}
+  data-cta
+  class:list={[
+    "inline-flex w-fit items-center justify-center gap-2 rounded-none font-mono font-bold uppercase tracking-[0.12em] whitespace-nowrap text-[11px]",
+    size === "md" ? "h-12 px-6" : "h-9 px-4",
+    variant === "primary"
+      ? "bg-invert-bg text-invert-fg transition-opacity duration-150 hover:opacity-80"
+      : "invert-block border border-line-strong bg-bg text-ink hover:border-transparent",
+    extra,
+  ]}
+>
+  <slot />
+</a>
