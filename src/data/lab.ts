@@ -195,6 +195,48 @@ export const projects: Project[] = [
   },
 ];
 
+export const upcomingProjects: Project[] = [
+  {
+    slug: "morphico",
+    name: ["Mor", "phico"],
+    title: "Morphico",
+    type: "App mobile & Web",
+    kind: "Rotina fitness, medidas & nutrição",
+    url: "",
+    description:
+      "Aplicativo de rotina fitness e health: registro de medidas corporais, peso, bioimpedância, alimentação e treinos. Traz orientações e indicações de exercícios com passo a passo e registro de alimentos consumidos para acelerar resultados no físico e na dieta.",
+    tags: ["Health & Fitness", "Bioimpedância", "Metas & Dieta", "Exercícios Guiados", "Mobile App"],
+    status: "No forno",
+    hue: "#10b981",
+  },
+  {
+    slug: "comensai",
+    name: ["Comen", "sai"],
+    title: "Comensai",
+    type: "Web app & Mobile",
+    kind: "Caderno vivo & compartilhamento de receitas",
+    url: "",
+    description:
+      "Gerenciador colaborativo de receitas culinárias em formato de caderno vivo. Permite salvar criações de amigos no seu próprio caderno mantendo os créditos de origem, além de importar e registrar receitas diretamente por link, vídeo ou foto.",
+    tags: ["Caderno de Receitas", "Compartilhamento", "Importação por Vídeo/Link", "Créditos de Autoria"],
+    status: "No forno",
+    hue: "#f59e0b",
+  },
+  {
+    slug: "pedidoon",
+    name: ["Pedido", "On"],
+    title: "PedidoOn",
+    type: "SaaS & Plataforma",
+    kind: "Menu & cardápio digital para delivery",
+    url: "",
+    description:
+      "Plataforma SaaS para pequenos e médios estabelecimentos gastronômicos operarem seus cardápios online com autonomia. Suporta pedidos para delivery próprio, retirada no balcão ou despacho rápido via Uber / 99 Flash com acompanhamento em tempo real.",
+    tags: ["SaaS Delivery", "Cardápio Online", "Gestão de Pedidos", "Retirada & 99 Flash", "Autonomia"],
+    status: "No forno",
+    hue: "#6366f1",
+  },
+];
+
 export const principles = [
   {
     title: "Feito do zero",

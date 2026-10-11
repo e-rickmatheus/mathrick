@@ -3,7 +3,7 @@ import LabLayout from "../layouts/LabLayout.astro";
 import Section from "../components/lab/Section.astro";
 import Btn from "../components/lab/Btn.astro";
 import Signature from "../components/lab/Signature.astro";
-import { site, projects, principles, stages } from "../data/lab";
+import { site, projects, upcomingProjects, principles, stages } from "../data/lab";
 
 const b = site.base;
 const pageUrl = "https://www.mathrick.com.br/projetos";
@@ -23,13 +23,13 @@ const num = (n: number) => String(n).padStart(2, "0");
   description="Sites personalizados, web apps, ferramentas e experiências interativas assinados pela MATHRICK LAB."
 >
   <!-- ================= 01 INTRO ================= -->
-  <Section id="projetos" index="01" label="Projetos" meta="Seis projetos · No ar · Assinados">
+  <Section id="projetos" index="01" label="Projetos" meta="Ativos & No forno · Assinados pelo lab">
     <div class="px-6 py-14 md:px-10 md:py-20">
       <h1 data-reveal class="max-w-3xl font-display text-4xl leading-[1.02] font-medium tracking-[-0.035em] text-ink-strong sm:text-5xl md:text-6xl">
-        Seis projetos. Uma <span class="text-accent-ink">assinatura</span>.
+        Projetos reais. No ar e <span class="text-accent-ink">no forno</span>.
       </h1>
       <p data-reveal class="mt-5 max-w-xl text-lg leading-relaxed text-muted">
-        Web apps, sites personalizados e experiências interativas. Cada projeto é desenhado e programado do zero e leva o selo da MATHRICK LAB.
+        SaaS, web apps, apps mobile e sites personalizados. Projetos no ar em constante evolução e novos produtos sendo forjados no laboratório.
       </p>
 
       <div data-reveal class="mt-8 flex flex-wrap items-start gap-3">
@@ -64,11 +64,17 @@ const num = (n: number) => String(n).padStart(2, "0");
     </div>
 
     <!-- atalhos -->
-    <div class="grid grid-cols-2 gap-px border-t border-line bg-line sm:grid-cols-3 lg:grid-cols-6">
+    <div class="grid grid-cols-2 gap-px border-t border-line bg-line sm:grid-cols-3 lg:grid-cols-9">
       {projects.map((p, i) => (
-        <a href={`#${p.slug}`} class="invert-block flex items-center justify-between gap-2 bg-bg px-4 py-4 text-ink">
-          <span class="font-display text-sm font-medium tracking-[-0.01em]">{p.name[0]}</span>
-          <span class="hud-label opacity-50">{num(i + 1)}</span>
+        <a href={`#${p.slug}`} class="invert-block flex items-center justify-between gap-2 bg-bg px-3 py-4 text-ink">
+          <span class="font-display text-xs font-medium tracking-[-0.01em]">{p.name[0]}</span>
+          <span class="hud-label text-[10px] opacity-50">{num(i + 1)}</span>
+        </a>
+      ))}
+      {upcomingProjects.map((p, i) => (
+        <a href={`#${p.slug}`} class="invert-block flex items-center justify-between gap-2 bg-bg px-3 py-4 text-ink">
+          <span class="font-display text-xs font-medium tracking-[-0.01em]">{p.title}</span>
+          <span class="hud-label text-[9px] text-amber-500 font-bold">FORNO</span>
         </a>
       ))}
     </div>
@@ -117,25 +123,76 @@ const num = (n: number) => String(n).padStart(2, "0");
         </li>
       ))}
     </ol>
+  </Section>
 
-    <!-- em laboratório -->
+  <!-- ================= 03 NO FORNO / EM PRODUÇÃO ================= -->
+  <Section id="forno" index="03" label="No forno" meta="Em desenvolvimento · Novas ferramentas">
+    <div class="px-6 pt-14 pb-10 md:px-10 md:pt-20">
+      <p data-reveal class="hud-label text-faint">Laboratório ativo · Novas soluções</p>
+      <h2 data-reveal class="mt-4 max-w-3xl font-display text-4xl leading-[1.02] font-medium tracking-[-0.035em] text-ink-strong sm:text-5xl md:text-6xl">
+        Soluções sendo <span class="font-serif font-normal text-muted italic">forjadas agora.</span>
+      </h2>
+      <p data-reveal class="mt-4 max-w-xl text-lg leading-relaxed text-muted">
+        Ideias que viraram protótipos funcionais e estão em fase avançada de produção para lançamento.
+      </p>
+    </div>
+
+    <ol class="border-t border-line">
+      {upcomingProjects.map((p, i) => (
+        <li id={p.slug} class="border-b border-line last:border-b-0" style={`--app-ink:${p.hue}`}>
+          <article data-reveal class="row-link grid gap-6 px-6 py-10 md:grid-cols-[5rem_1.2fr_1fr] md:gap-10 md:px-10 md:py-12">
+            <p class="hud-label text-faint">{num(i + 1)}</p>
+
+            <div>
+              <p class="hud-label text-muted">{p.type} · {p.kind}</p>
+              <h3 class="mt-3 font-display text-5xl leading-[0.92] font-semibold tracking-[-0.045em] text-ink-strong sm:text-6xl md:text-7xl">
+                {p.name[0]}<br /><span style="color:var(--app-ink)">{p.name[1]}</span>
+              </h3>
+              <p class="mt-5 max-w-md text-lg leading-relaxed text-muted">{p.description}</p>
+            </div>
+
+            <div class="flex flex-col justify-between gap-6">
+              <div>
+                <p class="hud-label flex items-center gap-2 text-ink">
+                  <span class="size-1.5 animate-pulse rounded-full" style="background:var(--app-ink)"></span>
+                  <span class="text-amber-500 font-semibold">{p.status}</span>
+                </p>
+                <ul class="mt-4 flex flex-wrap gap-1.5">
+                  {p.tags.map((t) => (<li class="hud-label border border-line bg-bg px-3 py-2 text-muted">{t}</li>))}
+                </ul>
+              </div>
+              <div class="flex flex-col items-start gap-4">
+                <Signature label="Assinado · Mathrick Lab" />
+                <div class="flex flex-wrap gap-3">
+                  <Btn href={site.whatsappMsg} external variant="outline">
+                    Acompanhar desenvolvimento ↗
+                  </Btn>
+                </div>
+              </div>
+            </div>
+          </article>
+        </li>
+      ))}
+    </ol>
+
+    <!-- chamada da bancada -->
     <div class="border-t border-line px-6 py-14 md:px-10 md:py-20">
-      <p data-reveal class="hud-label text-faint">Em laboratório</p>
+      <p data-reveal class="hud-label text-faint">Bancada colaborativa</p>
       <h3 data-reveal class="mt-3 max-w-2xl font-display text-4xl leading-[1.02] font-medium tracking-[-0.035em] text-ink-strong sm:text-5xl">
-        A próxima ideia <span class="font-serif font-normal text-muted italic">pode ser a sua.</span>
+        Tem uma necessidade <span class="font-serif font-normal text-muted italic">sem ferramenta no mercado?</span>
       </h3>
       <p data-reveal class="mt-4 max-w-xl text-lg leading-relaxed text-muted">
-        Ferramentas de SaaS, utilitários pessoais, hubs, dashboards e apps mobile estão na bancada. Conte a sua ideia e veja se ela vira protótipo.
+        O Morphico, o Comensai e o PedidoOn nasceram de dores reais. Conte o que você ou o seu negócio precisam e vamos colocar no laboratório.
       </p>
       <ol data-reveal class="mt-6 flex w-fit flex-wrap gap-px border border-line bg-line">
         {stages.map((s) => (<li class="hud-label bg-bg px-3 py-2 text-muted"><span class="text-faint">{s.key}</span> {s.name}</li>))}
       </ol>
-      <div data-reveal class="mt-6"><Btn href={site.whatsappMsg} external variant="outline">Propor uma ideia</Btn></div>
+      <div data-reveal class="mt-6"><Btn href={site.whatsappMsg} external variant="outline">Propor uma nova solução</Btn></div>
     </div>
   </Section>
 
-  <!-- ================= 03 PRINCÍPIOS ================= -->
-  <Section id="principios" index="03" label="Princípios" meta="Em todo projeto do lab">
+  <!-- ================= 04 PRINCÍPIOS ================= -->
+  <Section id="principios" index="04" label="Princípios" meta="Em todo projeto do lab">
     <div class="px-6 py-14 md:px-10 md:py-20">
       <h2 data-reveal class="max-w-3xl font-display text-4xl leading-[1.02] font-medium tracking-[-0.035em] text-ink-strong sm:text-5xl md:text-6xl">
         Feito do jeito <span class="font-serif font-normal text-muted italic">difícil.</span>
@@ -156,8 +213,8 @@ const num = (n: number) => String(n).padStart(2, "0");
     </div>
   </Section>
 
-  <!-- ================= 04 CTA ================= -->
-  <Section id="contato" index="04" label="Contato" meta="Bancada aberta">
+  <!-- ================= 05 CTA ================= -->
+  <Section id="contato" index="05" label="Contato" meta="Bancada aberta">
     <div class="px-6 py-20 text-center md:px-10 md:py-28">
       <p data-reveal class="hud-label text-faint">Sob medida · Do zero · Assinado</p>
       <h2 data-reveal class="mx-auto mt-6 max-w-4xl font-display text-5xl leading-[0.98] font-medium tracking-[-0.04em] text-ink-strong sm:text-6xl md:text-7xl">

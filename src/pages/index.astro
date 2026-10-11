@@ -5,7 +5,7 @@ import Btn from "../components/lab/Btn.astro";
 import Panel from "../components/lab/Panel.astro";
 import HeroField from "../components/lab/HeroField.astro";
 import Signature from "../components/lab/Signature.astro";
-import { site, ticker, capabilities, signature, stages, projects } from "../data/lab";
+import { site, ticker, capabilities, signature, stages, projects, upcomingProjects } from "../data/lab";
 
 const wordmark = "MATHRICK".split("");
 const featured = projects.slice(0, 3);
@@ -212,6 +212,52 @@ const b = site.base;
           </div>
         </a>
       ))}
+    </div>
+
+    <!-- No forno / Em produção -->
+    <div class="border-t border-line bg-surface/40 p-6 md:p-10">
+      <div class="flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
+        <div>
+          <span class="hud-label inline-flex items-center gap-1.5 text-accent-ink">
+            <span class="relative flex size-2">
+              <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent-ink opacity-75"></span>
+              <span class="relative inline-flex size-2 rounded-full bg-accent-ink"></span>
+            </span>
+            No forno · Em desenvolvimento
+          </span>
+          <h3 class="mt-1 font-display text-2xl font-medium tracking-[-0.02em] text-ink-strong">
+            Próximos lançamentos do laboratório
+          </h3>
+        </div>
+        <Btn href="/projetos#no-forno" variant="outline" class="w-fit">Ver detalhes no forno →</Btn>
+      </div>
+
+      <div class="mt-6 grid gap-px border border-line bg-line sm:grid-cols-3">
+        {upcomingProjects.map((up) => (
+          <article data-reveal class="flex flex-col justify-between bg-bg p-5 sm:p-6">
+            <div>
+              <div class="flex items-center justify-between">
+                <span class="hud-label text-accent-ink">{up.type}</span>
+                <span class="hud-label rounded border border-line px-1.5 py-0.5 text-faint">EM PRODUÇÃO</span>
+              </div>
+              <h4 class="mt-3 font-display text-2xl font-medium tracking-[-0.02em] text-ink-strong">
+                {up.title}
+              </h4>
+              <p class="hud-label mt-0.5 text-muted">{up.kind}</p>
+              <p class="mt-3 text-sm leading-relaxed text-muted line-clamp-3">
+                {up.description}
+              </p>
+            </div>
+            <div class="mt-5 flex flex-wrap gap-1 border-t border-line/60 pt-3">
+              {up.tags.slice(0, 3).map((feat) => (
+                <span class="hud-label rounded bg-surface px-1.5 py-0.5 text-[10px] text-faint">
+                  {feat}
+                </span>
+              ))}
+            </div>
+          </article>
+        ))}
+      </div>
     </div>
   </Section>
 
