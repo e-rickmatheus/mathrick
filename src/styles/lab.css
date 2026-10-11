@@ -146,7 +146,15 @@
 }
 
 .themed-logo {
-  color: var(--ink-strong);
+  filter: brightness(0);
+}
+:root[data-theme="dark"] .themed-logo {
+  filter: brightness(0) invert(1);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .themed-logo {
+    filter: brightness(0) invert(1);
+  }
 }
 
 /* Ícones do botão de tema (sol/lua) */

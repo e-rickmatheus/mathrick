@@ -2,9 +2,9 @@
 
 export const site = {
   name: "MATHRICK LAB",
-  whatsapp: "https://wa.me/5531992955010",
+  whatsapp: "https://wa.me/553131917191",
   whatsappMsg:
-    "https://wa.me/5531992955010?text=Ol%C3%A1%20Erick%2C%20tenho%20uma%20ideia%20e%20gostaria%20de%20conversar%21",
+    "https://wa.me/553131917191?text=Ol%C3%A1%20Mathrick%2C%20tenho%20uma%20ideia%20e%20gostaria%20de%20conversar%21",
   email: "erickmrdm@gmail.com",
   github: "https://github.com/e-rickmatheus",
   linkedin: "https://www.linkedin.com/in/erickmatheusbr",
