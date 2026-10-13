@@ -3,7 +3,7 @@ import Btn from "./Btn.astro";
 import { site } from "../../data/lab";
 
 interface Props {
-  current?: "home" | "projetos";
+  current?: "home" | "projetos" | "apps";
 }
 const { current = "home" } = Astro.props;
 const b = site.base;
@@ -12,6 +12,7 @@ const links = [
   { key: "home", label: "Home", href: "/" },
   { key: "servicos", label: "O Lab", href: "/#servicos" },
   { key: "projetos", label: "Projetos", href: "/projetos" },
+  { key: "apps", label: "Apps & Tools", href: "/apps" },
   { key: "contato", label: "Contato", href: "/#contato" },
 ];
 ---

@@ -1,0 +1,270 @@
+---
+import LabLayout from "../layouts/LabLayout.astro";
+import Section from "../components/lab/Section.astro";
+import Btn from "../components/lab/Btn.astro";
+import Signature from "../components/lab/Signature.astro";
+import { hubTools, hubCategories } from "../data/apps";
+import { site } from "../data/lab";
+
+const num = (n: number) => String(n).padStart(2, "0");
+---
+
+<LabLayout
+  current="apps"
+  path="/apps"
+  title="Apps & Ferramentas — MATHRICK LAB"
+  description="Suíte completa de ferramentas, geradores, calculadoras, utilitários de IA e design desenvolvidos e mantidos pela MATHRICK LAB."
+>
+  <!-- ================= HEADER HUD EDITORIAL ================= -->
+  <section class="border-b border-line bg-surface/30">
+    <div class="px-6 py-14 md:px-10 md:py-20">
+      <div class="flex items-center gap-3">
+        <span class="hud-label text-accent-ink">HUB · SUÍTE DE APLICATIVOS</span>
+        <span class="hud-label text-faint">apps.mathrick.com.br</span>
+      </div>
+
+      <div class="mt-4 flex flex-col justify-between gap-6 lg:flex-row lg:items-end">
+        <div>
+          <h1 class="font-display text-4xl leading-[1.02] font-medium tracking-[-0.035em] text-ink-strong sm:text-5xl md:text-6xl">
+            Ferramentas, utilitários <br class="hidden sm:inline" />
+            <span class="font-serif font-normal text-muted italic">& motores de IA.</span>
+          </h1>
+          <p class="mt-4 max-w-2xl text-lg leading-relaxed text-muted">
+            O ecossistema de produtividade, inteligência comercial, design system e aceleradores de engenharia criados para o dia a dia da MATHRICK.
+          </p>
+        </div>
+
+        <div class="flex flex-col items-start gap-3 sm:items-end">
+          <Signature label="Assinado · Mathrick Lab" />
+          <p class="hud-label text-xs text-faint">
+            Total: <span class="font-bold text-ink">{hubTools.length} ferramentas</span> ativas
+          </p>
+        </div>
+      </div>
+
+      <!-- BUSCA E FILTROS INTERATIVOS -->
+      <div class="mt-10 pt-6 border-t border-line/60">
+        <div class="flex flex-col md:flex-row gap-4 justify-between items-stretch md:items-center">
+          <!-- Input de Busca rápida -->
+          <div class="relative flex-1 max-w-md">
+            <span class="absolute left-3.5 top-1/2 -translate-y-1/2 text-faint text-xs font-mono">⌘/</span>
+            <input
+              type="text"
+              id="apps-search-input"
+              placeholder="Buscar ferramenta, tema ou palavra-chave..."
+              class="w-full border border-line bg-bg pl-10 pr-4 py-2.5 text-xs text-ink outline-none transition-colors focus:border-ink placeholder:text-faint font-mono"
+            />
+          </div>
+
+          <!-- Filtro de Categorias -->
+          <div class="flex flex-wrap gap-1" id="category-pills">
+            {hubCategories.map((c, i) => (
+              <button
+                type="button"
+                data-cat={c.key}
+                class:list={[
+                  "hud-label px-3 py-2 border transition-colors cursor-pointer",
+                  i === 0
+                    ? "border-line-strong bg-invert-bg text-invert-fg active-pill"
+                    : "border-line bg-bg text-muted hover:text-ink hover:border-line-strong",
+                ]}
+              >
+                {c.label}
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= GRID PRINCIPAL DE FERRAMENTAS ================= -->
+  <Section id="ferramentas" index="01" label="Catálogo" meta="Todas as aplicações ativas">
+    <div id="apps-grid" class="grid gap-px border-t border-line bg-line sm:grid-cols-2 lg:grid-cols-3">
+      {hubTools.map((t, idx) => (
+        <article
+          data-app-card
+          data-cat={t.category}
+          data-keywords={`${t.title} ${t.description} ${t.keywords} ${t.categoryLabel}`.toLowerCase()}
+          class="group relative flex flex-col justify-between bg-bg p-6 md:p-8 transition-colors hover:bg-surface/60"
+          style={`--app-accent:${t.color};`}
+        >
+          <div>
+            <!-- Topo do card -->
+            <div class="flex items-center justify-between border-b border-line/50 pb-3">
+              <div class="flex items-center gap-2">
+                <span class="text-xl leading-none">{t.icon}</span>
+                <span class="hud-label text-accent-ink">{t.categoryLabel}</span>
+              </div>
+              <span class="hud-label rounded border border-line px-1.5 py-0.5 text-[10px] text-faint">
+                {t.statusLabel}
+              </span>
+            </div>
+
+            <!-- Título e Descrição -->
+            <div class="mt-4">
+              <h3 class="font-display text-2xl font-medium tracking-[-0.025em] text-ink-strong group-hover:text-ink">
+                {t.title}
+              </h3>
+              <p class="mt-2.5 text-sm leading-relaxed text-muted line-clamp-3">
+                {t.description}
+              </p>
+            </div>
+
+            <!-- Subferramentas / Recursos embutidos se houver -->
+            {t.subTools && t.subTools.length > 0 && (
+              <div class="mt-4 pt-3 border-t border-line/40">
+                <p class="hud-label text-[10px] text-faint mb-2">Módulos inclusos ({t.subTools.length}):</p>
+                <div class="flex flex-wrap gap-1">
+                  {t.subTools.slice(0, 4).map((sub) => (
+                    <a
+                      href={sub.path}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      class="hud-label rounded bg-surface border border-line/60 px-2 py-0.5 text-[10px] text-muted hover:text-ink hover:border-line"
+                    >
+                      {sub.label}
+                    </a>
+                  ))}
+                  {t.subTools.length > 4 && (
+                    <span class="hud-label rounded bg-surface px-1.5 py-0.5 text-[10px] text-faint">
+                      +{t.subTools.length - 4} mais
+                    </span>
+                  )}
+                </div>
+              </div>
+            )}
+          </div>
+
+          <!-- Rodapé do Card -->
+          <div class="mt-6 pt-4 border-t border-line/50 flex items-center justify-between">
+            <span class="hud-label text-faint">{num(idx + 1)}</span>
+            <a
+              href={t.path}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="hud-label inline-flex items-center gap-1.5 font-bold text-ink hover:text-accent-ink group-hover:translate-x-0.5 transition-transform"
+            >
+              <span>Abrir ferramenta</span>
+              <span aria-hidden="true">↗</span>
+            </a>
+          </div>
+        </article>
+      ))}
+    </div>
+
+    <!-- Empty State caso busca não encontre nada -->
+    <div id="no-results-msg" class="hidden p-16 text-center border-t border-line bg-bg">
+      <p class="font-display text-2xl text-ink-strong">Nenhuma ferramenta encontrada</p>
+      <p class="mt-2 text-sm text-muted">Tente buscar por termos mais genéricos ou limpe o filtro de busca.</p>
+      <button
+        type="button"
+        id="clear-filters-btn"
+        class="mt-4 inline-flex items-center gap-2 border border-line px-4 py-2 text-xs font-mono uppercase tracking-wider text-ink hover:bg-surface"
+      >
+        Limpar busca e filtros
+      </button>
+    </div>
+  </Section>
+
+  <!-- ================= BANCADA DO LAB ================= -->
+  <Section id="contribuir" index="02" label="Laboratório" meta="Construa com a Mathrick">
+    <div class="px-6 py-14 md:px-10 md:py-20 text-center">
+      <p class="hud-label text-faint">Ferramentas contínuas</p>
+      <h2 class="mx-auto mt-4 max-w-3xl font-display text-4xl leading-[1.02] font-medium tracking-[-0.035em] text-ink-strong sm:text-5xl">
+        Sentiu falta de algum <span class="font-serif font-normal text-muted italic">utilitário ou gerador?</span>
+      </h2>
+      <p class="mx-auto mt-4 max-w-xl text-lg leading-relaxed text-muted">
+        Todas essas ferramentas nasceram de necessidades reais de trabalho. Se tem uma ferramenta ou IA que aceleraria o seu dia a dia, nos envie a sugestão.
+      </p>
+      <div class="mt-8 flex flex-wrap justify-center gap-3">
+        <Btn href={site.whatsappMsg} external>Propor uma nova ferramenta</Btn>
+        <Btn href="/projetos" variant="outline">Ver projetos assinados</Btn>
+      </div>
+    </div>
+  </Section>
+
+  <script>
+    // Filtro e Busca reativa instantânea
+    const searchInput = document.getElementById("apps-search-input") as HTMLInputElement | null;
+    const cards = Array.from(document.querySelectorAll<HTMLElement>("[data-app-card]"));
+    const pills = Array.from(document.querySelectorAll<HTMLElement>("[data-cat]"));
+    const noResults = document.getElementById("no-results-msg");
+    const clearBtn = document.getElementById("clear-filters-btn");
+
+    let currentCategory = "todas";
+    let searchQuery = "";
+
+    function filterTools() {
+      let visibleCount = 0;
+      cards.forEach((card) => {
+        const cardCat = card.getAttribute("data-cat") || "";
+        const keywords = card.getAttribute("data-keywords") || "";
+
+        const matchesCat = currentCategory === "todas" || cardCat === currentCategory;
+        const matchesQuery = !searchQuery || keywords.includes(searchQuery.toLowerCase());
+
+        if (matchesCat && matchesQuery) {
+          card.classList.remove("hidden");
+          card.classList.add("flex");
+          visibleCount++;
+        } else {
+          card.classList.remove("flex");
+          card.classList.add("hidden");
+        }
+      });
+
+      if (noResults) {
+        if (visibleCount === 0) {
+          noResults.classList.remove("hidden");
+        } else {
+          noResults.classList.add("hidden");
+        }
+      }
+    }
+
+    if (searchInput) {
+      searchInput.addEventListener("input", (e) => {
+        searchQuery = (e.target as HTMLInputElement).value.trim();
+        filterTools();
+      });
+    }
+
+    pills.forEach((pill) => {
+      pill.addEventListener("click", () => {
+        const cat = pill.getAttribute("data-cat") || "todas";
+        currentCategory = cat;
+
+        pills.forEach((p) => {
+          p.classList.remove("border-line-strong", "bg-invert-bg", "text-invert-fg", "active-pill");
+          p.classList.add("border-line", "bg-bg", "text-muted");
+        });
+
+        pill.classList.remove("border-line", "bg-bg", "text-muted");
+        pill.classList.add("border-line-strong", "bg-invert-bg", "text-invert-fg", "active-pill");
+
+        filterTools();
+      });
+    });
+
+    if (clearBtn && searchInput) {
+      clearBtn.addEventListener("click", () => {
+        searchInput.value = "";
+        searchQuery = "";
+        currentCategory = "todas";
+
+        pills.forEach((p, idx) => {
+          if (idx === 0) {
+            p.classList.remove("border-line", "bg-bg", "text-muted");
+            p.classList.add("border-line-strong", "bg-invert-bg", "text-invert-fg", "active-pill");
+          } else {
+            p.classList.remove("border-line-strong", "bg-invert-bg", "text-invert-fg", "active-pill");
+            p.classList.add("border-line", "bg-bg", "text-muted");
+          }
+        });
+
+        filterTools();
+      });
+    }
+  </script>
+</LabLayout>

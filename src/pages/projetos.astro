@@ -3,6 +3,7 @@ import LabLayout from "../layouts/LabLayout.astro";
 import Section from "../components/lab/Section.astro";
 import Btn from "../components/lab/Btn.astro";
 import Signature from "../components/lab/Signature.astro";
+import LabContactForm from "../components/lab/LabContactForm.astro";
 import { site, projects, upcomingProjects, principles, stages } from "../data/lab";
 
 const b = site.base;
@@ -215,17 +216,16 @@ const num = (n: number) => String(n).padStart(2, "0");
 
   <!-- ================= 05 CTA ================= -->
   <Section id="contato" index="05" label="Contato" meta="Bancada aberta">
-    <div class="px-6 py-20 text-center md:px-10 md:py-28">
+    <div class="px-6 py-16 text-center md:px-10 md:py-24">
       <p data-reveal class="hud-label text-faint">Sob medida · Do zero · Assinado</p>
       <h2 data-reveal class="mx-auto mt-6 max-w-4xl font-display text-5xl leading-[0.98] font-medium tracking-[-0.04em] text-ink-strong sm:text-6xl md:text-7xl">
         Assine <span class="font-serif font-normal text-muted italic">a próxima.</span>
       </h2>
       <p data-reveal class="mx-auto mt-5 max-w-md text-lg leading-relaxed text-muted">
-        Da ideia ao deploy, você conversa direto com quem projeta e programa.
+        Envie sua solicitação pelo formulário ou converse diretamente no WhatsApp.
       </p>
-      <div data-reveal class="mt-8 flex flex-wrap items-center justify-center gap-3">
-        <Btn href={site.whatsappMsg} external>Falar no WhatsApp</Btn>
-        <Btn href="/" variant="outline">Voltar à home</Btn>
+      <div data-reveal class="mt-10">
+        <LabContactForm />
       </div>
     </div>
   </Section>

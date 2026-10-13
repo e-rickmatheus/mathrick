@@ -21,6 +21,7 @@ const b = site.base;
           <li><a class="text-muted hover:text-ink" href="/">Home</a></li>
           <li><a class="text-muted hover:text-ink" href={"/#servicos"}>O Lab</a></li>
           <li><a class="text-muted hover:text-ink" href={"/projetos"}>Projetos</a></li>
+          <li><a class="text-muted hover:text-ink" href={"/apps"}>Apps & Tools</a></li>
           <li><a class="text-muted hover:text-ink" href={"/#contato"}>Contato</a></li>
         </ul>
       </div>
@@ -34,9 +35,10 @@ const b = site.base;
       </div>
       <div class="bg-bg px-6 py-10 md:px-8">
         <p class="hud-label mb-4 text-faint">Contato</p>
-        <a class="text-sm text-muted underline decoration-line-strong underline-offset-4 hover:text-ink" href={`mailto:${site.email}`}>{site.email}</a>
+        <a class="text-sm text-muted underline decoration-line-strong underline-offset-4 hover:text-ink" href={site.whatsappMsg} target="_blank" rel="noopener noreferrer">WhatsApp: +55 31 3191-7191 ↗</a>
+        <p class="mt-2 text-xs text-faint"><a href="/#contato" class="hover:text-ink">Formulário de solicitação ↓</a></p>
         <p class="hud-label mt-4 flex items-center gap-2 text-faint">
-          <span class="size-1.5 animate-pulse rounded-full bg-emerald-500"></span>Aberto a novos projetos
+          <span class="size-1.5 animate-pulse rounded-full bg-emerald-500"></span>Bancada aberta
         </p>
       </div>
     </div>

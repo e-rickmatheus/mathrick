@@ -5,7 +5,7 @@ export const site = {
   whatsapp: "https://wa.me/553131917191",
   whatsappMsg:
     "https://wa.me/553131917191?text=Ol%C3%A1%20Mathrick%2C%20tenho%20uma%20ideia%20e%20gostaria%20de%20conversar%21",
-  email: "erickmrdm@gmail.com",
+  email: "contato@mathrick.com.br",
   github: "https://github.com/e-rickmatheus",
   linkedin: "https://www.linkedin.com/in/erickmatheusbr",
   base: "",
@@ -234,6 +234,19 @@ export const upcomingProjects: Project[] = [
     tags: ["SaaS Delivery", "Cardápio Online", "Gestão de Pedidos", "Retirada & 99 Flash", "Autonomia"],
     status: "No forno",
     hue: "#6366f1",
+  },
+  {
+    slug: "salvoai",
+    name: ["Sal", "voai"],
+    title: "Salvoai",
+    type: "Web app & Mobile",
+    kind: "Cofre inteligente de links, reels & vídeos com IA",
+    url: "",
+    description:
+      "Ferramenta inteligente para salvar e centralizar links do Instagram, TikTok, YouTube e da web num só lugar. Organiza automaticamente com categorias e temas personalizados e conta com assistente de IA para classificar conteúdos e encontrar rapidamente qualquer vídeo salvo.",
+    tags: ["Cofre de Links", "Assistente de IA", "Instagram & TikTok", "YouTube", "Categorização Automática", "Mobile & Web"],
+    status: "No forno",
+    hue: "#06b6d4",
   },
 ];
 

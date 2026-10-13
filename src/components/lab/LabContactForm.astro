@@ -1,0 +1,138 @@
+---
+import Btn from "./Btn.astro";
+import { site } from "../../data/lab";
+---
+
+<div class="mx-auto w-full max-w-2xl border border-line bg-surface/50 p-6 md:p-10 text-left">
+  <div class="flex items-center justify-between border-b border-line pb-4">
+    <div class="flex items-center gap-2">
+      <span class="size-2 rounded-full bg-accent-ink animate-pulse"></span>
+      <span class="hud-label text-ink">Bancada Aberta · Nova Proposta</span>
+    </div>
+    <span class="hud-label text-faint">Fase 00 · Briefing</span>
+  </div>
+
+  <form id="lab-contact-form" class="mt-6 space-y-5">
+    <div class="grid gap-5 sm:grid-cols-2">
+      <div>
+        <label for="form-name" class="hud-label block mb-2 text-ink">Seu nome / Empresa *</label>
+        <input
+          type="text"
+          id="form-name"
+          name="name"
+          required
+          placeholder="Ex: Maria Júlia ou Startup X"
+          class="w-full border border-line bg-bg px-4 py-3 text-sm text-ink outline-none transition-colors focus:border-ink placeholder:text-faint"
+        />
+      </div>
+      <div>
+        <label for="form-contact" class="hud-label block mb-2 text-ink">Seu WhatsApp / Telefone *</label>
+        <input
+          type="text"
+          id="form-contact"
+          name="contact"
+          required
+          placeholder="(31) 99999-9999"
+          class="w-full border border-line bg-bg px-4 py-3 text-sm text-ink outline-none transition-colors focus:border-ink placeholder:text-faint"
+        />
+      </div>
+    </div>
+
+    <div>
+      <label for="form-category" class="hud-label block mb-2 text-ink">Tipo de projeto</label>
+      <select
+        id="form-category"
+        name="category"
+        class="w-full border border-line bg-bg px-4 py-3 text-sm text-ink outline-none transition-colors focus:border-ink"
+      >
+        <option value="SaaS / Web App">SaaS / Web App</option>
+        <option value="Site Personalizado / Landing Page">Site Personalizado / Landing Page</option>
+        <option value="App Mobile (iOS / Android)">App Mobile (iOS / Android)</option>
+        <option value="Ferramenta Pessoal / Automação">Ferramenta Pessoal / Automação</option>
+        <option value="Dashboard / Hub Corporativo">Dashboard / Hub Corporativo</option>
+        <option value="Outro / Ideia Nova">Outro / Ideia Nova</option>
+      </select>
+    </div>
+
+    <div>
+      <label for="form-desc" class="hud-label block mb-2 text-ink">Conte sobre a ideia ou problema *</label>
+      <textarea
+        id="form-desc"
+        name="description"
+        rows="4"
+        required
+        placeholder="Qual problema essa solução precisa resolver? Tem referências, prazos ou expectativas?"
+        class="w-full resize-none border border-line bg-bg px-4 py-3 text-sm text-ink outline-none transition-colors focus:border-ink placeholder:text-faint"
+      ></textarea>
+    </div>
+
+    <div class="pt-2 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4">
+      <button
+        type="submit"
+        id="form-submit-btn"
+        class="inline-flex items-center justify-center gap-2 h-12 px-6 bg-invert-bg text-invert-fg font-mono text-[11px] font-bold uppercase tracking-[0.12em] transition-opacity hover:opacity-85"
+      >
+        <span>Enviar solicitação</span>
+        <span aria-hidden="true">→</span>
+      </button>
+
+      <span class="hud-label text-center text-faint sm:text-right">ou direto pelo</span>
+
+      <a
+        href={site.whatsappMsg}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="inline-flex items-center justify-center gap-2 h-12 px-5 border border-line-strong bg-bg font-mono text-[11px] font-bold uppercase tracking-[0.12em] text-ink hover:bg-surface transition-colors"
+      >
+        <span>Chamar no WhatsApp</span>
+        <span aria-hidden="true">↗</span>
+      </a>
+    </div>
+
+    <!-- Feedback message -->
+    <div id="form-feedback" class="hidden p-4 border border-line bg-bg text-sm"></div>
+  </form>
+</div>
+
+<script>
+  const form = document.getElementById("lab-contact-form") as HTMLFormElement | null;
+  const feedback = document.getElementById("form-feedback");
+  const submitBtn = document.getElementById("form-submit-btn");
+
+  if (form && feedback && submitBtn) {
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const formData = new FormData(form);
+      const name = (formData.get("name") as string || "").trim();
+      const contact = (formData.get("contact") as string || "").trim();
+      const category = (formData.get("category") as string || "").trim();
+      const desc = (formData.get("description") as string || "").trim();
+
+      // Formata a mensagem para enviar de forma prática e imediata
+      const text = `*Nova Solicitação · Mathrick Lab*\n\n` +
+        `👤 *Nome:* ${name}\n` +
+        `📱 *Contato:* ${contact}\n` +
+        `🏷️ *Tipo:* ${category}\n\n` +
+        `📝 *Descrição da Ideia:*\n${desc}`;
+
+      const waUrl = `https://wa.me/553131917191?text=${encodeURIComponent(text)}`;
+
+      feedback.classList.remove("hidden");
+      feedback.innerHTML = `
+        <div class="flex items-start gap-3">
+          <span class="text-emerald-500 font-bold">✓</span>
+          <div>
+            <p class="font-medium text-ink">Solicitação preparada!</p>
+            <p class="text-xs text-muted mt-1">Clique abaixo para confirmar o envio diretamente no WhatsApp da Mathrick.</p>
+            <a href="${waUrl}" target="_blank" rel="noopener noreferrer" class="mt-3 inline-flex items-center gap-1.5 text-xs font-mono font-bold uppercase text-accent-ink hover:underline">
+              Abrir WhatsApp com minha solicitação preenchida →
+            </a>
+          </div>
+        </div>
+      `;
+
+      // Abre automaticamente a janela para agilidade
+      window.open(waUrl, "_blank");
+    });
+  }
+</script>

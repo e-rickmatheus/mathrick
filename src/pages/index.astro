@@ -5,6 +5,7 @@ import Btn from "../components/lab/Btn.astro";
 import Panel from "../components/lab/Panel.astro";
 import HeroField from "../components/lab/HeroField.astro";
 import Signature from "../components/lab/Signature.astro";
+import LabContactForm from "../components/lab/LabContactForm.astro";
 import { site, ticker, capabilities, signature, stages, projects, upcomingProjects } from "../data/lab";
 
 const wordmark = "MATHRICK".split("");
@@ -262,18 +263,18 @@ const b = site.base;
   </Section>
 
   <!-- ================= 04 CONTATO ================= -->
-  <Section id="contato" index="04" label="Contato" meta="Resposta rápida">
-    <div class="relative overflow-hidden px-6 py-20 text-center md:px-10 md:py-28">
+  <Section id="contato" index="04" label="Contato" meta="Bancada aberta">
+    <div class="relative overflow-hidden px-6 py-16 text-center md:px-10 md:py-24">
       <p data-reveal class="hud-label text-faint">Bancada aberta · Novas ideias bem-vindas</p>
       <h2 data-reveal class="mx-auto mt-6 max-w-4xl font-display text-5xl leading-[0.98] font-medium tracking-[-0.04em] text-ink-strong sm:text-6xl md:text-7xl">
         Vamos testar <span class="font-serif font-normal text-muted italic">uma ideia?</span>
       </h2>
       <p data-reveal class="mx-auto mt-5 max-w-md text-lg leading-relaxed text-muted">
-        Conte pelo WhatsApp ou por e-mail o que você quer construir. Se fizer sentido, vira protótipo no lab.
+        Preencha a ficha da sua ideia abaixo ou fale direto no WhatsApp do laboratório.
       </p>
-      <div data-reveal class="mt-8 flex flex-wrap items-center justify-center gap-3">
-        <Btn href={site.whatsappMsg} external>Falar no WhatsApp</Btn>
-        <Btn href={`mailto:${site.email}`} variant="outline">{site.email}</Btn>
+
+      <div data-reveal class="mt-10">
+        <LabContactForm />
       </div>
     </div>
   </Section>
