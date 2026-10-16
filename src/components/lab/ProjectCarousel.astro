@@ -49,7 +49,7 @@ import { projects } from "../../data/lab";
     const count = carousel.querySelector<HTMLElement>("[data-carousel-count]")!;
     const reduced = matchMedia("(prefers-reduced-motion: reduce)");
     let paused = reduced.matches;
-    let hovering = false;
+    let dragging = false;
     let focused = false;
     let visible = false;
     let timer: ReturnType<typeof setInterval> | undefined;
@@ -67,7 +67,7 @@ import { projects } from "../../data/lab";
       clearInterval(timer);
       play.textContent = paused ? "Reproduzir" : "Pausar";
       play.setAttribute("aria-label", paused ? "Iniciar passagem automática" : "Pausar passagem automática");
-      if (!paused && !hovering && !focused && visible && !document.hidden) timer = setInterval(() => advance(1), 4500);
+      if (!paused && !dragging && !focused && visible && !document.hidden) timer = setInterval(() => advance(1), 4500);
     }
     function advance(direction: number) {
       const { width, index, shown } = metrics();
@@ -75,22 +75,23 @@ import { projects } from "../../data/lab";
       const next = index + direction > max ? 0 : index + direction < 0 ? max : index + direction;
       track.scrollTo({ left: next * width, behavior: reduced.matches ? "instant" : "smooth" });
     }
-    function manual(direction: number) { paused = true; sync(); advance(direction); }
+    function manual(direction: number) { advance(direction); sync(); }
     play.addEventListener("click", () => { paused = !paused; sync(); });
     carousel.querySelector("[data-carousel-prev]")!.addEventListener("click", () => manual(-1));
     carousel.querySelector("[data-carousel-next]")!.addEventListener("click", () => manual(1));
     track.addEventListener("keydown", (event) => {
       if (event.key === "ArrowRight" || event.key === "ArrowLeft") { event.preventDefault(); manual(event.key === "ArrowRight" ? 1 : -1); }
     });
-    track.addEventListener("pointerdown", () => { paused = true; sync(); });
-    track.addEventListener("wheel", () => { paused = true; sync(); }, { passive: true });
+    track.addEventListener("pointerdown", () => { dragging = true; focused = false; sync(); });
+    const release = () => { if (dragging) { dragging = false; sync(); } };
+    document.addEventListener("pointerup", release);
+    document.addEventListener("pointercancel", release);
+    window.addEventListener("blur", release);
+    track.addEventListener("wheel", sync, { passive: true });
     track.addEventListener("scroll", updateCount, { passive: true });
-    carousel.addEventListener("pointerenter", (event) => { if (event.pointerType === "mouse") { hovering = true; sync(); } });
-    carousel.addEventListener("pointerleave", () => { hovering = false; sync(); });
-    // Keyboard focus pauses rotation until the visitor explicitly restarts it.
-    track.addEventListener("focusin", () => { paused = true; sync(); });
-    carousel.addEventListener("focusin", () => { focused = true; sync(); });
-    carousel.addEventListener("focusout", (event) => { if (!carousel.contains(event.relatedTarget as Node)) { focused = false; sync(); } });
+    // Keep keyboard-selected cards still; mouse hover and controls do not stop autoplay.
+    track.addEventListener("focusin", (event) => { focused = (event.target as Element).matches(":focus-visible"); sync(); });
+    track.addEventListener("focusout", (event) => { if (!track.contains(event.relatedTarget as Node)) { focused = false; sync(); } });
     document.addEventListener("visibilitychange", sync);
     reduced.addEventListener("change", () => { if (reduced.matches) paused = true; sync(); });
     new IntersectionObserver(([entry]) => { visible = entry.isIntersecting; sync(); }, { threshold: .25 }).observe(carousel);
