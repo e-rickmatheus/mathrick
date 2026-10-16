@@ -1,10 +1,8 @@
 @import "tailwindcss";
 
 /*
- * MATHRICK LAB — design system "HUD editorial"
- * Engenharia reversa do padrão visual de getartcraft.com:
- * hairlines, zero radius, labels mono em caixa-alta, hover invertido,
- * marcas de registro (ticks) e wordmark gigante.
+ * MATHRICK LAB — Black print: uma bancada de ideias em construção.
+ * Diagramas, espaço para respirar e azul nos pontos de atenção.
  * Troque --accent / --accent-ink para re-colorir o site inteiro.
  */
 
@@ -50,6 +48,7 @@
   --faint: #f2f1ee61;
   --line: #f2f1ee26;
   --line-strong: #f2f1ee66;
+  --accent: #2d81ff;
   --accent-ink: #74aaff;
   --invert-bg: #fff;
   --invert-fg: #0b0b0c;
@@ -65,6 +64,7 @@
     --faint: #f2f1ee61;
     --line: #f2f1ee26;
     --line-strong: #f2f1ee66;
+    --accent: #2d81ff;
     --accent-ink: #74aaff;
     --invert-bg: #fff;
     --invert-fg: #0b0b0c;
@@ -85,8 +85,8 @@
     overflow-x: hidden;
   }
   ::selection {
-    background: var(--accent);
-    color: #fff;
+    background: var(--invert-bg);
+    color: var(--invert-fg);
   }
   :focus-visible {
     outline: 2px solid var(--accent);
@@ -95,6 +95,22 @@
 }
 
 /* ---------- Primitivos ---------- */
+
+/* Native SVG cursor: precise hotspot, no trailing overlay or touch interference. */
+@media (hover: hover) and (pointer: fine) {
+  body { cursor: url("/cursor-blueprint-arrow.svg") 5 3, auto; }
+  a, button, select, summary, [role="button"] { cursor: url("/cursor-blueprint.svg") 16 16, pointer; }
+  input, textarea, [contenteditable="true"] { cursor: text; }
+  button:disabled { cursor: not-allowed; }
+}
+
+/* Linhas de construção: discretas para deixar o conteúdo respirar. */
+.draft-section-heading {
+  background-image: repeating-linear-gradient(90deg, var(--line) 0 1px, transparent 1px 12px);
+  background-size: 100% 4px;
+  background-repeat: no-repeat;
+  background-position: bottom;
+}
 
 .hud-label {
   font-family: var(--font-mono);

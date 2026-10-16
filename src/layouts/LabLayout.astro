@@ -2,6 +2,7 @@
 import "../styles/lab.css";
 import LabNav from "../components/lab/LabNav.astro";
 import LabFooter from "../components/lab/LabFooter.astro";
+import LanguageController from "../components/lab/LanguageController.astro";
 
 interface Props {
   title: string;
@@ -83,6 +84,7 @@ const canonical = new URL(path, Astro.site ?? "https://www.mathrick.com.br").toS
       <slot />
     </main>
     <LabFooter />
+    <LanguageController />
 
     <script>
       // ---- Tema ----

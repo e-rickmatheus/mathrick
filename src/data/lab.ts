@@ -6,8 +6,6 @@ export const site = {
   whatsappMsg:
     "https://wa.me/553131917191?text=Ol%C3%A1%20Mathrick%2C%20tenho%20uma%20ideia%20e%20gostaria%20de%20conversar%21",
   email: "contato@mathrick.com.br",
-  github: "https://github.com/e-rickmatheus",
-  linkedin: "https://www.linkedin.com/in/erickmatheusbr",
   base: "",
 };
 
@@ -42,7 +40,7 @@ export const capabilities = [
     tag: "Sites personalizados",
     variant: 0,
     title: "Sites sob medida",
-    text: "Presença digital desenhada do zero, sem template. Cada site é único, rápido e assinado pelo laboratório.",
+    text: "Presença digital desenhada do zero, sem template. Cada site combina identidade, clareza e cuidado com quem navega.",
   },
   {
     tag: "Hubs",
@@ -70,22 +68,22 @@ export const capabilities = [
   },
 ];
 
-/** Pilares do lab (seção "Assinatura"). */
-export const signature = [
+/** Pilares do lab (seção "O processo"). */
+export const philosophy = [
   {
     key: "A",
-    title: "Assinado MATHRICK",
-    text: "Toda ferramenta e todo site que sai do lab leva o selo. É a garantia de autoria, de cuidado e de que há uma pessoa por trás.",
+    title: "Processo em aberto",
+    text: "Testar cedo, compartilhar o raciocínio e aprender com o uso. Cada tentativa ajuda a fazer perguntas melhores e a refinar a solução.",
   },
   {
     key: "B",
-    title: "Laboratório, não fábrica",
-    text: "Aqui se testa, se erra rápido e se refaz. Nem toda ideia vira produto, e é por isso que as que viram são boas.",
+    title: "Lógica com sensibilidade",
+    text: "Estrutura para orientar, espaço para respirar. Forma, ritmo e pequenos detalhes tornam o que é técnico mais claro e humano.",
   },
   {
     key: "C",
-    title: "Do protótipo ao produto",
-    text: "A ideia vira protótipo funcional em dias. O que se prova útil ganha design, infraestrutura e vira projeto no ar.",
+    title: "Decisões que fazem sentido",
+    text: "Entender a rotina de quem usa vem antes de escolher a ferramenta. O produto evolui quando resolve uma necessidade real com simplicidade.",
   },
 ];
 
@@ -93,7 +91,7 @@ export const signature = [
 export const stages = [
   { key: "01", name: "Ideia", text: "Um problema, uma hipótese." },
   { key: "02", name: "Protótipo", text: "Funcional o bastante para testar." },
-  { key: "03", name: "Produto", text: "Design, deploy e assinatura." },
+  { key: "03", name: "Produto", text: "Uma solução em uso e evolução." },
 ];
 
 export type Project = {
@@ -111,6 +109,19 @@ export type Project = {
 };
 
 export const projects: Project[] = [
+  {
+    slug: "thais-campos",
+    name: ["Thais", "Campos"],
+    title: "Thais Campos",
+    type: "Site & Ecossistema",
+    kind: "Personal Trainer da Mulher · Foco em diástase",
+    url: "https://thaiscampos.com",
+    description:
+      "Projeto de site e ecossistema próprio para Thais Campos, Personal Trainer da Mulher com foco em diástase. Uma plataforma de streaming e distribuição de vídeos, PDFs e conteúdos para as alunas, com autonomia na gestão e propriedade sobre os próprios materiais.",
+    tags: ["Streaming", "Área de alunas", "Vídeos & PDFs", "Autonomia", "Conteúdo próprio"],
+    status: "Em desenvolvimento",
+    hue: "var(--accent-ink)",
+  },
   {
     slug: "maria-julia",
     name: ["Maria", "Júlia"],
@@ -272,7 +283,7 @@ export const principles = [
     text: "Protótipo funcional antes de design final. O laboratório valida a ideia com uso real antes de investir no acabamento.",
   },
   {
-    title: "Sempre assinado",
-    text: "Toda ferramenta e todo site leva o selo MATHRICK LAB, com repositório, deploy automático e autoria clara.",
+    title: "Clareza nas escolhas",
+    text: "Cada escolha tem um motivo que pode ser explicado. Do primeiro esboço ao produto em uso, o processo é construído em diálogo.",
   },
 ];

@@ -1,0 +1,165 @@
+<div class="absolute right-6 bottom-5 left-6 z-40 flex flex-wrap items-center justify-end gap-2 md:right-10 md:left-auto">
+<button data-hero-sound type="button" aria-pressed="true" aria-label="Silenciar som" hidden
+  class="hero-sound hud-label inline-flex min-h-11 items-center gap-2 border border-line bg-bg/80 px-3 text-muted backdrop-blur-sm hover:border-accent hover:text-accent-ink">
+  <svg aria-hidden="true" width="15" height="15" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.4">
+    <path d="M2 8v4m4-7v10m4-13v16m4-13v10m4-7v4" />
+  </svg>
+  <span data-sound-label>Som ligado</span>
+</button>
+</div>
+
+<style>
+  .hero-sound[aria-pressed="true"] { color: var(--accent-ink); border-color: var(--accent); }
+  .hero-sound.is-sounding svg { filter: drop-shadow(0 0 3px var(--accent)); color: var(--ink-strong); }
+</style>
+
+<script>
+  const button = document.querySelector<HTMLButtonElement>("[data-hero-sound]");
+  const hero = document.getElementById("hero");
+  if (button && hero && "AudioContext" in window) {
+    const label = button.querySelector<HTMLElement>("[data-sound-label]")!;
+    button.hidden = false;
+    let audio: AudioContext | undefined;
+    let master: GainNode | undefined;
+    let enabled = true;
+    let lastNote = -Infinity;
+    let previousX = -9999, previousY = -9999;
+    let indicator: ReturnType<typeof setTimeout> | undefined;
+
+    function sync() {
+      button!.setAttribute("aria-pressed", String(enabled));
+      button!.setAttribute("aria-label", enabled ? "Silenciar som" : "Ativar som");
+      label.textContent = enabled ? "Som ligado" : "Som desligado";
+      button!.title = enabled && audio?.state !== "running"
+        ? "Som ligado: clique ou toque na página para ouvir"
+        : "Textura futurista, metálica e digital que acompanha o ponteiro";
+    }
+    function hush() {
+      if (audio && master) master.gain.setTargetAtTime(0, audio.currentTime, .015);
+      previousX = previousY = -9999;
+      button!.classList.remove("is-sounding");
+      clearTimeout(indicator);
+    }
+    function unlock() {
+      if (!enabled) return;
+      try {
+        if (!audio) {
+          audio = new AudioContext();
+          master = audio.createGain();
+          master.gain.value = 0;
+          const limiter = audio.createDynamicsCompressor();
+          limiter.threshold.value = -18;
+          limiter.knee.value = 16;
+          limiter.ratio.value = 4;
+          master.connect(limiter);
+          limiter.connect(audio.destination);
+          audio.onstatechange = sync;
+        }
+        // Starts immediately where allowed; a real gesture unlocks restrictive browsers.
+        if (audio.state === "suspended") void audio.resume().then(sync).catch(sync);
+      } catch { enabled = false; }
+      sync();
+    }
+    function pulse(x: number, y: number) {
+      if (!enabled || !audio || !master || audio.state !== "running" || document.hidden) return false;
+      const now = audio.currentTime;
+      master.gain.setTargetAtTime(.4, now, .025);
+      // A narrow, continuous register suggests a servo rather than a musical scale.
+      const frequency = 180 + x * 45;
+      const carrier = audio.createOscillator();
+      const modulator = audio.createOscillator();
+      const modulation = audio.createGain();
+      const rotor = audio.createOscillator();
+      const rotorDepth = audio.createGain();
+      const rotorLevel = audio.createGain();
+      const envelope = audio.createGain();
+      const filter = audio.createBiquadFilter();
+      const highpass = audio.createBiquadFilter();
+      const reflection = audio.createDelay(.1);
+      const reflectionLevel = audio.createGain();
+      carrier.type = "triangle";
+      carrier.frequency.setValueAtTime(frequency * 1.06, now);
+      carrier.frequency.exponentialRampToValueAtTime(frequency, now + .16);
+      // Inharmonic FM and restrained amplitude modulation add mechanical grain.
+      modulator.type = "sine";
+      modulator.frequency.value = 73 + y * 32;
+      modulation.gain.setValueAtTime(125 + y * 35, now);
+      modulation.gain.exponentialRampToValueAtTime(38, now + .28);
+      rotor.type = "sine";
+      rotor.frequency.value = 32 + y * 18;
+      rotorDepth.gain.value = .22;
+      rotorLevel.gain.value = .72;
+      filter.type = "lowpass";
+      filter.Q.value = 1.4;
+      filter.frequency.setValueAtTime(1250 + y * 350, now);
+      filter.frequency.exponentialRampToValueAtTime(650, now + .3);
+      highpass.type = "highpass";
+      highpass.frequency.value = 120;
+      highpass.Q.value = .7;
+      envelope.gain.setValueAtTime(0, now);
+      envelope.gain.linearRampToValueAtTime(.09, now + .035);
+      envelope.gain.exponentialRampToValueAtTime(.025, now + .16);
+      envelope.gain.exponentialRampToValueAtTime(.0001, now + .34);
+      envelope.gain.linearRampToValueAtTime(0, now + .36);
+      // One short reflection suggests a metal enclosure, without feedback.
+      reflection.delayTime.value = .043;
+      reflectionLevel.gain.value = .13;
+      modulator.connect(modulation);
+      modulation.connect(carrier.frequency);
+      rotor.connect(rotorDepth);
+      rotorDepth.connect(rotorLevel.gain);
+      carrier.connect(filter);
+      filter.connect(highpass);
+      highpass.connect(rotorLevel);
+      rotorLevel.connect(envelope);
+      envelope.connect(master);
+      envelope.connect(reflection);
+      reflection.connect(reflectionLevel);
+      reflectionLevel.connect(master);
+      carrier.start(now); modulator.start(now); rotor.start(now);
+      carrier.stop(now + .38); modulator.stop(now + .38); rotor.stop(now + .38);
+      carrier.onended = () => {
+        carrier.disconnect(); modulator.disconnect(); modulation.disconnect();
+        rotor.disconnect(); rotorDepth.disconnect(); rotorLevel.disconnect();
+        filter.disconnect(); highpass.disconnect();
+        setTimeout(() => { envelope.disconnect(); reflection.disconnect(); reflectionLevel.disconnect(); }, 100);
+      };
+
+      button!.classList.add("is-sounding");
+      clearTimeout(indicator);
+      indicator = setTimeout(() => button!.classList.remove("is-sounding"), 320);
+      return true;
+    }
+
+    button.addEventListener("click", () => {
+      enabled = !enabled;
+      if (enabled) unlock(); else hush();
+      sync();
+    });
+    document.addEventListener("pointerdown", (event) => {
+      if (!(event.target as Element).closest("[data-hero-sound]")) unlock();
+    }, { passive: true });
+    document.addEventListener("keydown", unlock);
+    // Document coordinates cover the entire hero, regardless of overlaid text and links.
+    document.addEventListener("pointermove", (event) => {
+      if (!enabled || event.pointerType === "touch" || document.hidden) return;
+      const rect = hero.getBoundingClientRect();
+      if (event.clientX < rect.left || event.clientX > rect.right || event.clientY < rect.top || event.clientY > rect.bottom) { hush(); return; }
+      const now = performance.now();
+      if (now - lastNote < 300 || Math.hypot(event.clientX - previousX, event.clientY - previousY) < 24) return;
+      const x = Math.max(0, Math.min(.999, (event.clientX - rect.left) / rect.width));
+      const y = Math.max(0, Math.min(1, (event.clientY - rect.top) / rect.height));
+      if (pulse(x, y)) {
+        lastNote = now;
+        previousX = event.clientX;
+        previousY = event.clientY;
+      }
+    }, { passive: true });
+    hero.addEventListener("pointerleave", hush);
+    new IntersectionObserver(([entry]) => { if (!entry.isIntersecting) hush(); }).observe(hero);
+    document.addEventListener("visibilitychange", () => { if (document.hidden) hush(); });
+    window.addEventListener("pagehide", () => { hush(); void audio?.close(); });
+    unlock();
+  }
+</script>
+

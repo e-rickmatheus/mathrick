@@ -95,6 +95,7 @@ import { site } from "../../data/lab";
 </div>
 
 <script>
+  import { translate, type Language } from "../../i18n/translations";
   const form = document.getElementById("lab-contact-form") as HTMLFormElement | null;
   const feedback = document.getElementById("form-feedback");
   const submitBtn = document.getElementById("form-submit-btn");
@@ -109,11 +110,13 @@ import { site } from "../../data/lab";
       const desc = (formData.get("description") as string || "").trim();
 
       // Formata a mensagem para enviar de forma prática e imediata
-      const text = `*Nova Solicitação · Mathrick Lab*\n\n` +
-        `👤 *Nome:* ${name}\n` +
-        `📱 *Contato:* ${contact}\n` +
-        `🏷️ *Tipo:* ${category}\n\n` +
-        `📝 *Descrição da Ideia:*\n${desc}`;
+      const language: Language = document.documentElement.lang === "en" ? "en" : document.documentElement.lang === "es" ? "es" : "pt";
+      const t = (source: string) => translate(source, language);
+      const text = `*${t("Nova Solicitação")} · Mathrick Lab*\n\n` +
+        `👤 *${t("Nome")}:* ${name}\n` +
+        `📱 *${t("Contato")}:* ${contact}\n` +
+        `🏷️ *${t("Tipo")}:* ${t(category)}\n\n` +
+        `📝 *${t("Descrição da Ideia")}:*\n${desc}`;
 
       const waUrl = `https://wa.me/553131917191?text=${encodeURIComponent(text)}`;
 

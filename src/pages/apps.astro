@@ -2,7 +2,6 @@
 import LabLayout from "../layouts/LabLayout.astro";
 import Section from "../components/lab/Section.astro";
 import Btn from "../components/lab/Btn.astro";
-import Signature from "../components/lab/Signature.astro";
 import { hubTools, hubCategories } from "../data/apps";
 import { site } from "../data/lab";
 
@@ -35,7 +34,6 @@ const num = (n: number) => String(n).padStart(2, "0");
         </div>
 
         <div class="flex flex-col items-start gap-3 sm:items-end">
-          <Signature label="Assinado · Mathrick Lab" />
           <p class="hud-label text-xs text-faint">
             Total: <span class="font-bold text-ink">{hubTools.length} ferramentas</span> ativas
           </p>
@@ -179,7 +177,7 @@ const num = (n: number) => String(n).padStart(2, "0");
       </p>
       <div class="mt-8 flex flex-wrap justify-center gap-3">
         <Btn href={site.whatsappMsg} external>Propor uma nova ferramenta</Btn>
-        <Btn href="/projetos" variant="outline">Ver projetos assinados</Btn>
+        <Btn href="/projetos" variant="outline">Ver projetos do lab</Btn>
       </div>
     </div>
   </Section>
@@ -199,10 +197,10 @@ const num = (n: number) => String(n).padStart(2, "0");
       let visibleCount = 0;
       cards.forEach((card) => {
         const cardCat = card.getAttribute("data-cat") || "";
-        const keywords = card.getAttribute("data-keywords") || "";
+        const keywords = `${card.getAttribute("data-keywords") || ""} ${card.textContent || ""}`.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
 
         const matchesCat = currentCategory === "todas" || cardCat === currentCategory;
-        const matchesQuery = !searchQuery || keywords.includes(searchQuery.toLowerCase());
+        const matchesQuery = !searchQuery || keywords.includes(searchQuery.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, ""));
 
         if (matchesCat && matchesQuery) {
           card.classList.remove("hidden");
@@ -223,6 +221,7 @@ const num = (n: number) => String(n).padStart(2, "0");
       }
     }
 
+    document.addEventListener("languagechange", filterTools);
     if (searchInput) {
       searchInput.addEventListener("input", (e) => {
         searchQuery = (e.target as HTMLInputElement).value.trim();

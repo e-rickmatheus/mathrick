@@ -1,0 +1,100 @@
+---
+import { projects } from "../../data/lab";
+---
+
+<section data-carousel aria-label="Projetos feitos no lab" aria-roledescription="carrossel">
+  <div class="flex flex-wrap items-center justify-between gap-3 border-t border-line px-6 py-3 md:px-10">
+    <p data-carousel-count class="hud-label text-muted">{projects.length} projetos</p>
+    <div data-carousel-controls hidden class="flex items-center gap-2">
+      <button data-carousel-play type="button" class="hud-label min-h-11 px-3 text-muted hover:text-accent-ink" aria-label="Pausar passagem automática">Pausar</button>
+      <button data-carousel-prev type="button" aria-label="Projetos anteriores" aria-controls="project-track" class="invert-block size-11 border border-line text-ink">←</button>
+      <button data-carousel-next type="button" aria-label="Próximos projetos" aria-controls="project-track" class="invert-block size-11 border border-line text-ink">→</button>
+    </div>
+  </div>
+  <div id="project-track" class="project-track border-t border-line" tabindex="0" aria-label="Lista de projetos; use as setas para navegar">
+    {projects.map((p, i) => (
+      <a href={p.url} target="_blank" rel="noopener noreferrer"
+        class="project-slide group relative flex min-h-[340px] flex-col justify-between border-r border-line bg-bg p-6 transition-colors hover:bg-invert-bg hover:text-invert-fg md:p-8"
+        aria-label={`${p.title}, ${p.status}. Abrir projeto em nova aba`}>
+        <div class="flex flex-wrap items-center justify-between gap-3">
+          <span class="hud-label opacity-60">{String(i + 1).padStart(2, "0")} · {p.type}</span>
+          <span class="hud-label flex items-center gap-2"><span class="size-1.5 rounded-full" style={`background:${p.hue}`}></span>{p.status}</span>
+        </div>
+        <div class="mt-10">
+          <p class="hud-label opacity-60">{p.kind}</p>
+          <h3 class="mt-2 font-display text-4xl leading-none font-semibold tracking-[-0.04em] sm:text-5xl">
+            {p.name[0]}<br /><span class="font-serif font-normal italic opacity-70">{p.name[1]}</span>
+          </h3>
+          <p class="hud-label mt-6 flex items-center gap-2 opacity-70 transition-transform group-hover:translate-x-1">Abrir projeto <span aria-hidden="true">↗</span></p>
+        </div>
+      </a>
+    ))}
+  </div>
+</section>
+
+<style>
+  .project-track { display: grid; grid-auto-flow: column; grid-auto-columns: 100%; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: thin; scrollbar-color: var(--line-strong) var(--bg); }
+  .project-slide { scroll-snap-align: start; min-width: 0; }
+  .project-slide:focus-visible { outline-offset: -3px; }
+  @media (min-width: 640px) { .project-track { grid-auto-columns: 50%; } }
+  @media (min-width: 768px) { .project-track { grid-auto-columns: calc(100% / 3); } }
+</style>
+
+<script>
+  const carousel = document.querySelector<HTMLElement>("[data-carousel]");
+  if (carousel) {
+    const track = carousel.querySelector<HTMLElement>(".project-track")!;
+    const slides = Array.from(track.querySelectorAll<HTMLElement>(".project-slide"));
+    const play = carousel.querySelector<HTMLButtonElement>("[data-carousel-play]")!;
+    const count = carousel.querySelector<HTMLElement>("[data-carousel-count]")!;
+    const reduced = matchMedia("(prefers-reduced-motion: reduce)");
+    let paused = reduced.matches;
+    let hovering = false;
+    let focused = false;
+    let visible = false;
+    let timer: ReturnType<typeof setInterval> | undefined;
+    carousel.querySelector<HTMLElement>("[data-carousel-controls]")!.hidden = false;
+
+    function metrics() {
+      const width = slides[0].getBoundingClientRect().width;
+      return { width, index: Math.round(track.scrollLeft / width), shown: Math.max(1, Math.round(track.clientWidth / width)) };
+    }
+    function updateCount() {
+      const { index, shown } = metrics();
+      count.textContent = `${String(index + 1).padStart(2, "0")}–${String(Math.min(index + shown, slides.length)).padStart(2, "0")} / ${String(slides.length).padStart(2, "0")} projetos`;
+    }
+    function sync() {
+      clearInterval(timer);
+      play.textContent = paused ? "Reproduzir" : "Pausar";
+      play.setAttribute("aria-label", paused ? "Iniciar passagem automática" : "Pausar passagem automática");
+      if (!paused && !hovering && !focused && visible && !document.hidden) timer = setInterval(() => advance(1), 4500);
+    }
+    function advance(direction: number) {
+      const { width, index, shown } = metrics();
+      const max = Math.max(0, slides.length - shown);
+      const next = index + direction > max ? 0 : index + direction < 0 ? max : index + direction;
+      track.scrollTo({ left: next * width, behavior: reduced.matches ? "instant" : "smooth" });
+    }
+    function manual(direction: number) { paused = true; sync(); advance(direction); }
+    play.addEventListener("click", () => { paused = !paused; sync(); });
+    carousel.querySelector("[data-carousel-prev]")!.addEventListener("click", () => manual(-1));
+    carousel.querySelector("[data-carousel-next]")!.addEventListener("click", () => manual(1));
+    track.addEventListener("keydown", (event) => {
+      if (event.key === "ArrowRight" || event.key === "ArrowLeft") { event.preventDefault(); manual(event.key === "ArrowRight" ? 1 : -1); }
+    });
+    track.addEventListener("pointerdown", () => { paused = true; sync(); });
+    track.addEventListener("wheel", () => { paused = true; sync(); }, { passive: true });
+    track.addEventListener("scroll", updateCount, { passive: true });
+    carousel.addEventListener("pointerenter", (event) => { if (event.pointerType === "mouse") { hovering = true; sync(); } });
+    carousel.addEventListener("pointerleave", () => { hovering = false; sync(); });
+    // Keyboard focus pauses rotation until the visitor explicitly restarts it.
+    track.addEventListener("focusin", () => { paused = true; sync(); });
+    carousel.addEventListener("focusin", () => { focused = true; sync(); });
+    carousel.addEventListener("focusout", (event) => { if (!carousel.contains(event.relatedTarget as Node)) { focused = false; sync(); } });
+    document.addEventListener("visibilitychange", sync);
+    reduced.addEventListener("change", () => { if (reduced.matches) paused = true; sync(); });
+    new IntersectionObserver(([entry]) => { visible = entry.isIntersecting; sync(); }, { threshold: .25 }).observe(carousel);
+    new ResizeObserver(updateCount).observe(track);
+    updateCount(); sync();
+  }
+</script>

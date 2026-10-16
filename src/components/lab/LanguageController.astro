@@ -1,0 +1,83 @@
+<script>
+  import { translate, type Language } from "../../i18n/translations";
+
+  let language: Language = "pt";
+  try {
+    const saved = localStorage.getItem("mathrick-language");
+    if (saved === "en" || saved === "es") language = saved;
+  } catch { /* The selector still works when storage is unavailable. */ }
+  const texts = new WeakMap<Text, { source: string; rendered: string }>();
+  const attributes = new WeakMap<Element, Map<string, { source: string; rendered: string }>>();
+  const skip = "script, style, textarea, code, pre, [contenteditable], [data-i18n-ignore], .wm-letter, astro-dev-toolbar";
+  const attrNames = ["aria-label", "placeholder", "title", "alt"];
+
+  function updateText(node: Text) {
+    if (!node.parentElement || node.parentElement.closest(skip)) return;
+    const value = node.data;
+    let record = texts.get(node);
+    if (!record || value !== record.rendered) record = { source: value, rendered: value };
+    const key = record.source.replace(/\s+/g, " ").trim();
+    if (!key) return;
+    const result = translate(key, language);
+    const rendered = language === "pt" ? record.source : record.source.replace(/\S[\s\S]*\S|\S/, result);
+    if (value !== rendered) node.data = rendered;
+    record.rendered = rendered;
+    texts.set(node, record);
+  }
+  function updateElement(element: Element) {
+    if (element.closest(skip.replace("textarea, ", ""))) return;
+    let records = attributes.get(element);
+    if (!records) { records = new Map(); attributes.set(element, records); }
+    const names = element.matches('meta[name="description"], meta[property="og:title"], meta[property="og:description"]') ? ["content"] : attrNames;
+    for (const name of names) {
+      const value = element.getAttribute(name);
+      if (value === null) continue;
+      let record = records.get(name);
+      if (!record || value !== record.rendered) record = { source: value, rendered: value };
+      const rendered = translate(record.source, language);
+      if (value !== rendered) element.setAttribute(name, rendered);
+      record.rendered = rendered;
+      records.set(name, record);
+    }
+  }
+  function apply(root: Node) {
+    if (root.nodeType === Node.TEXT_NODE) { updateText(root as Text); return; }
+    if (root instanceof Element) updateElement(root);
+    const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
+    while (walker.nextNode()) updateText(walker.currentNode as Text);
+    if (root instanceof Element || root instanceof Document) {
+      root.querySelectorAll('[aria-label], [placeholder], [title], [alt], meta[name="description"], meta[property="og:title"], meta[property="og:description"]').forEach(updateElement);
+    }
+  }
+  // Keep live controls (sound, carousel and form feedback) in the selected language.
+  // Only text and presentation attributes change; input values and event handlers stay intact.
+  const observer = new MutationObserver((records) => {
+    observer.disconnect();
+    const roots = new Set<Node>();
+    for (const record of records) {
+      if (record.type === "childList") record.addedNodes.forEach(node => roots.add(node));
+      else roots.add(record.target);
+    }
+    roots.forEach(apply);
+    observe();
+  });
+  function observe() {
+    observer.observe(document.documentElement, { subtree: true, childList: true, characterData: true, attributes: true, attributeFilter: attrNames });
+  }
+  function setLanguage(next: Language) {
+    observer.disconnect();
+    language = next;
+    document.documentElement.lang = next === "pt" ? "pt-BR" : next;
+    document.querySelectorAll<HTMLSelectElement>("[data-language-select]").forEach(select => { select.value = next; });
+    apply(document);
+    observe();
+    try { localStorage.setItem("mathrick-language", next); } catch {}
+    document.dispatchEvent(new CustomEvent("languagechange", { detail: next }));
+  }
+  document.querySelectorAll<HTMLSelectElement>("[data-language-select]").forEach(select => {
+    select.addEventListener("change", () => {
+      if (select.value === "pt" || select.value === "en" || select.value === "es") setLanguage(select.value);
+    });
+  });
+  setLanguage(language);
+</script>

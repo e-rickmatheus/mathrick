@@ -3,13 +3,14 @@ import LabLayout from "../layouts/LabLayout.astro";
 import Section from "../components/lab/Section.astro";
 import Btn from "../components/lab/Btn.astro";
 import Panel from "../components/lab/Panel.astro";
+import ProjectCarousel from "../components/lab/ProjectCarousel.astro";
+import HeroSound from "../components/lab/HeroSound.astro";
 import HeroField from "../components/lab/HeroField.astro";
-import Signature from "../components/lab/Signature.astro";
 import LabContactForm from "../components/lab/LabContactForm.astro";
-import { site, ticker, capabilities, signature, stages, projects, upcomingProjects } from "../data/lab";
+import { site, ticker, capabilities, philosophy, stages, upcomingProjects } from "../data/lab";
 
 const wordmark = "MATHRICK".split("");
-const featured = projects.slice(0, 3);
+
 const b = site.base;
 ---
 
@@ -17,14 +18,15 @@ const b = site.base;
   current="home"
   path="/"
   title="MATHRICK LAB — Projetos, soluções e ideias"
-  description="Laboratório de projetos, soluções e ideias: SaaS, ferramentas pessoais, sites personalizados, hubs, dashboards, web apps e apps mobile, todos assinados pela MATHRICK."
+  description="Laboratório de projetos, soluções e ideias: SaaS, ferramentas pessoais, sites personalizados, hubs, dashboards, web apps e apps mobile, criados para transformar ideias em soluções úteis."
 >
   <!-- ================= HERO ================= -->
   <section id="hero" class="relative overflow-hidden">
     <div class="relative flex min-h-[calc(100svh-3rem)] flex-col">
       <div aria-hidden="true" class="absolute inset-0"><HeroField /></div>
+      <HeroSound />
 
-      <div class="pointer-events-none relative z-40 mx-auto flex w-full max-w-[1280px] flex-1 flex-col items-center justify-center px-6 py-10 md:px-10">
+      <div class="pointer-events-none relative z-40 mx-auto flex w-full max-w-[1280px] flex-1 flex-col items-center justify-center px-6 pt-10 pb-24 md:px-10">
         <div class="relative flex w-full max-w-5xl flex-col items-center text-center">
           <!-- halo que apaga a grade atrás do texto -->
           <div
@@ -56,14 +58,14 @@ const b = site.base;
                 >{l}</span>
               ))}
             </div>
-            <p class="hud-label relative mt-3 text-faint" data-reveal>— Laboratório —</p>
+            <p class="hud-label relative mt-7 text-muted" data-reveal>Imaginar → Testar → Fazer acontecer</p>
           </div>
 
           <h1 data-reveal class="relative mt-8 font-display text-3xl leading-[1.05] font-medium tracking-[-0.03em] text-ink-strong sm:text-4xl">
             Projetos, soluções <span class="font-serif font-normal text-muted italic">e ideias.</span>
           </h1>
           <p data-reveal class="relative mt-4 max-w-md text-lg leading-relaxed text-muted">
-            Onde nascem ferramentas, sites, hubs, dashboards e apps. Cada um assinado pela MATHRICK.
+            Ideias na bancada. Possibilidades em teste. Ferramentas, sites e apps que saem do papel para fazer sentido na vida real.
           </p>
 
           <div data-reveal class="pointer-events-auto relative mt-7 flex flex-wrap items-center justify-center gap-3">
@@ -75,12 +77,7 @@ const b = site.base;
           </div>
 
           <div data-reveal class="pointer-events-auto relative mt-7 flex flex-wrap items-center justify-center gap-x-6 gap-y-2">
-            <a href={site.github} target="_blank" rel="noopener noreferrer" class="hud-label flex items-center gap-1.5 text-faint hover:text-ink">
-              <svg viewBox="0 0 24 24" fill="currentColor" class="h-3.5 w-3.5" aria-hidden="true"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"></path></svg>
-              GitHub
-            </a>
             <p class="hud-label text-faint">SaaS · Web · Mobile</p>
-            <p class="hud-label text-faint">Assinado Mathrick</p>
           </div>
         </div>
       </div>
@@ -101,7 +98,7 @@ const b = site.base;
   </div>
 
   <!-- ================= 01 O QUE O LAB PRODUZ ================= -->
-  <Section id="servicos" index="01" label="O que sai do lab" meta="Sete frentes · Um selo">
+  <Section id="servicos" index="01" label="O que sai do lab" meta="Sete frentes · Muitas possibilidades">
     <div class="px-6 py-14 md:px-10 md:py-20">
       <p data-reveal class="hud-label text-faint">Ferramentas · Sites · Apps</p>
       <h2 data-reveal class="mt-4 max-w-3xl font-display text-4xl leading-[1.02] font-medium tracking-[-0.035em] text-ink-strong sm:text-5xl md:text-6xl">
@@ -134,7 +131,6 @@ const b = site.base;
           </p>
         </div>
         <div class="mt-8">
-          <Signature class="mb-4" />
           <div>
             <Btn href={site.whatsappMsg} external variant="outline" class="w-full sm:w-fit">Propor uma ideia</Btn>
           </div>
@@ -143,17 +139,16 @@ const b = site.base;
     </div>
   </Section>
 
-  <!-- ================= 02 ASSINATURA ================= -->
-  <Section id="assinatura" index="02" label="Assinatura" meta="Ideia · Protótipo · Produto">
+  <!-- ================= 02 PROCESSO ================= -->
+  <Section id="processo" index="02" label="O processo" meta="Ideia · Protótipo · Produto">
     <div class="px-6 py-14 md:px-10 md:py-20">
-      <p data-reveal class="hud-label text-faint">Autoria clara</p>
+      <p data-reveal class="hud-label text-faint">Clareza em cada escolha</p>
       <h2 data-reveal class="mt-4 max-w-3xl font-display text-4xl leading-[1.02] font-medium tracking-[-0.035em] text-ink-strong sm:text-5xl md:text-6xl">
-        Tudo que sai daqui <span class="font-serif font-normal text-muted italic">leva o selo.</span>
+        O processo também <span class="font-serif font-normal text-muted italic">faz parte da ideia.</span>
       </h2>
       <p data-reveal class="mt-5 max-w-xl text-lg leading-relaxed text-muted">
-        Cada ferramenta e cada site é assinado pela MATHRICK LAB. Uma marca única que liga projetos diferentes e mostra que existe uma pessoa cuidando de cada detalhe.
+        Observar, experimentar, entender o que funciona. Na Mathrick, cada decisão tem um porquê: aproximar a ideia de quem vai usá-la. A estrutura dá clareza; o cuidado com as pessoas dá sentido.
       </p>
-      <div data-reveal class="mt-6"><Signature /></div>
     </div>
 
     <!-- ciclo do laboratório -->
@@ -169,7 +164,7 @@ const b = site.base;
     </ol>
 
     <div class="grid gap-px border-t border-line bg-line md:grid-cols-3">
-      {signature.map((o) => (
+      {philosophy.map((o) => (
         <div data-reveal class="bg-bg p-6 md:p-8">
           <span class="grid size-8 place-items-center border border-line-strong font-mono text-xs font-bold text-ink">{o.key}</span>
           <h3 class="mt-6 font-display text-xl font-medium tracking-[-0.02em] text-ink-strong">{o.title}</h3>
@@ -180,10 +175,10 @@ const b = site.base;
   </Section>
 
   <!-- ================= 03 PROJETOS ================= -->
-  <Section id="projetos" index="03" label="Projetos" meta="Assinados pelo lab">
+  <Section id="projetos" index="03" label="Projetos" meta="Ideias em uso">
     <div class="flex flex-col justify-between gap-6 px-6 py-14 sm:flex-row sm:items-end md:px-10 md:py-20">
       <div>
-        <p data-reveal class="hud-label text-faint">Trabalhos no ar</p>
+        <p data-reveal class="hud-label text-faint">Projetos de clientes</p>
         <h2 data-reveal class="mt-4 max-w-3xl font-display text-4xl leading-[1.02] font-medium tracking-[-0.035em] text-ink-strong sm:text-5xl md:text-6xl">
           Feito <span class="font-serif font-normal text-muted italic">no lab.</span>
         </h2>
@@ -191,29 +186,7 @@ const b = site.base;
       <div data-reveal><Btn href="/projetos" variant="outline">Todos os projetos</Btn></div>
     </div>
 
-    <div class="grid gap-px border-t border-line bg-line md:grid-cols-3">
-      {featured.map((p, i) => (
-        <a
-          data-reveal
-          href={p.url}
-          target="_blank"
-          rel="noopener noreferrer"
-          class="group relative flex min-h-[340px] flex-col justify-between bg-bg p-6 transition-colors hover:bg-invert-bg hover:text-invert-fg md:p-8"
-        >
-          <div class="flex items-center justify-between">
-            <span class="hud-label opacity-60">{String(i + 1).padStart(2, "0")} · {p.type}</span>
-            <span class="hud-label flex items-center gap-2"><span class="size-1.5 rounded-full" style={`background:${p.hue}`}></span>{p.status}</span>
-          </div>
-          <div>
-            <p class="hud-label opacity-60">{p.kind}</p>
-            <h3 class="mt-2 font-display text-4xl leading-none font-semibold tracking-[-0.04em] sm:text-5xl">
-              {p.name[0]}<br /><span class="font-serif font-normal italic opacity-70">{p.name[1]}</span>
-            </h3>
-            <p class="hud-label mt-6 flex items-center gap-2 opacity-70 transition-transform group-hover:translate-x-1">Abrir projeto <span aria-hidden="true">↗</span></p>
-          </div>
-        </a>
-      ))}
-    </div>
+    <ProjectCarousel />
 
     <!-- No forno / Em produção -->
     <div class="border-t border-line bg-surface/40 p-6 md:p-10">
@@ -230,7 +203,7 @@ const b = site.base;
             Próximos lançamentos do laboratório
           </h3>
         </div>
-        <Btn href="/projetos#no-forno" variant="outline" class="w-fit">Ver detalhes no forno →</Btn>
+        <Btn href="/projetos#forno" variant="outline" class="w-fit">Ver detalhes no forno →</Btn>
       </div>
 
       <div class="mt-6 grid gap-px border border-line bg-line sm:grid-cols-3">
@@ -245,9 +218,10 @@ const b = site.base;
                 {up.title}
               </h4>
               <p class="hud-label mt-0.5 text-muted">{up.kind}</p>
-              <p class="mt-3 text-sm leading-relaxed text-muted line-clamp-3">
+              <p class="mt-3 text-sm leading-relaxed text-muted">
                 {up.description}
               </p>
+              {up.url && <a href={up.url} target="_blank" rel="noopener noreferrer" class="hud-label mt-4 inline-block text-ink underline decoration-line-strong underline-offset-4 hover:text-muted">{new URL(up.url).hostname} ↗</a>}
             </div>
             <div class="mt-5 flex flex-wrap gap-1 border-t border-line/60 pt-3">
               {up.tags.slice(0, 3).map((feat) => (

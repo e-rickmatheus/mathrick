@@ -2,7 +2,6 @@
 import LabLayout from "../layouts/LabLayout.astro";
 import Section from "../components/lab/Section.astro";
 import Btn from "../components/lab/Btn.astro";
-import Signature from "../components/lab/Signature.astro";
 import LabContactForm from "../components/lab/LabContactForm.astro";
 import { site, projects, upcomingProjects, principles, stages } from "../data/lab";
 
@@ -11,7 +10,6 @@ const pageUrl = "https://www.mathrick.com.br/projetos";
 const shareText = encodeURIComponent("Projetos da MATHRICK LAB");
 const shares = [
   { label: "X", href: `https://twitter.com/intent/tweet?url=${encodeURIComponent(pageUrl)}&text=${shareText}` },
-  { label: "LinkedIn", href: `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(pageUrl)}` },
   { label: "WhatsApp", href: `https://wa.me/?text=${shareText}%20${encodeURIComponent(pageUrl)}` },
 ];
 const num = (n: number) => String(n).padStart(2, "0");
@@ -21,10 +19,10 @@ const num = (n: number) => String(n).padStart(2, "0");
   current="projetos"
   path="/projetos"
   title="Projetos — MATHRICK LAB"
-  description="Sites personalizados, web apps, ferramentas e experiências interativas assinados pela MATHRICK LAB."
+  description="Sites personalizados, web apps, ferramentas e experiências interativas desenvolvidos pela MATHRICK LAB."
 >
   <!-- ================= 01 INTRO ================= -->
-  <Section id="projetos" index="01" label="Projetos" meta="Ativos & No forno · Assinados pelo lab">
+  <Section id="projetos" index="01" label="Projetos" meta="Ativos & No forno · Ideias em uso">
     <div class="px-6 py-14 md:px-10 md:py-20">
       <h1 data-reveal class="max-w-3xl font-display text-4xl leading-[1.02] font-medium tracking-[-0.035em] text-ink-strong sm:text-5xl md:text-6xl">
         Projetos reais. No ar e <span class="text-accent-ink">no forno</span>.
@@ -35,8 +33,6 @@ const num = (n: number) => String(n).padStart(2, "0");
 
       <div data-reveal class="mt-8 flex flex-wrap items-start gap-3">
         <Btn href={site.whatsappMsg} external>Propor uma ideia</Btn>
-        <Btn href={site.linkedin} external variant="outline">LinkedIn</Btn>
-        <Btn href={site.github} external variant="outline">GitHub</Btn>
       </div>
 
       <p data-reveal class="mt-4 max-w-xl leading-relaxed text-muted">
@@ -113,7 +109,6 @@ const num = (n: number) => String(n).padStart(2, "0");
                 </ul>
               </div>
               <div class="flex flex-col items-start gap-4">
-                <Signature />
                 <div class="flex flex-wrap gap-3">
                   <Btn href={p.url} external>Abrir {p.title.split(" ")[0]} ↗</Btn>
                   {p.sublinks?.map((s) => (<Btn href={s.url} external variant="outline">{s.label} ↗</Btn>))}
@@ -134,7 +129,7 @@ const num = (n: number) => String(n).padStart(2, "0");
         Soluções sendo <span class="font-serif font-normal text-muted italic">forjadas agora.</span>
       </h2>
       <p data-reveal class="mt-4 max-w-xl text-lg leading-relaxed text-muted">
-        Ideias que viraram protótipos funcionais e estão em fase avançada de produção para lançamento.
+        Projetos de clientes e novas ferramentas em desenvolvimento. Cada ideia tem seu próprio tempo de teste, construção e lançamento.
       </p>
     </div>
 
@@ -163,8 +158,8 @@ const num = (n: number) => String(n).padStart(2, "0");
                 </ul>
               </div>
               <div class="flex flex-col items-start gap-4">
-                <Signature label="Assinado · Mathrick Lab" />
                 <div class="flex flex-wrap gap-3">
+                  {p.url && <Btn href={p.url} external variant="outline">{new URL(p.url).hostname} ↗</Btn>}
                   <Btn href={site.whatsappMsg} external variant="outline">
                     Acompanhar desenvolvimento ↗
                   </Btn>
@@ -217,7 +212,7 @@ const num = (n: number) => String(n).padStart(2, "0");
   <!-- ================= 05 CTA ================= -->
   <Section id="contato" index="05" label="Contato" meta="Bancada aberta">
     <div class="px-6 py-16 text-center md:px-10 md:py-24">
-      <p data-reveal class="hud-label text-faint">Sob medida · Do zero · Assinado</p>
+      <p data-reveal class="hud-label text-faint">Sob medida · Com clareza · Para pessoas</p>
       <h2 data-reveal class="mx-auto mt-6 max-w-4xl font-display text-5xl leading-[0.98] font-medium tracking-[-0.04em] text-ink-strong sm:text-6xl md:text-7xl">
         Assine <span class="font-serif font-normal text-muted italic">a próxima.</span>
       </h2>
