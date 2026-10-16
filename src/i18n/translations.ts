@@ -2,6 +2,7 @@ export type Language = "pt" | "en" | "es";
 
 // Source copy stays in Portuguese; brand and product names are shared by all locales.
 const entries: [string, string, string][] = [
+  ["Laboratório criativo", "Creative laboratory", "Laboratorio creativo"],
   ["Laboratório de projetos, soluções e ideias: SaaS, ferramentas pessoais, sites personalizados, hubs, dashboards, web apps e apps mobile, criados para transformar ideias em soluções úteis.", "A lab for projects, solutions and ideas: SaaS, personal tools, custom websites, hubs, dashboards, web and mobile apps that turn ideas into useful solutions.", "Laboratorio de proyectos, soluciones e ideas: SaaS, herramientas personales, sitios personalizados, hubs, dashboards y apps web y móviles que transforman ideas en soluciones útiles."],
   ["Sites personalizados, web apps, ferramentas e experiências interativas desenvolvidos pela MATHRICK LAB.", "Custom websites, web apps, tools and interactive experiences developed by MATHRICK LAB.", "Sitios personalizados, apps web, herramientas y experiencias interactivas desarrollados por MATHRICK LAB."],
   ["Suíte completa de ferramentas, geradores, calculadoras, utilitários de IA e design desenvolvidos e mantidos pela MATHRICK LAB.", "A complete suite of tools, generators, calculators, AI and design utilities developed and maintained by MATHRICK LAB.", "Suite completa de herramientas, generadores, calculadoras y utilidades de IA y diseño desarrolladas por MATHRICK LAB."],

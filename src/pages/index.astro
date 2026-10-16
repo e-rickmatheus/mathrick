@@ -4,7 +4,7 @@ import Section from "../components/lab/Section.astro";
 import Btn from "../components/lab/Btn.astro";
 import Panel from "../components/lab/Panel.astro";
 import ProjectCarousel from "../components/lab/ProjectCarousel.astro";
-import HeroSound from "../components/lab/HeroSound.astro";
+import HeroTagline from "../components/lab/HeroTagline.astro";
 import HeroField from "../components/lab/HeroField.astro";
 import LabContactForm from "../components/lab/LabContactForm.astro";
 import { site, ticker, capabilities, philosophy, stages, upcomingProjects } from "../data/lab";
@@ -24,7 +24,6 @@ const b = site.base;
   <section id="hero" class="relative overflow-hidden">
     <div class="relative flex min-h-[calc(100svh-3rem)] flex-col">
       <div aria-hidden="true" class="absolute inset-0"><HeroField /></div>
-      <HeroSound />
 
       <div class="pointer-events-none relative z-40 mx-auto flex w-full max-w-[1280px] flex-1 flex-col items-center justify-center px-6 pt-10 pb-24 md:px-10">
         <div class="relative flex w-full max-w-5xl flex-col items-center text-center">
@@ -58,7 +57,7 @@ const b = site.base;
                 >{l}</span>
               ))}
             </div>
-            <p class="hud-label relative mt-7 text-muted" data-reveal>Imaginar → Testar → Fazer acontecer</p>
+            <HeroTagline />
           </div>
 
           <h1 data-reveal class="relative mt-8 font-display text-3xl leading-[1.05] font-medium tracking-[-0.03em] text-ink-strong sm:text-4xl">

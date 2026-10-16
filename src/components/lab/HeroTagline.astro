@@ -1,0 +1,27 @@
+<p class="hud-label relative mt-7 text-muted" data-reveal>
+  <span class="sr-only">Laboratório criativo · Imaginar → Testar → Fazer acontecer</span>
+  <span class="tagline" aria-hidden="true">
+    <span class="tagline-process">Imaginar → Testar → Fazer acontecer</span>
+    <span class="tagline-lab">Laboratório criativo</span>
+  </span>
+</p>
+
+<style>
+  .tagline { display: grid; }
+  .tagline > span { grid-area: 1 / 1; }
+  .tagline-process { animation: process-cycle 8s ease-in-out infinite; }
+  .tagline-lab { opacity: 0; animation: lab-cycle 8s ease-in-out infinite; }
+  @keyframes process-cycle {
+    0%, 43%, 100% { opacity: 1; transform: translateY(0); }
+    48%, 94% { opacity: 0; transform: translateY(-3px); }
+  }
+  @keyframes lab-cycle {
+    0%, 48%, 100% { opacity: 0; transform: translateY(3px); }
+    53%, 94% { opacity: 1; transform: translateY(0); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .tagline-process, .tagline-lab { animation: none; }
+    .tagline-process { opacity: 1; }
+    .tagline-lab { opacity: 0; }
+  }
+</style>
